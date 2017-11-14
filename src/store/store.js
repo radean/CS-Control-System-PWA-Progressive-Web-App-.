@@ -4,6 +4,8 @@
 // importing VUE X
 import Vue from 'vue';
 import Vuex from 'vuex';
+// importing Routers
+import { routes } from '../routes'
 // importing Firebase
 import * as firebase from 'firebase'
 
@@ -19,28 +21,38 @@ export const store = new Vuex.Store({
     userpass: 0,
     userid: 0,
     usermail: '',
+    // App Loading Stats
+    userError: false,
+    mainLoading: false,
     // setting Store ID
     sel_storeid: '30502',
     // shoplists:
     shops: [],
     shopDetail: [],
     //User Session
-    user: null
+    user: null,
+
   },
   mutations: {
     RegisterUser (state, payload) {
     },
     setUser (state, payload){
-      state.user = payload
+      state.user = payload;
     },
     'SET_STORES'(state, payload){
-      state.shops = payload
+      state.shops = payload;
     },
     'SET_STORE_DETAILS'(state, payload){
       state.shopDetail = payload;
     },
     'SET_SEL_STORE_ID'(state, payload){
-      state.sel_storeid = payload
+      state.sel_storeid = payload;
+    },
+    'SET_MAIN_LOADING'(state, payload) {
+      state.mainLoading = payload;
+    },
+    'SET_USER_ERROR'(state, payload){
+      state.userError = payload;
     }
   },
   actions: {
@@ -65,13 +77,18 @@ export const store = new Vuex.Store({
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
         .then( user => {
           const newUser = {
-            id: user.uid
+            id: user.uid,
+            name: user.email
           }
           commit('setUser', newUser)
         }
         ).catch(
           error => {
-            console.log(error)
+            commit('SET_USER_ERROR', true);
+            console.log(error);
+            setTimeout(() => {
+              commit('SET_USER_ERROR', false);
+            },4000)
           }
       )
     },
@@ -85,9 +102,9 @@ export const store = new Vuex.Store({
     },
 
 
-
     // Uploading Data
     pushStoreData({commit, getters}, payload){
+      commit('SET_MAIN_LOADING', true);
       const storedata = {
         storename: payload.storename,
         storeid: payload.storeid,
@@ -99,24 +116,54 @@ export const store = new Vuex.Store({
         date: payload.date.toString(),
         time: payload.date.toDateString(),
         creatorId: getters.user.id,
+        merchandiserName: getters.user.name,
         // image
-        storePicImg: payload.storePicImg
-      }
-      let imageUrl
-      let key
+        storePicImg: payload.storePicImg,
+        storeStockBeforeImg: payload.storeStockBeforeImg,
+        storeStockAfterImg: payload.storeStockAfterImg,
+      };
+      let storePicImgUrl;
+      let storeStockBeforeImgUrl;
+      let storeStockAfterImgUrl;
+      let key;
+
       firebase.database().ref('storedata').push(storedata)
       .then((data) => {
-        key = data.key
+        key = data.key;
         return key
       }).then(key => {
-        const filename = payload.storePicImg.name;
-        const ext = filename.slice(filename.lastIndexOf('.'));
-        return firebase.storage().ref('storeimages/' + key + '.' + ext).put(payload.storePicImg)
+
+
+        // Image 1
+        const filenameA = payload.storePicImg.name;
+        const ext = filenameA.slice(filenameA.lastIndexOf('.'));
+        return firebase.storage().ref('storeimages/' + key + 'storePic' + '.' + ext).put(payload.storePicImg)
       }).then(fileData => {
-        imageUrl = fileData.metadata.downloadURLs[0];
-        return firebase.database().ref('storedata').child(key).update({imageUrl: imageUrl})
+        storePicImgUrl = fileData.metadata.downloadURLs[0];
+        return firebase.database().ref('storedata').child(key).update({storePicImgUrl: storePicImgUrl})
       }).then(() => {
-        console.log('Success')
+
+
+        // Image 2
+        const filenameB = payload.storeStockBeforeImg.name;
+        const ext = filenameB.slice(filenameB.lastIndexOf('.'));
+        return firebase.storage().ref('storeimages/' + key + 'storeStockBefore' + '.' + ext).put(payload.storeStockBeforeImg)
+      }).then(fileData => {
+        storeStockBeforeImgUrl = fileData.metadata.downloadURLs[0];
+        return firebase.database().ref('storedata').child(key).update({storeStockBeforeImgUrl: storeStockBeforeImgUrl})
+      }).then(() => {
+
+
+        // Image 3
+        const filenameC = payload.storeStockAfterImg.name;
+        const ext = filenameC.slice(filenameC.lastIndexOf('.'));
+        return firebase.storage().ref('storeimages/' + key + 'storeStockAfter' + '.' + ext).put(payload.storeStockAfterImg)
+      }).then(fileData => {
+        storeStockAfterImgUrl = fileData.metadata.downloadURLs[0];
+        return firebase.database().ref('storedata').child(key).update({storeStockAfterImgUrl: storeStockAfterImgUrl})
+      }).then(() => {
+        commit('SET_MAIN_LOADING', false);
+        console.log('Success');
       })
         .catch((error) => {
           console.log(error)
@@ -126,7 +173,8 @@ export const store = new Vuex.Store({
 
 
     // Fetching Data
-    shopsListUPD({commit}){
+    shopsListUPD({commit, getters}){
+      commit('SET_MAIN_LOADING', true);
       firebase.database().ref('stores').on('value', (storelist) => {
         const stores = [];
         const obj = storelist.val();
@@ -137,6 +185,7 @@ export const store = new Vuex.Store({
             location: obj[key].location,
           })
         }
+        commit('SET_MAIN_LOADING', false);
         commit('SET_STORES', stores);
       });
     },
@@ -167,6 +216,12 @@ export const store = new Vuex.Store({
     },
     selStoreId (state){
       return state.sel_storeid
+    },
+    mainLoading (state){
+      return state.mainLoading
+    },
+    userError (state){
+      return state.userError
     }
   }
 });

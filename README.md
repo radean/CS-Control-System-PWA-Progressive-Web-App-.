@@ -1,6 +1,7 @@
 # mcs
 
-> A Vue.js project
+> A GDC(Vision Direct Marketing Global Data Center) Module. Made for Using Real-Time GDC App
+
 
 ## Build Setup
 

@@ -42,8 +42,8 @@ import { store } from './store/store'
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  store,
   router,
+  store,
   template: '<App/>',
   components: { App },
   created (){

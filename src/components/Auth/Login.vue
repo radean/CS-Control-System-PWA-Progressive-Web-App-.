@@ -31,9 +31,10 @@
       <v-flex xs12>
         <v-btn color="green" :disabled="!formIsValid" type="submit"> SUBMIT <v-icon right>send</v-icon></v-btn>
       </v-flex>
-      <v-flex xs12>
-        <v-btn small color="white" to="Registration">Registration</v-btn>
-      </v-flex>
+      <!--Registration -->
+      <!--<v-flex xs12>-->
+        <!--<v-btn small color="white" to="Registration">Registration</v-btn>-->
+      <!--</v-flex>-->
       <v-flex xs12>
         <v-btn small color="red" :disabled="user" >Forgotten Pass</v-btn>
       </v-flex>

@@ -17,6 +17,45 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!--Loading Dialog-->
+    <v-dialog v-model="appLoadingStats" persistent >
+      <!--<v-btn color="primary" dark slot="activator">Open Dialog</v-btn>-->
+      <v-card dark>
+        <v-card-title class="headline">Please Wait </v-card-title>
+        <v-card-text>if this query taking more than 30 seconds contact VDM.</v-card-text>
+        <v-container>
+          <v-layout row wrap center>
+            <v-flex xs2 offset-xs5>
+              <v-progress-circular indeterminate v-bind:size="50" color="amber"></v-progress-circular>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card>
+    </v-dialog>
+
+    <!--Errors-->
+    <!--Merchandiser Sign in Error-->
+    <v-dialog v-model="appError" persistent >
+      <!--<v-btn color="primary" dark slot="activator">Open Dialog</v-btn>-->
+      <v-card>
+        <v-card-title class="headline">Authorization Error</v-card-title>
+        <v-card-text>Please double check your Username and Password.</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red darken-1" flat>Wait 5 seconds</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!--User Sign in-->
+    <!--<v-snackbar-->
+      <!--v-model="appError"-->
+      <!--:bottom="true"-->
+      <!--dark-->
+    <!--&gt;-->
+      <!--{{ errorText }}-->
+      <!--<v-btn flat color="pink" @click.native="snackbar = false">Close</v-btn>-->
+    <!--</v-snackbar>-->
   </v-layout>
 </template>
 
@@ -24,14 +63,23 @@
 export default {
   data () {
     return {
+//        Errors
+      errorText: 'Please Check your Username & Password.',
+//      App Info
       appTitle: '',
-      helpDialog: false
+      helpDialog: false,
     }
   },
   computed: {
     appTitlechanged () {
         this.appTitle = this.$store.state.username;
-      }
+      },
+    appLoadingStats(){
+        return this.$store.getters.mainLoading
+    },
+    appError(){
+        return this.$store.getters.userError
+    }
   }
 }
 </script>

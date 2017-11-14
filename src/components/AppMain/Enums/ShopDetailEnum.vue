@@ -41,7 +41,7 @@
           </v-flex>
           <v-flex xs4 text-xs-center >
             <v-card ripple>
-              <!--image--><!--image--><div style="height:0px;overflow:hidden">
+              <div style="height:0px;overflow:hidden">
               <input
                 type="file"
                 id="afterStock"
@@ -59,7 +59,7 @@
 
       <!--Timing of Submittion-->
       <v-flex xs12 text-xs-center >
-        <div class="title ma-0 pa-0">{{ getTime() }}</div>
+        <div class="title ma-0 pa-0">{{ currentTime }}</div>
       </v-flex>
       <v-flex xs12 text-xs-center >
         <div class="title">STOCK UPDATE</div>
@@ -159,6 +159,7 @@ export default {
   data () {
     return {
 //      App
+      currentTime: 0,
 //      images
 //      REF
       storePic: '/static/img/app/placeholder.png',
@@ -180,17 +181,25 @@ export default {
     formIsValid(){
       return this.uhtPlainSmall !== '' &&  this.uhtPlainBig !== '' && this.fmChocolate !== '' && this.fmPistaZafran !== '' && this.fmStrawberry !== '' && this.storePicImg !== null && this.storeStockBeforeImg !== null && this.storeStockAfterImg !== null
     }
+//    let ctr = new Date();
+//        return ctr.getUTCHours() + ":" + ctr.getUTCMinutes();
+  },
+  created () {
+
+    setTimeout(() =>{
+        this.$http.get('http://api.timezonedb.com/v2/list-time-zone?key=QNVJJL9QLWE4&format=json&country=PK').then(response => {
+        let date = new Date(response.body.zones[0].timestamp * 1000);
+        let hours = date.getHours() - 5;
+        let minutes = "0" + date.getMinutes();
+        this.currentTime = hours + ':' + minutes.substr(-2)
+      });
+        console.log('done')
+    }, 2000)
   },
   methods:{
-    getTime(){
-        let ctr = new Date();
-        return ctr.getHours() + ":" + ctr.getMinutes();
-    },
     chooseFile(field) {
         document.getElementById(field).click();
     },
-
-
 //    Changing Shop Images
     onShopPicture(event){
       const files = event.target.files
@@ -236,9 +245,15 @@ export default {
         fmStrawberry: this.fmStrawberry,
         date: new Date(),
 //        images
-        storePicImg : this.storePicImg,
+        storePicImg: this.storePicImg,
+        storeStockBeforeImg: this.storeStockBeforeImg,
+        storeStockAfterImg: this.storeStockAfterImg,
       };
-      this.$store.dispatch('pushStoreData', storeData)
+      this.$store.dispatch('pushStoreData', storeData).then(response => {
+          if(this.$store.getters.mainLoading === false){
+            this.$router.push('/shoplist')
+          }
+      })
     }
   },
   props: ['store']
