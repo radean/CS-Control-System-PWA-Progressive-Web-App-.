@@ -18,6 +18,18 @@
           v-model="useremail"
         ></v-text-field>
       </v-flex>
+      <!--password-->
+      <v-flex xs10 offset-xs1>
+        <v-text-field
+          required
+          name="userPassword"
+          label="PASSCODE"
+          id="testing"
+          min="6"
+          v-model="userpass"
+          :type="'password'"
+        ></v-text-field>
+      </v-flex>
       <!--vdm key-->
       <v-flex xs10 offset-xs1>
         <v-text-field
@@ -37,20 +49,29 @@
         name="userId"
         label="USERNAME"
         id="testing"
-        v-model="username"
+        v-model="userInfo.name"
       ></v-text-field>
     </v-flex>
-      <!--password-->
+      <!-- Location -->
       <v-flex xs10 offset-xs1>
         <v-text-field
           required
-          name="userPassword"
-          label="PASSCODE"
+          name="userLocation"
+          label="ADDRESS"
           id="testing"
           min="6"
-          v-model="userpass"
-          :type="'password'"
+          v-model="userInfo.address"
         ></v-text-field>
+      </v-flex>
+      <!-- Role -->
+      <v-flex xs10 offset-xs1>
+        <v-select
+          v-bind:items="roles"
+          v-model="userInfo.role"
+          label="ROLE"
+          single-line
+          bottom
+        ></v-select>
       </v-flex>
       <!--submission-->
       <v-flex xs12>
@@ -72,10 +93,21 @@ import Header from '../Temp/Header.vue'
 export default {
   data () {
     return {
+//    UI Data
+      roles: [
+        'Administrator',
+        'BrandAmbassador',
+        'Supervisor'
+      ],
+//    =============
       appTitle: 'LOGIN',
-//      userInfo
+//    userInfo
+      userInfo:{
+        name: '',
+        address: '',
+        role: ''
+      },
       useremail: '',
-      username: '',
       v_key: '',
       userpass: '',
     }
@@ -83,7 +115,7 @@ export default {
   computed: {
 //      Validating Fields
     formIsValid(){
-        return this.useremail !== '' && this.username !== '' && this.v_key !== '' && this.userpass !== '' && this.v_key == 2648
+        return this.useremail !== '' && this.userInfo.name !== '' && this.v_key !== '' && this.userpass !== '' && this.v_key == 2648
     },
     user (){
         return this.$store.getters.user
@@ -98,7 +130,7 @@ export default {
   },
   methods:{
     onSignUp() {
-        this.$store.dispatch('userSignUp', {email: this.useremail, password: this.userpass})
+        this.$store.dispatch('userSignUp', {email: this.useremail, password: this.userpass, user: this.userInfo})
     }
   },
   components:{

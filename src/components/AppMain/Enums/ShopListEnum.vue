@@ -1,8 +1,8 @@
 <template>
     <v-list two-line>
-        <v-list-tile ripple to="/shopdetail" v-on:click="setStoreId()">
+        <v-list-tile ripple to="/shopdetail" v-on:click="setStoreId()" class="alphaTrans">
           <v-list-tile-avatar>
-            <img src="static/img/icons/applicant.png">
+            <v-icon large color="black">store</v-icon>
           </v-list-tile-avatar>
           <!---->
           <v-list-tile-content>
@@ -16,7 +16,7 @@
             </v-btn>
           </v-list-tile-action>
         </v-list-tile>
-      <v-divider><</v-divider>
+      <v-divider></v-divider>
     </v-list>
 </template>
 
@@ -44,3 +44,14 @@
     props: ['shopList']
   }
 </script>
+
+<style scoped>
+  ul {
+    padding-bottom: 0;
+    padding-top: 0;
+    background: rgba(255,255,255,0.2);
+  }
+  .alphaTrans {
+    background: rgba(255,255,255,0.2);
+  }
+</style>

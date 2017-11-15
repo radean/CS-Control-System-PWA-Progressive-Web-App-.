@@ -30,10 +30,14 @@ export const store = new Vuex.Store({
       subscription: true
     },
     // Current user Details
-    username: '',
-    userpass: 0,
-    userid: 0,
-    usermail: '',
+    userinfo: null,
+    // {
+    //   uid: '',
+    //   name: '',
+    //   email: '',
+    //   address: '',
+    //   role: ''
+    // },
     // App Loading Stats
     userError: false,
     mainLoading: false,
@@ -51,6 +55,9 @@ export const store = new Vuex.Store({
     },
     setUser (state, payload){
       state.user = payload;
+    },
+    setUserInfo (state, payload){
+      state.userInfo = payload;
     },
     'SET_STORES'(state, payload){
       state.shops = payload;
@@ -72,19 +79,31 @@ export const store = new Vuex.Store({
 
     // USER AUTHENTICATION
     userSignUp({commit}, payload){
+      commit('SET_MAIN_LOADING', true);
+      // Converting Varialble
+
+      let userID;
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
-        .then(
-          user => {
-            const newUser = {
-              id: user.uid,
-            }
-            commit('setUser', newUser)
-          }
-        ).catch(
-          error => {
-            console.log(error)
-          }
-      )
+        .then((user) => {
+        const userInfo = {
+          uniqueId: user.uid,
+          name: payload.user.name,
+          password: payload.password,
+          email: payload.email,
+          address: payload.user.address,
+          role: payload.user.role
+        };
+          return firebase.database().ref('users').push(userInfo).then(() => {
+          commit('SET_MAIN_LOADING', false);
+          console.log('Success');
+        }).catch((error) => {
+          console.log(error)
+        })
+        }).catch(
+        error => {
+          console.log(error)
+        }
+      );
     },
     userSignIn({commit}, payload){
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
@@ -100,21 +119,46 @@ export const store = new Vuex.Store({
           })
       },
     // User Session Check
-    userSession({commit}){
+    userSession({dispatch, commit, getters}){
       // Checking Firebase user
       firebase.auth().onAuthStateChanged(appUser => {
         if(appUser) {
-          console.log(appUser);
-          commit('setUser', appUser)
+          // Logging Details
+          console.log('Made');
+          // setting Authorization
+          commit('setUser', appUser);
+          dispatch('subUserInfo');
         }else{
           commit('setUser', null);
           console.log("Not logged in")
         }
-      })
+      });
+    },
+    subUserInfo({commit, getters}){
+      // Setting Loading
+      commit('SET_MAIN_LOADING', true);
+      // setting user information
+      firebase.database().ref('users').orderByChild('uniqueId').equalTo(getters.user.uid).once('value', (user) => {
+        const obj = user.val();
+        const userinfo = [];
+        for (let key in obj) {
+          userinfo.push({
+            uid: obj[key].uniqueId,
+            name: obj[key].name,
+            email: obj[key].email,
+            address: obj[key].address,
+            role: obj[key].role
+          });
+        }
+        commit('setUserInfo', userinfo);
+        commit('SET_MAIN_LOADING', false);
+      });
     },
     userSignOut({commit}){
+      commit('SET_MAIN_LOADING', true);
       firebase.auth().signOut().then(() =>{
         commit('setUser', null);
+        commit('SET_MAIN_LOADING', false);
       });
     },
     // ==================================
@@ -235,6 +279,9 @@ export const store = new Vuex.Store({
     },
     user (state){
       return state.user
+    },
+    userInfo (state){
+      return state.userInfo
     },
     shops (state) {
       return state.shops

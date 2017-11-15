@@ -9,13 +9,14 @@
       </v-flex><form @submit.prevent="onSignIn">
       <!--username-->
       <v-flex xs10 offset-xs1>
-      <v-text-field
-        name="useremail"
-        label="E-MAIL"
-        id="testing"
-        v-model="useremail"
-      ></v-text-field>
-    </v-flex>
+        <v-text-field
+          name="useremail"
+          label="E-MAIL"
+          id="testing"
+          v-model="useremail"
+        >
+        </v-text-field>
+      </v-flex>
       <!--password-->
       <v-flex xs10 offset-xs1>
         <v-text-field
@@ -25,16 +26,17 @@
           min="6"
           v-model="userpass"
           type="password"
-        ></v-text-field>
+        >
+        </v-text-field>
       </v-flex>
       <!--submission-->
       <v-flex xs12>
         <v-btn color="green" :disabled="!formIsValid" type="submit"> SUBMIT <v-icon right>send</v-icon></v-btn>
       </v-flex>
       <!--Registration -->
-      <!--<v-flex xs12>-->
-        <!--<v-btn small color="white" to="Registration">Registration</v-btn>-->
-      <!--</v-flex>-->
+      <v-flex xs12>
+        <v-btn small color="white" to="Registration">Registration</v-btn>
+      </v-flex>
       <v-flex xs12>
         <v-btn small color="red" >Forgotten Pass</v-btn>
       </v-flex>
