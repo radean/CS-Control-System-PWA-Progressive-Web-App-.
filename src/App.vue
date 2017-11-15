@@ -8,7 +8,7 @@
       </v-content>
     </v-layout>
     <v-footer class="pa-3" fixed light>
-      <div>MCS™ Node</div>
+      <div>BAMS™ Node</div>
       <v-spacer></v-spacer>
       <div> VDM™ {{ new Date().getFullYear() }}</div>
     </v-footer>
@@ -22,8 +22,6 @@
   import Login from './components/Auth/Login.vue'
   import ShopList from './components/AppMain/ShopList.vue'
   import ShopDetail from './components/AppMain/ShopDetail.vue'
-
-
 
 
 export default {
