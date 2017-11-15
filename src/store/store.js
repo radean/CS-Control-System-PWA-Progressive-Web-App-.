@@ -16,6 +16,19 @@ Vue.use(Vuex);
 // Storage
 export const store = new Vuex.Store({
   state: {
+    // Application Information
+    app:{
+      name: 'BAMS™ Node',
+      fullname: 'Brand Ambassador Management System Nexus',
+      author : 'radean',
+      authorEmail : 'radeanf@gmail.com',
+      developer : 'radean',
+      company : 'Vision Direct Marketing',
+      version : 'initial',
+      status : true,
+      broadcast: true,
+      subscription: true
+    },
     // Current user Details
     username: '',
     userpass: 0,
