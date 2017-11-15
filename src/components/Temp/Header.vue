@@ -4,7 +4,7 @@
       <v-btn icon v-on:click="helpDialog = !helpDialog">
         <v-icon>info</v-icon>
       </v-btn>
-    <v-toolbar-title>MCS™ NODE</v-toolbar-title>
+    <v-toolbar-title>{{ appdata.name }}</v-toolbar-title>
   </v-toolbar>
     <v-dialog v-model="helpDialog" persistent>
       <!--<v-btn color="primary" dark slot="activator">Open Dialog</v-btn>-->
@@ -12,6 +12,7 @@
         <v-card-title class="headline">Help & Contact</v-card-title>
         <v-card-text>Email: help@vdm.com.pk<br>Phone #: (021)-85432156</v-card-text>
         <v-card-actions>
+          <v-btn color="green darken-1" @click.native="onSignOut">LogOut</v-btn>
           <v-spacer></v-spacer>
           <v-btn color="green darken-1" flat @click.native="helpDialog = false">OK</v-btn>
         </v-card-actions>
@@ -66,14 +67,20 @@ export default {
 //        Errors
       errorText: 'Please Check your Username & Password.',
 //      App Info
-      appTitle: '',
+      app: [],
       helpDialog: false,
     }
   },
+  methods:{
+    onSignOut(){
+      this.$store.dispatch('userSignOut');
+      this.$router.push('/')
+    }
+  },
   computed: {
-    appTitlechanged () {
-        this.appTitle = this.$store.state.username;
-      },
+    appdata () {
+        return this.$store.getters.appinfo;
+    },
     appLoadingStats(){
         return this.$store.getters.mainLoading
     },

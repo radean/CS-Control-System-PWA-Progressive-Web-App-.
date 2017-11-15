@@ -88,29 +88,41 @@ export const store = new Vuex.Store({
     },
     userSignIn({commit}, payload){
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
-        .then( user => {
-          const newUser = {
-            id: user.uid,
-            name: user.email
-          }
-          commit('setUser', newUser)
-        }
-        ).catch(
+        .then(firebase.auth().onAuthStateChanged(appUser => {
+            commit('setUser', appUser)
+        })).catch(
           error => {
             commit('SET_USER_ERROR', true);
             console.log(error);
             setTimeout(() => {
               commit('SET_USER_ERROR', false);
-            },4000)
-          }
-      )
+            }, 4000)
+          })
+      },
+    // User Session Check
+    userSession({commit}){
+      // Checking Firebase user
+      firebase.auth().onAuthStateChanged(appUser => {
+        if(appUser) {
+          console.log(appUser);
+          commit('setUser', appUser)
+        }else{
+          commit('setUser', null);
+          console.log("Not logged in")
+        }
+      })
+    },
+    userSignOut({commit}){
+      firebase.auth().signOut().then(() =>{
+        commit('setUser', null);
+      });
     },
     // ==================================
 
 
     // setting Store ID
     setStoreId({commit}, payload){
-      let sel_store_id = payload
+      let sel_store_id = payload;
       commit('SET_SEL_STORE_ID', sel_store_id)
     },
 
@@ -218,6 +230,9 @@ export const store = new Vuex.Store({
     }
   },
   getters: {
+    appinfo (state){
+      return state.app
+    },
     user (state){
       return state.user
     },

@@ -53,6 +53,6 @@ new Vue({
       databaseURL: 'https://vdmdb-3d8b4.firebaseio.com',
       projectId: 'vdmdb-3d8b4',
       storageBucket: 'gs://vdmdb-3d8b4.appspot.com',
-    })
+    });
   }
 })

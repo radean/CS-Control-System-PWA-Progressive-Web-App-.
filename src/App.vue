@@ -8,7 +8,7 @@
       </v-content>
     </v-layout>
     <v-footer class="pa-3" fixed light>
-      <div>BAMS™ Node</div>
+      <div>{{ appdata.name }}</div>
       <v-spacer></v-spacer>
       <div> VDM™ {{ new Date().getFullYear() }}</div>
     </v-footer>
@@ -36,20 +36,22 @@ export default {
       }
   },
   computed: {
-    gettingInfo(){
-//      this.userinfo.password = parseInt(this.$store.state.userpass);
-//      this.userinfo.name = this.$store.state.username;
-//      this.authorizing();
+    appdata () {
+      return this.$store.getters.appinfo;
+    },
+    user(){
+      return this.$store.getters.user
     }
   },
-  methods: {
+  watch: {
+    user (value){
+      if (value !== null && value !== undefined){
+        this.$router.push('/shoplist')
+      }
+    }
   },
   created(){
-      const customActions = {
-          saveAlt: {method: 'POST', url: 'alternative.json'},
-          getData: {method: 'GET'}
-    };
-      this.resource = this.$resource('merchandiser.json', {}, customActions);
+    this.$store.dispatch('userSession');
   },
   components: {
     //Temporary Components

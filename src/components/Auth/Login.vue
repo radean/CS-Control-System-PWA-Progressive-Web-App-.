@@ -36,7 +36,7 @@
         <!--<v-btn small color="white" to="Registration">Registration</v-btn>-->
       <!--</v-flex>-->
       <v-flex xs12>
-        <v-btn small color="red" :disabled="user" >Forgotten Pass</v-btn>
+        <v-btn small color="red" >Forgotten Pass</v-btn>
       </v-flex>
       </form>
     </v-layout>
@@ -58,33 +58,15 @@ export default {
   computed: {
     formIsValid(){
       return this.username !== '' && this.userpass !== ''
-    },
-    userAuthenticated () {
-        return this.$store.getters.user !== null && this.$store.getters.user !== undefined
-    },
-    user(){
-        return this.$store.getters.user
     }
   },
-  watch: {
-    user (value){
-      if (value !== null && value !== undefined){
-        this.$router.push('/shoplist')
-      }
-    }
+  created(){
+    this.$store.dispatch('userSession');
   },
   methods:{
     onSignIn() {
       this.$store.dispatch('userSignIn', {email: this.useremail, password: this.userpass})
     }
-//      passInfo() {
-//        this.$store.state.userpass = this.userpass;
-//        this.$store.state.username = this.username;
-//        this.appTitle = this.$store.state.username;
-//        if(this.appTitle === '') {
-//          this.appTitle = 'LOGIN'
-//        }
-//      },
   },
   components:{
       'app-header': Header

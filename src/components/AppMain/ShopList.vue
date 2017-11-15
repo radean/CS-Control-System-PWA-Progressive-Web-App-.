@@ -71,11 +71,12 @@ export default {
     'app-shoListEnum': ShopListEnum
   },
   created(){
-      if (this.$store.getters.user === null){
-          this.$router.push('/')
-      }
-    this.$store.dispatch('shopsListUPD');
-  }
+    if (this.$store.getters.user === null){
+      this.$router.push('/')
+    }else{
+      this.$store.dispatch('shopsListUPD');
+    }
+  },
 
 }
 </script>
