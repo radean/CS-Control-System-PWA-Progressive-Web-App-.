@@ -25,12 +25,14 @@ export const store = new Vuex.Store({
       developer : 'radean',
       company : 'Vision Direct Marketing',
       version : 'initial',
+      theme: 'red accent-4',
+      mode: '',
       status : true,
       broadcast: true,
       subscription: true
     },
     // Current user Details
-    userinfo: null,
+    userinfo: {},
     // {
     //   uid: '',
     //   name: '',
@@ -53,11 +55,17 @@ export const store = new Vuex.Store({
   mutations: {
     RegisterUser (state, payload) {
     },
+    setTheme(state, payload){
+      state.app.theme = payload;
+    },
+    setMode(state, payload){
+      state.app.mode = payload;
+    },
     setUser (state, payload){
       state.user = payload;
     },
     setUserInfo (state, payload){
-      state.userInfo = payload;
+      state.userinfo = payload;
     },
     'SET_STORES'(state, payload){
       state.shops = payload;
@@ -123,46 +131,81 @@ export const store = new Vuex.Store({
       // Checking Firebase user
       firebase.auth().onAuthStateChanged(appUser => {
         if(appUser) {
-          // Logging Details
-          console.log('Made');
           // setting Authorization
           commit('setUser', appUser);
           dispatch('subUserInfo');
+          // dispatch('appMode');
         }else{
           commit('setUser', null);
           console.log("Not logged in")
         }
       });
     },
-    subUserInfo({commit, getters}){
+    // user information update
+    subUserInfo({ dispatch, commit, getters}){
       // Setting Loading
       commit('SET_MAIN_LOADING', true);
       // setting user information
       firebase.database().ref('users').orderByChild('uniqueId').equalTo(getters.user.uid).once('value', (user) => {
+        let userinfo = {};
         const obj = user.val();
-        const userinfo = [];
         for (let key in obj) {
-          userinfo.push({
+          userinfo = {
             uid: obj[key].uniqueId,
             name: obj[key].name,
             email: obj[key].email,
             address: obj[key].address,
             role: obj[key].role
-          });
+          };
+        // const userinfo = {};
+        // const obj = user.val();
+        // for (let key in obj) {
+        //   userinfo.push({
+        //     uid: obj[key].uniqueId,
+        //     name: obj[key].name,
+        //     email: obj[key].email,
+        //     address: obj[key].address,
+        //     role: obj[key].role
+        //   });
         }
         commit('setUserInfo', userinfo);
+        if(getters.userInfo.role === "Supervisor"){
+          commit('setMode', 'Supervisor');
+          commit('setTheme', 'blue accent-4');
+          console.log('Supervisor')
+        }else if(getters.userInfo.role === "BrandAmbassador"){
+          commit('setMode', 'BrandAmbassador');
+          commit('setTheme', 'red accent-4');
+          console.log('BA')
+        }
         commit('SET_MAIN_LOADING', false);
       });
+      // checking Role and Changing Theme
+      //
     },
+    // user Log out
     userSignOut({commit}){
       commit('SET_MAIN_LOADING', true);
       firebase.auth().signOut().then(() =>{
+        commit('setUserInfo', {});
         commit('setUser', null);
         commit('SET_MAIN_LOADING', false);
       });
     },
     // ==================================
-
+    // App Mode Changer
+    // appMode({commit, getters}){
+    //
+    //   if(getters.userInfo.role === "Supervisor"){
+    //     commit('setMode', 'BrandAmbassador');
+    //     commit('setTheme', 'red accent-4');
+    //     console.log('Supervisor')
+    //   }else if(getters.userInfo.role === "BrandAmbassador"){
+    //     commit('setMode', 'Supervisor');
+    //     commit('setTheme', 'blue accent-4');
+    //     console.log('BA')
+    //   }
+    // },
 
     // setting Store ID
     setStoreId({commit}, payload){
@@ -242,6 +285,7 @@ export const store = new Vuex.Store({
 
 
     // Fetching Data
+    // Store List
     shopsListUPD({commit, getters}){
       commit('SET_MAIN_LOADING', true);
       firebase.database().ref('stores').on('value', (storelist) => {
@@ -258,6 +302,7 @@ export const store = new Vuex.Store({
         commit('SET_STORES', stores);
       });
     },
+    // Store Detail
     fetchShopDetails({commit, getters}){
       firebase.database().ref('stores').orderByKey().equalTo(getters.selStoreId).once('value', (storedetails) => {
         const storeDetail = [];
@@ -280,8 +325,8 @@ export const store = new Vuex.Store({
     user (state){
       return state.user
     },
-    userInfo (state){
-      return state.userInfo
+    userInfo (state) {
+      return state.userinfo
     },
     shops (state) {
       return state.shops

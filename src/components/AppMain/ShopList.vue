@@ -1,46 +1,22 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12 sm6 offset-sm3>
-      <v-card class="mb-5">
+      <v-card class="mb-5" >
         <app-header></app-header>
         <v-subheader>STORE LIST | {{ dateChanged }}</v-subheader>
         <v-divider></v-divider>
         <app-shoListEnum v-for="shop in shops" :key="shop.id" :shopList="shop" ></app-shoListEnum>
       </v-card>
+      <v-card v-if="appData.mode === 'Supervisor'" color="blue-grey darken-2" class="white--text">
+        <v-card-title primary-title>
+          <div class="headline">Unlimited music now</div>
+          <div>To check if supervisor Mode or BA</div>
+        </v-card-title>
+        <v-card-actions>
+          <v-btn flat dark>Listen now</v-btn>
+        </v-card-actions>
+      </v-card>
     </v-flex>
-    <!--Navigation Bar-->
-
-
-    <v-navigation-drawer
-      temporary
-      v-model="drawer"
-      light
-      absolute
-      width="240"
-    >
-      <v-list class="pa-1">
-        <v-list-tile avatar>
-          <v-list-tile-avatar>
-            <img src="static/img/icons/favicon-32x32.png" />
-          </v-list-tile-avatar>
-          <v-list-tile-content>
-            <v-list-tile-title>MCS™ NODE CP</v-list-tile-title>
-          </v-list-tile-content>
-          </v-list-tile-action>
-        </v-list-tile>
-      </v-list>
-      <v-list class="pt-0" dense>
-        <v-divider></v-divider>
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon>help</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title> Report a bug</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
   </v-layout>
 </template>
 
@@ -59,12 +35,15 @@ export default {
     }
   },
   computed: {
-      dateChanged(){
-         return this.currentDate = new Date().toDateString() ;
-      },
-      shops(){
-          return this.$store.getters.shops
-      }
+    dateChanged(){
+       return this.currentDate = new Date().toDateString() ;
+    },
+    shops(){
+        return this.$store.getters.shops
+    },
+    appData(){
+        return this.$store.getters.appinfo
+    }
   },
   components:{
     'app-header': Header,

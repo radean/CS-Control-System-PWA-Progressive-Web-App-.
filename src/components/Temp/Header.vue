@@ -1,10 +1,10 @@
 <template>
   <v-layout row justify-center>
-  <v-toolbar fixed app color="red accent-4" dark>
+  <v-toolbar fixed app :color="appdata.theme" dark >
       <v-btn icon v-on:click="helpDialog = !helpDialog">
         <v-icon>info</v-icon>
       </v-btn>
-    <v-toolbar-title>{{ appdata.name }}</v-toolbar-title>
+    <v-toolbar-title>{{ appdata.name }} {{ userInfo.name }}</v-toolbar-title>
   </v-toolbar>
     <v-dialog v-model="helpDialog" persistent>
       <!--<v-btn color="primary" dark slot="activator">Open Dialog</v-btn>-->
@@ -48,15 +48,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <!--User Sign in-->
-    <!--<v-snackbar-->
-      <!--v-model="appError"-->
-      <!--:bottom="true"-->
-      <!--dark-->
-    <!--&gt;-->
-      <!--{{ errorText }}-->
-      <!--<v-btn flat color="pink" @click.native="snackbar = false">Close</v-btn>-->
-    <!--</v-snackbar>-->
   </v-layout>
 </template>
 
@@ -78,16 +69,20 @@ export default {
     }
   },
   computed: {
-    appdata () {
-        return this.$store.getters.appinfo;
+    appdata() {
+      return this.$store.getters.appinfo;
+    },
+    userInfo(){
+      return this.$store.getters.userInfo;
     },
     appLoadingStats(){
-        return this.$store.getters.mainLoading
+      return this.$store.getters.mainLoading
     },
     appError(){
-        return this.$store.getters.userError
+      return this.$store.getters.userError
     }
-  }
+  },
+
 }
 </script>
 

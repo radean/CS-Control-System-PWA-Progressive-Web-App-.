@@ -39,6 +39,9 @@ export default {
     appdata () {
       return this.$store.getters.appinfo;
     },
+    userInfo(){
+      return this.$store.getters.userInfo;
+    },
     user(){
       return this.$store.getters.user
     }
@@ -52,6 +55,9 @@ export default {
   },
   created(){
     this.$store.dispatch('userSession');
+    if(this.userInfo.role === 'Supervisor'){
+      this.theme = 'blue accent-4'
+    };
   },
   components: {
     //Temporary Components
