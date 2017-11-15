@@ -48,11 +48,12 @@ new Vue({
   components: { App },
   created (){
     firebase.initializeApp({
-      apiKey: 'AIzaSyAcSebiuwUnGMtWn5oH8GovxENomLG55Zk',
-      authDomain: 'vdmdb-3d8b4.firebaseapp.com',
-      databaseURL: 'https://vdmdb-3d8b4.firebaseio.com',
-      projectId: 'vdmdb-3d8b4',
-      storageBucket: 'gs://vdmdb-3d8b4.appspot.com',
+      apiKey: "AIzaSyDsQvtEgYT_SiYeZ7YXtbAP0MLE1rudkJY",
+      authDomain: "bams-e190d.firebaseapp.com",
+      databaseURL: "https://bams-e190d.firebaseio.com",
+      projectId: "bams-e190d",
+      storageBucket: "",
+      messagingSenderId: "110309011275"
     });
   }
 })
