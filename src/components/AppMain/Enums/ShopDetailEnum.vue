@@ -34,7 +34,7 @@
                 @change="onbaPicture"
               />
             </div>
-              <v-card-media raised :src="baPicture" height="64" v-on:click="chooseFile('beforeStock')"></v-card-media>
+              <v-card-media raised :src="baPicture" height="64" v-on:click="chooseFile('baPicture')"></v-card-media>
             </v-card>
             <!--title-->
               <h6 class="caption ma-2">B.A PICTURE</h6>
@@ -50,7 +50,7 @@
                 @change="onShelfPicture"
               />
             </div>
-              <v-card-media raised :src="shelfPicture" height="64" v-on:click="chooseFile('afterStock')"></v-card-media>
+              <v-card-media raised :src="shelfPicture" height="64" v-on:click="chooseFile('shelfPicture')"></v-card-media>
             </v-card>
             <!--title-->
               <h6 class="caption ma-2">SHELF PICTURE</h6>
@@ -101,7 +101,7 @@
 
       <!--Stock Update-->
         <!--Soya supreme Cooking Oil-->
-        <div class="body-1 alphaPanel" >BOTTLE</div>
+        <div class="title alphaPanel" >BOTTLE</div>
         <v-layout row wrap class="alphaPanel">
             <!--1 Ltr-->
             <v-flex xs5>
@@ -140,8 +140,8 @@
             </v-flex>
         </v-layout>
 
-        <div class="body-1 " >POLY</div>
-        <v-layout row wrap class="marginFields">
+        <div class="title alphaPanel" >POLY</div>
+        <v-layout row wrap class="alphaPanel">
           <v-flex xs6 text-xs-center >
             <v-text-field
               suffix="piece"
@@ -155,7 +155,7 @@
           </v-flex>
         </v-layout>
 
-        <div class="body-1 alphaPanel" >TIN</div>
+        <div class="title alphaPanel" >TIN</div>
         <v-layout row wrap class="alphaPanel">
           <!--2.5 Ltr-->
           <v-flex xs5>
@@ -195,8 +195,8 @@
           </v-flex>
         </v-layout>
 
-        <div class="body-1 marginFields" >J.CAN</div>
-        <v-layout row wrap class="marginFields">
+        <div class="title alphaPanel" >J.CAN</div>
+        <v-layout row wrap class="alphaPanel">
           <!--10 Ltr-->
           <v-flex xs5>
             <v-text-field
@@ -223,7 +223,7 @@
           </v-flex>
         </v-layout>
 
-        <div class="body-1 alphaPanel" >Press & Pour</div>
+        <div class="title alphaPanel" >Press & Pour</div>
         <v-layout row wrap class="alphaPanel">
           <!--5 Ltr-->
           <v-flex xs5>
@@ -259,8 +259,8 @@
           <div class="title">Smart Canola Oil</div>
         </v-flex>
 
-        <div class="body-1 alphaPanel" >BOTTLE</div>
-        <v-layout row wrap class="alphaPanel">
+        <div class="title marginFields" >BOTTLE</div>
+        <v-layout row wrap class="marginFields">
           <!--1 Ltr-->
           <v-flex xs5>
             <v-text-field
@@ -298,7 +298,7 @@
           </v-flex>
         </v-layout>
 
-        <div class="body-1 " >POLY</div>
+        <div class="title marginFields" >POLY</div>
         <v-layout row wrap class="marginFields">
           <v-flex xs6 text-xs-center >
             <v-text-field
@@ -313,7 +313,7 @@
           </v-flex>
         </v-layout>
 
-        <div class="body-1 marginFields" >J.CAN</div>
+        <div class="title marginFields" >J.CAN</div>
         <v-layout row wrap class="marginFields">
           <!--10 Ltr-->
           <v-flex xs5>
@@ -345,11 +345,11 @@
 
         <!--Soya Supreme Banaspati Oil-->
         <v-flex xs12 text-xs-center >
-          <div class="title"> Banaspati Oil</div>
+          <div class="title alphaPanel"> Banaspati Oil</div>
         </v-flex>
 
-        <div class="body-1" >POLY</div>
-        <v-layout row wrap class="marginFields">
+        <div class="title alphaPanel" >POLY</div>
+        <v-layout row wrap class="alphaPanel">
           <v-flex xs6 text-xs-center >
             <v-text-field
               suffix="piece"
@@ -363,7 +363,7 @@
           </v-flex>
         </v-layout>
 
-        <div class="body-1 alphaPanel" >TIN</div>
+        <div class="title alphaPanel" >TIN</div>
         <v-layout row wrap class="alphaPanel">
           <!--10 Ltr-->
           <v-flex xs5>
@@ -395,10 +395,10 @@
 
         <!--Soya Supreme Banaspati Olive Oil-->
         <v-flex xs12 text-xs-center >
-          <div class="title"> Banaspati Olive Oil</div>
+          <div class="title marginFields"> Banaspati Olive Oil</div>
         </v-flex>
 
-        <div class="body-1" >POLY</div>
+        <div class="title marginFields" >POLY</div>
         <v-layout row wrap class="marginFields">
           <v-flex xs6 text-xs-center >
             <v-text-field
@@ -413,8 +413,8 @@
           </v-flex>
         </v-layout>
 
-        <div class="body-1 alphaPanel" >TIN</div>
-        <v-layout row wrap class="alphaPanel">
+        <div class="title marginFields" >TIN</div>
+        <v-layout row wrap class="marginFields">
           <!--5 Ltr-->
           <v-flex xs5>
             <v-text-field
@@ -470,9 +470,7 @@ export default {
       baPictureImg: null,
       shelfPictureImg: null,
 //      stock Report
-      storeId: '',
-      storeName: '',
-      storeArea: '',
+      currentDate: '',
       interceptions: 0,
 //      soya supreme cooking oil
       soyaSupremeStock: {
@@ -509,32 +507,30 @@ export default {
   computed: {
     formIsValid(){
       return this.uhtPlainSmall !== '' &&  this.uhtPlainBig !== '' && this.fmChocolate !== '' && this.fmPistaZafran !== '' && this.fmStrawberry !== '' && this.storePicImg !== null && this.storeStockBeforeImg !== null && this.storeStockAfterImg !== null
-    },
-    setBaNames(){
-      let obj = this.$store.getters.baList;
-      let convert = Object.keys(obj).map((key) => {
-          return obj[key].name
-      })
-      this.baNames = convert;
     }
 
   },
   created () {
 //      setting Informations
-    this.storeName = this.store.name;
-    this.storeArea = this.store.location;
-    this.storeId = this.store.id;
     setTimeout(() =>{
+        let obj = this.$store.getters.baList;
+        let convert = Object.keys(obj).map((key) => {
+          return obj[key].name
+        })
+        this.baNames = convert;
         this.$http.get('http://api.timezonedb.com/v2/list-time-zone?key=QNVJJL9QLWE4&format=json&country=PK').then(response => {
-        let date = new Date(response.body.zones[0].timestamp * 1000);
-        let hours = date.getHours() - 5;
+        let date = new Date((response.body.zones[0].timestamp * 1000) - response.body.zones[0].gmtOffset * 1000);
+        let hours = date.getHours();
+        let day = date.getDate() ;
+        let month = date.getMonth() + 1;
         let minutes = "0" + date.getMinutes();
+        this.currentDate = day + ':' + month;
         this.currentTime = hours + ':' + minutes.substr(-2)
       });
-        console.log('done')
     }, 1000)
   },
   methods:{
+//    converting Object to list array
     chooseFile(field) {
         document.getElementById(field).click();
     },
@@ -576,12 +572,10 @@ export default {
       const storeData = {
         storename: this.store.name,
         storeid: this.store.id,
-        uhtPlainBig: this.uhtPlainBig,
-        uhtPlainSmall: this.uhtPlainSmall,
-        fmChocolate: this.fmChocolate,
-        fmPistaZafran: this.fmPistaZafran,
-        fmStrawberry: this.fmStrawberry,
-        date: new Date(),
+        soyaSupremeStock: this.soyaSupremeStock,
+        interception: this.interception,
+        ba: this.sel_ba,
+        date: this.currentDate,
 //        images
         storePicImg: this.storePicImg,
         storeStockBeforeImg: this.baPictureImg,
@@ -605,12 +599,13 @@ export default {
   }
   .alphaPanel {
     background: rgba(5,5,5,0.1);
+    padding: 10px;
   }
   .alphaPanel div {
     margin: 5px
   }
   .marginFields {
-    margin: 5px
+    padding: 10px;
   }
   .marginFields div {
     margin: 5px
@@ -620,3 +615,31 @@ export default {
   }
 
 </style>
+
+<!--//        sscbottle1ltr: soyaSupremeStock.sscbottle1ltr,-->
+<!--//        sscbottle3ltr: soyaSupremeStock.,-->
+<!--//        sscbottle5ltr: soyaSupremeStock.,-->
+<!--//        sscpoly1_5ltr: soyaSupremeStock.,-->
+<!--//        ssctin2_5ltr: soyaSupremeStock.,-->
+<!--//        ssctin5ltr: soyaSupremeStock.,-->
+<!--//        ssctin10ltr: soyaSupremeStock.,-->
+<!--//        sscpresspour3ltr: soyaSupremeStock.,-->
+<!--//        sscpresspour5ltr: soyaSupremeStock.,-->
+<!--//        sscjcan10ltr: soyaSupremeStock.,-->
+<!--//        sscjcan16ltr: soyaSupremeStock.,-->
+<!--////      smart canola oil-->
+<!--//        scbottle1ltr: soyaSupremeStock.,-->
+<!--//        scbottle3ltr: soyaSupremeStock.,-->
+<!--//        scbottle4_5ltr: soyaSupremeStock.,-->
+<!--//        scpoly1_5ltr: soyaSupremeStock.,-->
+<!--//        sctin2_5ltr: soyaSupremeStock.,-->
+<!--//        scjcan10ltr: soyaSupremeStock.,-->
+<!--//        scjcan16ltr: soyaSupremeStock.,-->
+<!--////      soya supreme banaspati-->
+<!--//        ssbpoly1_5ltr: soyaSupremeStock.,-->
+<!--//        ssbtin10ltr: soyaSupremeStock.,-->
+<!--//        ssbtin16ltr: soyaSupremeStock.,-->
+<!--////      soya supreme banaspati with Olive Oil-->
+<!--//        ssbopoly1_5ltr: soyaSupremeStock.,-->
+<!--//        ssbotin5ltr: soyaSupremeStock.,-->
+<!--//        ssbotin25ltr: soyaSupremeStock.,-->

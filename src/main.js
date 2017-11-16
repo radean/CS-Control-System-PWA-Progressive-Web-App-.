@@ -52,7 +52,7 @@ new Vue({
       authDomain: "bams-e190d.firebaseapp.com",
       databaseURL: "https://bams-e190d.firebaseio.com",
       projectId: "bams-e190d",
-      storageBucket: "",
+      storageBucket: "bams-e190d.appspot.com",
       messagingSenderId: "110309011275"
     });
   }
