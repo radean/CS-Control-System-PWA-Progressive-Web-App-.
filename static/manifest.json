@@ -1,6 +1,10 @@
 {
-  "name": "mcs",
-  "short_name": "msc node",
+  "name": "BAMS Node",
+  "short_name": "Brand Ambassador Management System",
+  "lang": "en-US",
+  "prefer_related_applications": false,
+  ​​"orientation": "portrait",
+  "description": "BAMS is VDM(Vision Direct Marketing) B.A Management Application for controlling B.A activities",
   "icons": [
     {
       "src": "/static/img/icons/android-chrome-192x192.png",

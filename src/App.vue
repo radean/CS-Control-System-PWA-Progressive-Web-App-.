@@ -71,7 +71,7 @@ export default {
 
 <style>
   body {
-    background: url("../static/img/bg/bg.jpg") left repeat-y;
+    background: url("../static/img/bg/bg.jpg") left repeat-y fixed;
   }
   #app {
     background: transparent;

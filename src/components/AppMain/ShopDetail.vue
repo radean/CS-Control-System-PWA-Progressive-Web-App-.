@@ -17,7 +17,6 @@ export default {
     return {
       date: '265',
       drawer: false,
-      supervisorMode: false,
     }
   },
   computed: {

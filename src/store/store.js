@@ -33,13 +33,7 @@ export const store = new Vuex.Store({
     },
     // Current user Details
     userinfo: {},
-    // {
-    //   uid: '',
-    //   name: '',
-    //   email: '',
-    //   address: '',
-    //   role: ''
-    // },
+    baList: {},
     // App Loading Stats
     userError: false,
     mainLoading: false,
@@ -63,6 +57,9 @@ export const store = new Vuex.Store({
     },
     setUser (state, payload){
       state.user = payload;
+    },
+    setBaList (state, payload){
+      state.baList = payload;
     },
     setUserInfo (state, payload){
       state.userinfo = payload;
@@ -127,7 +124,7 @@ export const store = new Vuex.Store({
           })
       },
     // User Session Check
-    userSession({dispatch, commit, getters}){
+    userSession({dispatch, commit}){
       // Checking Firebase user
       firebase.auth().onAuthStateChanged(appUser => {
         if(appUser) {
@@ -142,7 +139,7 @@ export const store = new Vuex.Store({
       });
     },
     // user information update
-    subUserInfo({ dispatch, commit, getters}){
+    subUserInfo({commit, getters}){
       // Setting Loading
       commit('SET_MAIN_LOADING', true);
       // setting user information
@@ -157,16 +154,6 @@ export const store = new Vuex.Store({
             address: obj[key].address,
             role: obj[key].role
           };
-        // const userinfo = {};
-        // const obj = user.val();
-        // for (let key in obj) {
-        //   userinfo.push({
-        //     uid: obj[key].uniqueId,
-        //     name: obj[key].name,
-        //     email: obj[key].email,
-        //     address: obj[key].address,
-        //     role: obj[key].role
-        //   });
         }
         commit('setUserInfo', userinfo);
         if(getters.userInfo.role === "Supervisor"){
@@ -180,8 +167,6 @@ export const store = new Vuex.Store({
         }
         commit('SET_MAIN_LOADING', false);
       });
-      // checking Role and Changing Theme
-      //
     },
     // user Log out
     userSignOut({commit}){
@@ -193,22 +178,11 @@ export const store = new Vuex.Store({
       });
     },
     // ==================================
-    // App Mode Changer
-    // appMode({commit, getters}){
-    //
-    //   if(getters.userInfo.role === "Supervisor"){
-    //     commit('setMode', 'BrandAmbassador');
-    //     commit('setTheme', 'red accent-4');
-    //     console.log('Supervisor')
-    //   }else if(getters.userInfo.role === "BrandAmbassador"){
-    //     commit('setMode', 'Supervisor');
-    //     commit('setTheme', 'blue accent-4');
-    //     console.log('BA')
-    //   }
-    // },
 
     // setting Store ID
-    setStoreId({commit}, payload){
+    setStoreId({dispatch ,commit}, payload){
+      // Getting Assigned BA
+      dispatch('baListUPD');
       let sel_store_id = payload;
       commit('SET_SEL_STORE_ID', sel_store_id)
     },
@@ -231,12 +205,12 @@ export const store = new Vuex.Store({
         merchandiserName: getters.user.name,
         // image
         storePicImg: payload.storePicImg,
-        storeStockBeforeImg: payload.storeStockBeforeImg,
-        storeStockAfterImg: payload.storeStockAfterImg,
+        baPictureImg: payload.storeStockBeforeImg,
+        shelfPictureImg: payload.storeStockAfterImg,
       };
       let storePicImgUrl;
-      let storeStockBeforeImgUrl;
-      let storeStockAfterImgUrl;
+      let baPictureImgUrl;
+      let shelfPictureImgUrl;
       let key;
 
       firebase.database().ref('storedata').push(storedata)
@@ -257,22 +231,22 @@ export const store = new Vuex.Store({
 
 
         // Image 2
-        const filenameB = payload.storeStockBeforeImg.name;
+        const filenameB = payload.baPictureImg.name;
         const ext = filenameB.slice(filenameB.lastIndexOf('.'));
-        return firebase.storage().ref('storeimages/' + key + 'storeStockBefore' + '.' + ext).put(payload.storeStockBeforeImg)
+        return firebase.storage().ref('storeimages/' + key + 'baPicture' + '.' + ext).put(payload.baPictureImg)
       }).then(fileData => {
-        storeStockBeforeImgUrl = fileData.metadata.downloadURLs[0];
-        return firebase.database().ref('storedata').child(key).update({storeStockBeforeImgUrl: storeStockBeforeImgUrl})
+        baPictureImgUrl = fileData.metadata.downloadURLs[0];
+        return firebase.database().ref('storedata').child(key).update({baPictureImgUrl: baPictureImgUrl})
       }).then(() => {
 
 
         // Image 3
-        const filenameC = payload.storeStockAfterImg.name;
+        const filenameC = payload.shelfPictureImg.name;
         const ext = filenameC.slice(filenameC.lastIndexOf('.'));
-        return firebase.storage().ref('storeimages/' + key + 'storeStockAfter' + '.' + ext).put(payload.storeStockAfterImg)
+        return firebase.storage().ref('storeimages/' + key + 'storeStockAfter' + '.' + ext).put(payload.shelfPictureImg)
       }).then(fileData => {
-        storeStockAfterImgUrl = fileData.metadata.downloadURLs[0];
-        return firebase.database().ref('storedata').child(key).update({storeStockAfterImgUrl: storeStockAfterImgUrl})
+        shelfPictureImgUrl = fileData.metadata.downloadURLs[0];
+        return firebase.database().ref('storedata').child(key).update({shelfPictureImgUrl: shelfPictureImgUrl})
       }).then(() => {
         commit('SET_MAIN_LOADING', false);
         console.log('Success');
@@ -285,6 +259,26 @@ export const store = new Vuex.Store({
 
 
     // Fetching Data
+    // B.A List
+    baListUPD({commit, getters}){
+      // Fetching FB
+      firebase.database().ref('users').orderByChild('role').equalTo("BrandAmbassador").once('value', (ba) => {
+        let baList = {};
+        const obj = ba.val();
+        for (let key in obj) {
+          let baname= obj[key].name;
+          baList[baname] = {
+            uid: obj[key].uniqueId,
+            name: obj[key].name,
+            email: obj[key].email,
+            address: obj[key].address,
+            role: obj[key].role
+          };
+        }
+        // setting Mutations
+        commit('setBaList', baList)
+      })
+    },
     // Store List
     shopsListUPD({commit, getters}){
       commit('SET_MAIN_LOADING', true);
@@ -327,6 +321,9 @@ export const store = new Vuex.Store({
     },
     userInfo (state) {
       return state.userinfo
+    },
+    baList (state) {
+      return state.baList
     },
     shops (state) {
       return state.shops
