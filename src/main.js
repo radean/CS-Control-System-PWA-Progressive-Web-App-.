@@ -12,6 +12,7 @@ import * as firebase from 'firebase'
 import VueRouter from'vue-router';
 import { routes } from './routes';
 
+
 // using Vuetify
 Vue.use(Vuetify);
 
@@ -20,6 +21,9 @@ Vue.use(VueResource);
 
 // using vue-router
 Vue.use(VueRouter);
+
+// using Image imageCompressor
+// Vue.use(imageCompressor);
 // Registring Routes
 const router = new VueRouter({
   routes,

@@ -196,6 +196,7 @@ export const store = new Vuex.Store({
         storeid: payload.storeid,
         soyaSupremeStock: payload.soyaSupremeStock,
         date: payload.date,
+        interception: payload.interception,
         creatorId: getters.userInfo.uid,
         userName: getters.userInfo.name,
         // image
@@ -251,7 +252,6 @@ export const store = new Vuex.Store({
           console.log(error)
         })
     },
-
 
 
     // Fetching Data

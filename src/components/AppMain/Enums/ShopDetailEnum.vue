@@ -8,7 +8,8 @@
         <v-layout row wrap>
           <v-flex xs4 text-xs-center >
             <v-card ripple>
-              <!--image--><div style="height:0px;overflow:hidden">
+              <!--image-->
+              <div style="height:0px;overflow:hidden">
               <input
                 type="file"
                 id="shopPicture"
@@ -19,7 +20,7 @@
             </div>
               <v-card-media raised :src="storePic" height="64" v-on:click="chooseFile('shopPicture')"></v-card-media>
             </v-card>
-            <!--title-->
+            <!--Title-->
               <h6 class="caption ma-2">SHOP PICTURE</h6>
           </v-flex>
 
@@ -453,12 +454,19 @@
 </template>
 
 <script>
+//  importing Image Library
+  import ImageCompressor from '@xkeshi/image-compressor';
+
 export default {
   data () {
     return {
 //      App
+      compressed: '',
       currentTime: 0,
       baNames: [],
+      options: {
+        quality: 0.1,
+      },
 //      Basic Info
       sel_ba: '',
 //      REF
@@ -506,19 +514,100 @@ export default {
   },
   computed: {
     formIsValid(){
-      return this.uhtPlainSmall !== '' &&  this.uhtPlainBig !== '' && this.fmChocolate !== '' && this.fmPistaZafran !== '' && this.fmStrawberry !== '' && this.storePicImg !== null && this.storeStockBeforeImg !== null && this.storeStockAfterImg !== null
+      return this.storePicImg !== null
     }
 
+  },
+  methods:{
+//    converting Object to list array
+    chooseFile(field) {
+        document.getElementById(field).click();
+    },
+//    Changing Shop Images
+//    Getting Raw Files
+    onShopPicture(event){
+//     Declaring Compressor
+      const imageCompressor = new ImageCompressor();
+//     getting obj details
+      const files = event.target.files[0];
+      imageCompressor.compress(files,{
+        quality: 0.6
+      }).then((result) => {
+        let imagename = result.filename;
+        const fileReader = new FileReader();
+//      adding Event listener. when file change
+        fileReader.addEventListener('load', () => {
+          this.storePic = fileReader.result
+        })
+        fileReader.readAsDataURL(result)
+        this.storePicImg = result
+      })
+    },
+    onbaPicture(event){
+      const imageCompressor = new ImageCompressor();
+      const files = event.target.files[0];
+      imageCompressor.compress(files,{
+        quality: 0.6
+      }).then((result) => {
+        let imagename = result.filename;
+        const fileReader = new FileReader();
+//      adding Event listener. when file change
+        fileReader.addEventListener('load', () => {
+          this.baPicture = fileReader.result
+        })
+        fileReader.readAsDataURL(result)
+        this.baPictureImg = result
+      })
+    },
+    onShelfPicture(event){
+      const imageCompressor = new ImageCompressor();
+      const files = event.target.files[0];
+      imageCompressor.compress(files,{
+        quality: 0.6
+      }).then((result) => {
+        let imagename = result.filename;
+        const fileReader = new FileReader();
+//      adding Event listener. when file change
+        fileReader.addEventListener('load', () => {
+          this.shelfPicture = fileReader.result
+        })
+        fileReader.readAsDataURL(result)
+        this.shelfPictureImg = result
+      })
+    },
+//    Getting files and compressing
+
+
+//    submitting Form Data
+    onSubmitDetails(){
+      const storeData = {
+        storename: this.store.name,
+        storeid: this.store.id,
+        soyaSupremeStock: this.soyaSupremeStock,
+        interception: this.interceptions,
+        ba: this.sel_ba,
+        date: this.currentDate,
+//        images
+        storePicImg: this.storePicImg,
+        baPictureImg: this.baPictureImg,
+        shelfPictureImg: this.shelfPictureImg,
+      };
+      this.$store.dispatch('pushStoreData', storeData).then(response => {
+          if(this.$store.getters.mainLoading === false){
+            this.$router.push('/shoplist')
+          }
+      })
+    }
   },
   created () {
 //      setting Informations
     setTimeout(() =>{
-        let obj = this.$store.getters.baList;
-        let convert = Object.keys(obj).map((key) => {
-          return obj[key].name
-        })
-        this.baNames = convert;
-        this.$http.get('http://api.timezonedb.com/v2/list-time-zone?key=QNVJJL9QLWE4&format=json&country=PK').then(response => {
+      let obj = this.$store.getters.baList;
+      let convert = Object.keys(obj).map((key) => {
+        return obj[key].name
+      })
+      this.baNames = convert;
+      this.$http.get('http://api.timezonedb.com/v2/list-time-zone?key=QNVJJL9QLWE4&format=json&country=PK').then(response => {
         let date = new Date((response.body.zones[0].timestamp * 1000) - response.body.zones[0].gmtOffset * 1000);
         let hours = date.getHours();
         let day = date.getDate() ;
@@ -528,65 +617,6 @@ export default {
         this.currentTime = hours + ':' + minutes.substr(-2)
       });
     }, 1000)
-  },
-  methods:{
-//    converting Object to list array
-    chooseFile(field) {
-        document.getElementById(field).click();
-    },
-//    Changing Shop Images
-    onShopPicture(event){
-      const files = event.target.files
-      let imagename = files[0].filename
-      const fileReader = new FileReader()
-      fileReader.addEventListener('load', () => {
-          this.storePic = fileReader.result
-      })
-      fileReader.readAsDataURL(files[0])
-      this.storePicImg = files[0]
-    },
-    onbaPicture(event){
-      const files = event.target.files
-      let imagename = files[0].filename
-      const fileReader = new FileReader()
-      fileReader.addEventListener('load', () => {
-        this.baPicture = fileReader.result
-      })
-      fileReader.readAsDataURL(files[0])
-      this.baPictureImg = files[0]
-    },
-    onShelfPicture(event){
-      const files = event.target.files
-      let imagename = files[0].filename
-      const fileReader = new FileReader()
-      fileReader.addEventListener('load', () => {
-        this.shelfPicture = fileReader.result
-      })
-      fileReader.readAsDataURL(files[0])
-      this.shelfPictureImg = files[0]
-    },
-
-
-//    submitting Form Data
-    onSubmitDetails(){
-      const storeData = {
-        storename: this.store.name,
-        storeid: this.store.id,
-        soyaSupremeStock: this.soyaSupremeStock,
-        interception: this.interception,
-        ba: this.sel_ba,
-        date: this.currentDate,
-//        images
-        storePicImg: this.storePicImg,
-        storeStockBeforeImg: this.baPictureImg,
-        storeStockAfterImg: this.shelfPictureImg,
-      };
-      this.$store.dispatch('pushStoreData', storeData).then(response => {
-          if(this.$store.getters.mainLoading === false){
-            this.$router.push('/shoplist')
-          }
-      })
-    }
   },
   props: ['store']
 }
