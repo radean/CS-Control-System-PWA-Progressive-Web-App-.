@@ -36,7 +36,10 @@ export const store = new Vuex.Store({
     baList: {},
     // App Loading Stats
     userError: false,
-    mainLoading: false,
+    loadingState:{
+      mainLoading: false,
+      compressorLoadingStats: false,
+    },
     // setting Store ID
     sel_storeid: '30502',
     // shoplists:
@@ -74,7 +77,7 @@ export const store = new Vuex.Store({
       state.sel_storeid = payload;
     },
     'SET_MAIN_LOADING'(state, payload) {
-      state.mainLoading = payload;
+      state.loadingState.mainLoading = payload;
     },
     'SET_USER_ERROR'(state, payload){
       state.userError = payload;
@@ -330,8 +333,8 @@ export const store = new Vuex.Store({
     selStoreId (state){
       return state.sel_storeid
     },
-    mainLoading (state){
-      return state.mainLoading
+    loadingState (state){
+      return state.loadingState
     },
     userError (state){
       return state.userError

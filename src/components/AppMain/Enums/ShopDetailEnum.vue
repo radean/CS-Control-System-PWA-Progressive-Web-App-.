@@ -134,7 +134,7 @@
                 name="bottle5ltr"
                 label="5 Ltr"
                 v-model="soyaSupremeStock.sscbottle5ltr"
-                tabindex="1"
+                tabindex="3"
                 placeholder="0"
                 type="number"
               ></v-text-field>
@@ -147,77 +147,9 @@
             <v-text-field
               suffix="piece"
               name="bottle_1ltr"
-              label="1.5 Ltr"
+              label="1x5 Ltr"
               v-model="soyaSupremeStock.sscpoly1_5ltr"
-              tabindex="1"
-              placeholder="0"
-              type="number"
-            ></v-text-field>
-          </v-flex>
-        </v-layout>
-
-        <div class="title alphaPanel" >TIN</div>
-        <v-layout row wrap class="alphaPanel">
-          <!--2.5 Ltr-->
-          <v-flex xs5>
-            <v-text-field
-              suffix="piece"
-              name="bottle_1ltr"
-              label="2.5 Ltr"
-              v-model="soyaSupremeStock.ssctin2_5ltr"
-              tabindex="1"
-              placeholder="0"
-              type="number"
-            ></v-text-field>
-          </v-flex>
-          <!--5 Ltr-->
-          <v-flex xs5>
-            <v-text-field
-              suffix="piece"
-              name="bottle_3ltr"
-              label="5 Ltr"
-              v-model="soyaSupremeStock.ssctin5ltr"
-              tabindex="2"
-              placeholder="0"
-              type="number"
-            ></v-text-field>
-          </v-flex>
-          <!--10 Ltr-->
-          <v-flex xs5>
-            <v-text-field
-              suffix="piece"
-              name="bottle5ltr"
-              label="10 Ltr"
-              v-model="soyaSupremeStock.ssctin10ltr"
-              tabindex="1"
-              placeholder="0"
-              type="number"
-            ></v-text-field>
-          </v-flex>
-        </v-layout>
-
-        <div class="title alphaPanel" >J.CAN</div>
-        <v-layout row wrap class="alphaPanel">
-          <!--10 Ltr-->
-          <v-flex xs5>
-            <v-text-field
-              suffix="piece"
-              name="bottle_1ltr"
-              label="10 Ltr"
-              v-model="soyaSupremeStock.sscjcan10ltr"
-              tabindex="1"
-              placeholder="0"
-              type="number"
-            ></v-text-field>
-          </v-flex>
-          <!--16 Ltr-->
-          <v-flex xs5>
-            <v-text-field
-              suffix="piece"
-              name="bottle_3ltr"
-              label="16 Ltr"
-              v-model="soyaSupremeStock.sscjcan16ltr"
-              tabindex="2"
+              tabindex="4"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -233,7 +165,7 @@
               name="bottle_3ltr"
               label="3 Ltr"
               v-model="soyaSupremeStock.sscpresspour3ltr"
-              tabindex="2"
+              tabindex="5"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -245,12 +177,82 @@
               name="bottle5ltr"
               label="5 Ltr"
               v-model="soyaSupremeStock.sscpresspour5ltr"
-              tabindex="1"
+              tabindex="6"
               placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
         </v-layout>
+
+        <div class="title alphaPanel" >TIN</div>
+        <v-layout row wrap class="alphaPanel">
+          <!--2.5 Ltr-->
+          <v-flex xs5>
+            <v-text-field
+              suffix="piece"
+              name="bottle_1ltr"
+              label="2.5 Ltr"
+              v-model="soyaSupremeStock.ssctin2_5ltr"
+              tabindex="7"
+              placeholder="0"
+              type="number"
+            ></v-text-field>
+          </v-flex>
+          <!--5 Ltr-->
+          <v-flex xs5>
+            <v-text-field
+              suffix="piece"
+              name="bottle_3ltr"
+              label="5 Ltr"
+              v-model="soyaSupremeStock.ssctin5ltr"
+              tabindex="8"
+              placeholder="0"
+              type="number"
+            ></v-text-field>
+          </v-flex>
+          <!--10 Ltr-->
+          <v-flex xs5>
+            <v-text-field
+              suffix="piece"
+              name="bottle5ltr"
+              label="10 Ltr"
+              v-model="soyaSupremeStock.ssctin10ltr"
+              tabindex="9"
+              placeholder="0"
+              type="number"
+            ></v-text-field>
+          </v-flex>
+        </v-layout>
+
+        <div class="title alphaPanel" >J.CAN</div>
+        <v-layout row wrap class="alphaPanel">
+          <!--10 Ltr-->
+          <v-flex xs5>
+            <v-text-field
+              suffix="piece"
+              name="bottle_1ltr"
+              label="10 Ltr"
+              v-model="soyaSupremeStock.sscjcan10ltr"
+              tabindex="10"
+              placeholder="0"
+              type="number"
+            ></v-text-field>
+          </v-flex>
+          <!--16 Ltr-->
+          <v-flex xs5>
+            <v-text-field
+              suffix="piece"
+              name="bottle_3ltr"
+              label="16 Ltr"
+              v-model="soyaSupremeStock.sscjcan16ltr"
+              tabindex="11"
+              placeholder="0"
+              type="number"
+            ></v-text-field>
+          </v-flex>
+        </v-layout>
+
+
         <!--=====================================-->
 
 
@@ -269,7 +271,7 @@
               name="bottle_1ltr"
               label="1Ltr"
               v-model="soyaSupremeStock.scbottle1ltr"
-              tabindex="1"
+              tabindex="12"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -281,7 +283,7 @@
               name="bottle_3ltr"
               label="3 Ltr"
               v-model="soyaSupremeStock.scbottle3ltr"
-              tabindex="2"
+              tabindex="13"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -292,7 +294,7 @@
               name="bottle5ltr"
               label="4.5 Ltr"
               v-model="soyaSupremeStock.scbottle4_5ltr"
-              tabindex="1"
+              tabindex="14"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -305,9 +307,9 @@
             <v-text-field
               suffix="piece"
               name="bottle_1ltr"
-              label="1.5 Ltr"
+              label="1x5 Ltr"
               v-model="soyaSupremeStock.scpoly1_5ltr"
-              tabindex="1"
+              tabindex="15"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -323,7 +325,7 @@
               name="bottle_1ltr"
               label="10 Ltr"
               v-model="soyaSupremeStock.scjcan10ltr"
-              tabindex="1"
+              tabindex="16"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -335,7 +337,7 @@
               name="bottle_3ltr"
               label="16 Ltr"
               v-model="soyaSupremeStock.scjcan16ltr"
-              tabindex="2"
+              tabindex="17"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -344,9 +346,9 @@
         <!--=====================================-->
 
 
-        <!--Soya Supreme Banaspati Oil-->
+        <!--Soya Supreme Banaspati-->
         <v-flex xs12 text-xs-center >
-          <div class="title alphaPanel"> Banaspati Oil</div>
+          <div class="title alphaPanel"> SS Banaspati</div>
         </v-flex>
 
         <div class="title alphaPanel" >POLY</div>
@@ -355,9 +357,9 @@
             <v-text-field
               suffix="piece"
               name="bottle_1ltr"
-              label="1.5 Ltr"
+              label="1x5 Ltr"
               v-model="soyaSupremeStock.ssbpoly1_5ltr"
-              tabindex="1"
+              tabindex="18"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -371,9 +373,9 @@
             <v-text-field
               suffix="piece"
               name="bottle_1ltr"
-              label="10 Ltr"
+              label="2.5 Ltr"
               v-model="soyaSupremeStock.ssbtin10ltr"
-              tabindex="1"
+              tabindex="19"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -383,9 +385,9 @@
             <v-text-field
               suffix="piece"
               name="bottle_3ltr"
-              label="16 Ltr"
+              label="5 Ltr"
               v-model="soyaSupremeStock.ssbtin16ltr"
-              tabindex="2"
+              tabindex="20"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -396,7 +398,7 @@
 
         <!--Soya Supreme Banaspati Olive Oil-->
         <v-flex xs12 text-xs-center >
-          <div class="title marginFields"> Banaspati Olive Oil</div>
+          <div class="title marginFields"> Banaspati with Olive Oil </div>
         </v-flex>
 
         <div class="title marginFields" >POLY</div>
@@ -405,9 +407,9 @@
             <v-text-field
               suffix="piece"
               name="bottle_1ltr"
-              label="1.5 Ltr"
+              label="1x5 Ltr"
               v-model="soyaSupremeStock.ssbopoly1_5ltr"
-              tabindex="1"
+              tabindex="21"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -423,7 +425,7 @@
               name="bottle_1ltr"
               label="5 Ltr"
               v-model="soyaSupremeStock.ssbotin5ltr"
-              tabindex="1"
+              tabindex="22"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -433,9 +435,9 @@
             <v-text-field
               suffix="piece"
               name="bottle_3ltr"
-              label="25 Ltr"
+              label="2.5 Ltr"
               v-model="soyaSupremeStock.ssbotin25ltr"
-              tabindex="2"
+              tabindex="23"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -445,10 +447,25 @@
 
 
         <v-flex xs12 text-xs-center class="mb-4">
-          <v-btn raised large color="black" dark to="/shoplist"><v-icon>chevron_left</v-icon> BACK </v-btn>
-          <v-btn raised large color="green" :disabled="!formIsValid" dark type="submit"> DONE <v-icon right>send</v-icon></v-btn>
+          <!--<v-btn raised large color="black" dark to="/shoplist"><v-icon>chevron_left</v-icon> BACK </v-btn>-->
+          <v-btn raised large color="green" :disabled="!formIsValid" dark type="submit"> SUBMIT REPORT <v-icon right>send</v-icon></v-btn>
         </v-flex><br>
       </form>
+      <!--Compressor Loading-->
+      <v-dialog v-model="compressing" persistent >
+        <!--<v-btn color="primary" dark slot="activator">Open Dialog</v-btn>-->
+        <v-card dark>
+          <v-card-title class="headline">Compressing</v-card-title>
+          <v-card-text>This should take less than a minute</v-card-text>
+          <v-container>
+            <v-layout row wrap center>
+              <v-flex xs2 offset-xs5>
+                <v-progress-circular indeterminate v-bind:size="50" color="amber"></v-progress-circular>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card>
+      </v-dialog>
     </v-layout><br>
   </v-container>
 </template>
@@ -460,8 +477,9 @@
 export default {
   data () {
     return {
+//      Loading
+      compressing: false,
 //      App
-      compressed: '',
       currentTime: 0,
       baNames: [],
       options: {
@@ -479,36 +497,36 @@ export default {
       shelfPictureImg: null,
 //      stock Report
       currentDate: '',
-      interceptions: 0,
+      interceptions: '',
 //      soya supreme cooking oil
       soyaSupremeStock: {
-        sscbottle1ltr: 0,
-        sscbottle3ltr: 0,
-        sscbottle5ltr: 0,
-        sscpoly1_5ltr: 0,
-        ssctin2_5ltr: 0,
-        ssctin5ltr: 0,
-        ssctin10ltr: 0,
-        sscpresspour3ltr: 0,
-        sscpresspour5ltr: 0,
-        sscjcan10ltr: 0,
-        sscjcan16ltr: 0,
+        sscbottle1ltr: '',
+        sscbottle3ltr: '',
+        sscbottle5ltr: '',
+        sscpoly1_5ltr: '',
+        ssctin2_5ltr: '',
+        ssctin5ltr: '',
+        ssctin10ltr: '',
+        sscpresspour3ltr: '',
+        sscpresspour5ltr: '',
+        sscjcan10ltr: '',
+        sscjcan16ltr: '',
 //      smart canola oil
-        scbottle1ltr: 0,
-        scbottle3ltr: 0,
-        scbottle4_5ltr: 0,
-        scpoly1_5ltr: 0,
-        sctin2_5ltr: 0,
-        scjcan10ltr: 0,
-        scjcan16ltr: 0,
+        scbottle1ltr: '',
+        scbottle3ltr: '',
+        scbottle4_5ltr: '',
+        scpoly1_5ltr: '',
+        sctin2_5ltr: '',
+        scjcan10ltr: '',
+        scjcan16ltr: '',
 //      soya supreme banaspati
-        ssbpoly1_5ltr: 0,
-        ssbtin10ltr: 0,
-        ssbtin16ltr: 0,
+        ssbpoly1_5ltr: '',
+        ssbtin10ltr: '',
+        ssbtin16ltr: '',
 //      soya supreme banaspati with Olive Oil
-        ssbopoly1_5ltr: 0,
-        ssbotin5ltr: 0,
-        ssbotin25ltr: 0,
+        ssbopoly1_5ltr: '',
+        ssbotin5ltr: '',
+        ssbotin25ltr: '',
       },
     }
   },
@@ -527,23 +545,28 @@ export default {
 //    Getting Raw Files
     onShopPicture(event){
 //     Declaring Compressor
+      //set Loading FALSE
+      this.compressing = true;
       const imageCompressor = new ImageCompressor();
-//     getting obj details
       const files = event.target.files[0];
       imageCompressor.compress(files,{
         quality: 0.6
       }).then((result) => {
         let imagename = result.filename;
         const fileReader = new FileReader();
-//      adding Event listener. when file change
+        //adding Event listener. when file change
         fileReader.addEventListener('load', () => {
           this.storePic = fileReader.result
         })
         fileReader.readAsDataURL(result)
         this.storePicImg = result
+        //set Loading FALSE
+        this.compressing = false;
       })
     },
     onbaPicture(event){
+      //set Loading FALSE
+      this.compressing = true;
       const imageCompressor = new ImageCompressor();
       const files = event.target.files[0];
       imageCompressor.compress(files,{
@@ -557,9 +580,13 @@ export default {
         })
         fileReader.readAsDataURL(result)
         this.baPictureImg = result
+        //set Loading FALSE
+        this.compressing = false;
       })
     },
     onShelfPicture(event){
+      //set Loading FALSE
+      this.compressing = true;
       const imageCompressor = new ImageCompressor();
       const files = event.target.files[0];
       imageCompressor.compress(files,{
@@ -573,6 +600,8 @@ export default {
         })
         fileReader.readAsDataURL(result)
         this.shelfPictureImg = result
+        //set Loading FALSE
+        this.compressing = false;
       })
     },
 //    Getting files and compressing

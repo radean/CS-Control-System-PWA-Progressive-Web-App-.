@@ -20,7 +20,7 @@
     </v-dialog>
 
     <!--Loading Dialog-->
-    <v-dialog v-model="appLoadingStats" persistent >
+    <v-dialog v-model="loading.mainLoading" persistent >
       <!--<v-btn color="primary" dark slot="activator">Open Dialog</v-btn>-->
       <v-card dark>
         <v-card-title class="headline">Please Wait </v-card-title>
@@ -59,6 +59,10 @@ export default {
       errorText: 'Please Check your Username & Password.',
 //      App Info
       app: [],
+//      loadings:{
+//        app: loading.mainLoading,
+//        compressor: 0,
+//      },
       helpDialog: false,
     }
   },
@@ -75,8 +79,8 @@ export default {
     userInfo(){
       return this.$store.getters.userInfo;
     },
-    appLoadingStats(){
-      return this.$store.getters.mainLoading
+    loading(){
+      return this.$store.getters.loadingState
     },
     appError(){
       return this.$store.getters.userError
