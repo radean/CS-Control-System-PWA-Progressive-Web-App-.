@@ -8,6 +8,8 @@ import Vuex from 'vuex';
 import { routes } from '../routes'
 // importing Firebase
 import * as firebase from 'firebase'
+// importing Vue Resource
+import VueResource from 'vue-resource'
 
 
 Vue.use(Vuex);
@@ -26,6 +28,10 @@ export const store = new Vuex.Store({
       company : 'Vision Direct Marketing',
       version : 'initial',
       theme: 'red accent-4',
+      header:{
+        name: 'BAMS™',
+        location: 'KHI'
+      },
       mode: '',
       status : true,
       broadcast: true,
@@ -34,6 +40,8 @@ export const store = new Vuex.Store({
     // Current user Details
     userinfo: {},
     baList: {},
+    // Store List
+    // storeList: {},
     // App Loading Stats
     userError: false,
     loadingState:{
@@ -54,6 +62,10 @@ export const store = new Vuex.Store({
     },
     setTheme(state, payload){
       state.app.theme = payload;
+    },
+    setAppHeader(state, payload){
+      state.app.header.name = payload.name;
+      state.app.header.location = payload.location;
     },
     setMode(state, payload){
       state.app.mode = payload;
@@ -87,17 +99,19 @@ export const store = new Vuex.Store({
 
     // USER AUTHENTICATION
     userSignUp({commit}, payload){
-      commit('SET_MAIN_LOADING', true);
+
       // Converting Varialble
 
       let userID;
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
         .then((user) => {
+        commit('SET_MAIN_LOADING', true);
         const userInfo = {
           uniqueId: user.uid,
           name: payload.user.name,
           password: payload.password,
           email: payload.email,
+          assignStore: payload.user.assignStore,
           address: payload.user.address,
           role: payload.user.role
         };
@@ -109,7 +123,11 @@ export const store = new Vuex.Store({
         })
         }).catch(
         error => {
-          console.log(error)
+          commit('SET_USER_ERROR', true);
+          console.log(error);
+          setTimeout(() => {
+            commit('SET_USER_ERROR', false);
+          }, 4000)
         }
       );
     },
@@ -175,6 +193,13 @@ export const store = new Vuex.Store({
     userSignOut({commit}){
       commit('SET_MAIN_LOADING', true);
       firebase.auth().signOut().then(() =>{
+        // Setting ApplicationDetails
+        let storeData = {
+          name: 'BAMS™',
+          location: ''
+        }
+        // setting App Header
+        commit('setAppHeader', storeData);
         commit('setUserInfo', {});
         commit('setUser', null);
         commit('SET_MAIN_LOADING', false);
@@ -186,7 +211,13 @@ export const store = new Vuex.Store({
     setStoreId({dispatch ,commit}, payload){
       // Getting Assigned BA
       dispatch('baListUPD');
-      let sel_store_id = payload;
+      let sel_store_id = payload.storeid;
+      let storeData = {
+        name: payload.storeName,
+        location: payload.storeLocation
+      }
+      // setting App Header
+      commit('setAppHeader', storeData);
       commit('SET_SEL_STORE_ID', sel_store_id)
     },
 
@@ -199,6 +230,7 @@ export const store = new Vuex.Store({
         storeid: payload.storeid,
         soyaSupremeStock: payload.soyaSupremeStock,
         date: payload.date,
+        // visits: payload.visits,
         interception: payload.interception,
         creatorId: getters.userInfo.uid,
         userName: getters.userInfo.name,
@@ -207,6 +239,7 @@ export const store = new Vuex.Store({
         baPictureImg: payload.baPictureImg,
         shelfPictureImg: payload.shelfPictureImg,
       };
+      console.log(payload.visits);
       let storePicImgUrl;
       let baPictureImgUrl;
       let shelfPictureImgUrl;
@@ -248,6 +281,10 @@ export const store = new Vuex.Store({
         shelfPictureImgUrl = fileData.metadata.downloadURLs[0];
         return firebase.database().ref('storedata').child(key).update({shelfPictureImgUrl: shelfPictureImgUrl})
       }).then(() => {
+        // putting Date
+        console.log(payload.visits);
+        return firebase.database().ref('stores/' + payload.storeid + '/visits/').update(payload.visits);
+      }).then(() => {
         commit('SET_MAIN_LOADING', false);
         console.log('Success');
       })
@@ -258,8 +295,9 @@ export const store = new Vuex.Store({
 
 
     // Fetching Data
+    // Store Lists
     // B.A List
-    baListUPD({commit, getters}){
+    baListUPD({commit}){
       // Fetching FB
       firebase.database().ref('users').orderByChild('role').equalTo("BrandAmbassador").once('value', (ba) => {
         let baList = {};
@@ -279,9 +317,13 @@ export const store = new Vuex.Store({
       })
     },
     // Store List
-    shopsListUPD({commit, getters}){
+    shopsListUPD({commit}, payload){
+      let today = payload;
       commit('SET_MAIN_LOADING', true);
-      firebase.database().ref('stores').on('value', (storelist) => {
+      firebase.database().ref('stores')
+        .orderByChild('visits/' + today)
+        .equalTo(null)
+        .on('value', (storelist) => {
         const stores = [];
         const obj = storelist.val();
         for (let key in obj) {
@@ -289,8 +331,10 @@ export const store = new Vuex.Store({
             id: key,
             name: obj[key].name,
             location: obj[key].location,
-          })
+            visits: obj[key].visits,
+          });
         }
+        console.log(stores);
         commit('SET_MAIN_LOADING', false);
         commit('SET_STORES', stores);
       });

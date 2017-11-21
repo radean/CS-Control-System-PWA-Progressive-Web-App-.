@@ -4,7 +4,7 @@
       <v-btn icon v-on:click="helpDialog = !helpDialog">
         <v-icon>info</v-icon>
       </v-btn>
-    <v-toolbar-title>{{ appdata.name }} {{ userInfo.name }}</v-toolbar-title>
+    <v-toolbar-title>{{ appdata.header.name }}</v-toolbar-title>
   </v-toolbar>
     <v-dialog v-model="helpDialog" persistent>
       <!--<v-btn color="primary" dark slot="activator">Open Dialog</v-btn>-->

@@ -1,9 +1,9 @@
 <template>
   <v-container fill-height fluid class="mb-2">
     <v-layout row wrap>
-      <v-flex xs12 md12 text-xs-center>
-        <h6 class="subheading">{{ store.name }} | {{ store.id }} | {{ store.location }}</h6>
-      </v-flex><br>
+      <v-flex xs12 text-xs-center >
+        <div class="title ma-0 pa-0">PICTURE UPDATE</div>
+      </v-flex>
       <form @submit.prevent="onSubmitDetails">
         <v-layout row wrap>
           <v-flex xs4 text-xs-center >
@@ -61,31 +61,15 @@
       <!--Basic Information-->
       <v-flex xs12 text-xs-center >
           <v-list style="background: transparent;">
-            <!--Interception-->
-            <v-list-tile class="alphaTrans">
-              <v-list-tile-content>
-                <v-text-field
-                  suffix="times"
-                  name="interception"
-                  label="INTERCEPTIONS"
-                  v-model="interceptions"
-                  tabindex="1"
-                  placeholder="0"
-                  type="number"
-                  hint="Type number of items of this category"
-                ></v-text-field>
-              </v-list-tile-content>
-            </v-list-tile>
             <!--B.A Name-->
             <v-list-tile class="alphaTrans">
               <v-list-tile-content>
-                <v-select
-                  v-bind:items="baNames"
+                <v-text-field
+                  name="interception"
+                  label="B.A NAME"
                   v-model="sel_ba"
-                  label="Select"
-                  single-line
-                  bottom
-                ></v-select>
+                  type="text"
+                ></v-text-field>
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
@@ -95,6 +79,7 @@
       <v-flex xs12 text-xs-center >
         <div class="title ma-0 pa-0">{{ currentTime }}</div>
       </v-flex>
+        <!--Heading of Content-->
       <v-flex xs12 text-xs-center >
         <div class="subheading">STOCK UPDATE</div>
         <div class="body-1">Soya Supreme Cooking Oil</div>
@@ -482,6 +467,7 @@ export default {
 //      App
       currentTime: 0,
       baNames: [],
+      visits: {},
       options: {
         quality: 0.1,
       },
@@ -609,6 +595,8 @@ export default {
 
 //    submitting Form Data
     onSubmitDetails(){
+
+//    making an object for payload
       const storeData = {
         storename: this.store.name,
         storeid: this.store.id,
@@ -616,15 +604,14 @@ export default {
         interception: this.interceptions,
         ba: this.sel_ba,
         date: this.currentDate,
+        visits: this.visits,
 //        images
         storePicImg: this.storePicImg,
         baPictureImg: this.baPictureImg,
         shelfPictureImg: this.shelfPictureImg,
       };
       this.$store.dispatch('pushStoreData', storeData).then(response => {
-          if(this.$store.getters.mainLoading === false){
-            this.$router.push('/shoplist')
-          }
+          this.$router.push('/shoplist')
       })
     }
   },
@@ -642,8 +629,10 @@ export default {
         let day = date.getDate() ;
         let month = date.getMonth() + 1;
         let minutes = "0" + date.getMinutes();
-        this.currentDate = day + ':' + month;
+        this.currentDate = month + '-' + day;
         this.currentTime = hours + ':' + minutes.substr(-2)
+        //    generating Variable
+        this.visits[this.currentDate] = 'done';
       });
     }, 1000)
   },

@@ -14,7 +14,6 @@
           required
           name="emailId"
           label="E-MAIL"
-          id="testing"
           v-model="useremail"
         ></v-text-field>
       </v-flex>
@@ -24,21 +23,8 @@
           required
           name="userPassword"
           label="PASSCODE"
-          id="testing"
           min="6"
           v-model="userpass"
-          :type="'password'"
-        ></v-text-field>
-      </v-flex>
-      <!--vdm key-->
-      <v-flex xs10 offset-xs1>
-        <v-text-field
-          required
-          name="v_key"
-          label="V-KEY"
-          id="testing"
-          min="6"
-          v-model="v_key"
           :type="'password'"
         ></v-text-field>
       </v-flex>
@@ -51,14 +37,13 @@
         id="testing"
         v-model="userInfo.name"
       ></v-text-field>
-    </v-flex>
+      </v-flex>
       <!-- Location -->
       <v-flex xs10 offset-xs1>
         <v-text-field
           required
           name="userLocation"
           label="ADDRESS"
-          id="testing"
           min="6"
           v-model="userInfo.address"
         ></v-text-field>
@@ -73,6 +58,18 @@
           bottom
         ></v-select>
       </v-flex>
+        <!-- Assign Store -->
+        <v-flex xs10 offset-xs1>
+          <v-select
+            v-if="checkRole"
+            v-bind:items="availableStores"
+            v-model="userInfo.assignStore"
+            label="ASSIGN STORE"
+            single-line
+            :loading="availableStoreLoading"
+            bottom
+          ></v-select>
+        </v-flex>
       <!--submission-->
       <v-flex xs12>
         <v-btn :disabled="!formIsValid" type="submit" >SUBMIT <v-icon right>send</v-icon></v-btn>
@@ -94,10 +91,14 @@ export default {
   data () {
     return {
 //    UI Data
+//    setting Loading on Selector
+      availableStoreLoading: false,
       roles: [
         'Administrator',
         'BrandAmbassador',
         'Supervisor'
+      ],
+      availableStores: [
       ],
 //    =============
       appTitle: 'LOGIN',
@@ -105,33 +106,49 @@ export default {
       userInfo:{
         name: '',
         address: '',
-        role: ''
+        role: '',
+        assignStore: ''
       },
       useremail: '',
-      v_key: '',
       userpass: '',
     }
   },
   computed: {
 //      Validating Fields
     formIsValid(){
-        return this.useremail !== '' && this.userInfo.name !== '' && this.v_key !== '' && this.userpass !== '' && this.v_key == 2648
+        return this.useremail !== '' && this.userInfo.name !== '' && this.userInfo.role !== '' && this.userpass !== ''
+    },
+    checkRole(){
+        return this.userInfo.role === 'BrandAmbassador';
     },
     user (){
         return this.$store.getters.user
     }
   },
   watch: {
-    user (value){
-        if (value !== null && value !== undefined){
-            this.$router.push('/')
-        }
-    }
+  },
+  mounted(){
+    this.$store.dispatch('shopsListUPD');
+    this.availableStoreLoading = true;
+    setTimeout(() => {
+//  dispatch Order to retrieve Current store List
+      this.populateStoreList();
+      this.availableStoreLoading = false;
+    },6000);
   },
   methods:{
     onSignUp() {
         this.$store.dispatch('userSignUp', {email: this.useremail, password: this.userpass, user: this.userInfo})
-    }
+    },
+    populateStoreList(){
+//      Converting Firebase Raw Returns to Vialable Form
+      let obj = this.$store.getters.shops;
+      let convert = Object.keys(obj).map((key) => {
+        return obj[key].name
+      });
+//  Storing to Application
+        this.availableStores = convert;
+    },
   },
   components:{
       'app-header': Header

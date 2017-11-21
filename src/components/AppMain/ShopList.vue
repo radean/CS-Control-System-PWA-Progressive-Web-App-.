@@ -7,15 +7,6 @@
         <v-divider></v-divider>
         <app-shoListEnum v-for="shop in shops" :key="shop.id" :shopList="shop" ></app-shoListEnum>
       </v-card>
-      <v-card v-if="appData.mode === 'Supervisor'" color="blue-grey darken-2" class="white--text">
-        <v-card-title primary-title>
-          <div class="headline">Unlimited music now</div>
-          <div>To check if supervisor Mode or BA</div>
-        </v-card-title>
-        <v-card-actions>
-          <v-btn flat dark>Listen now</v-btn>
-        </v-card-actions>
-      </v-card>
     </v-flex>
   </v-layout>
 </template>
@@ -32,6 +23,7 @@ export default {
       currentDate: '',
       drawer: false,
       appTitle: '',
+      today: ''
     }
   },
   computed: {
@@ -53,7 +45,17 @@ export default {
     if (this.$store.getters.user === null){
       this.$router.push('/')
     }else{
-      this.$store.dispatch('shopsListUPD');
+      setTimeout(() => {
+//        fetching current Date to get unvisited stores
+      let today;
+      this.$http.get('http://api.timezonedb.com/v2/list-time-zone?key=QNVJJL9QLWE4&format=json&country=PK').then(response => {
+        let date = new Date((response.body.zones[0].timestamp * 1000) - response.body.zones[0].gmtOffset * 1000);
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        today = month + '-' + day;
+        this.$store.dispatch('shopsListUPD', today);
+      });
+      },2000)
     }
   },
 

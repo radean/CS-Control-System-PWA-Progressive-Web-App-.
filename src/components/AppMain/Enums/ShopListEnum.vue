@@ -6,7 +6,7 @@
           </v-list-tile-avatar>
           <!---->
           <v-list-tile-content>
-            <v-list-tile-title>{{ shopList.name }}</v-list-tile-title>
+            <v-list-tile-title> {{ shopList.name }}</v-list-tile-title>
             <v-list-tile-sub-title>{{ shopList.location }}</v-list-tile-sub-title>
           </v-list-tile-content>
           <!---->
@@ -28,12 +28,17 @@
     data () {
       return {
 //          dateChanged: ''
-        storeid: this.shopList.id,
+
       }
     },
     methods:{
         setStoreId(){
-          this.$store.dispatch('setStoreId', this.storeid);
+          let storeData = {
+                storeid: this.shopList.id,
+                storeName: this.shopList.name,
+                storeLocation: this.shopList.location
+              };
+          this.$store.dispatch('setStoreId', storeData);
         }
     },
     computed:{
