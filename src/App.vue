@@ -47,17 +47,41 @@ export default {
     }
   },
   watch: {
-    user (value){
-      if (value !== null && value !== undefined){
-        this.$router.push('/shoplist')
+    userInfo (value){
+      if (value !== null && value !== undefined) {
+        switch (this.userInfo.role) {
+          case "Supervisor":
+            this.$router.push('/shoplist');
+            break;
+
+          case "BrandAmbassador":
+              let storeData = {
+                storeid: this.userInfo.storeId,
+                storeName: this.userInfo.name,
+                storeLocation: this.userInfo.address
+              };
+              this.$store.dispatch('setStoreId', storeData);
+            this.$router.push('/shopdetailba');
+            break;
+        }
       }
+//      if (value !== null && value !== undefined && this.userInfo.role === "Supervisor"){
+//        console.log("User is Supervisor");
+//        this.$router.push('/shoplist')
+//      }else if(value !== null && value !== undefined && this.userInfo.role === "BrandAmbassador");
+//      console.log("User is Brand Ambassador");
+//      this.$router.push('/shopdetail')
     }
   },
   created(){
     this.$store.dispatch('userSession');
-    if(this.userInfo.role === 'Supervisor'){
-      this.theme = 'blue accent-4'
-    };
+//    if(this.userInfo.role === "Supervisor"){
+//      console.log('SP');
+//    }else if(this.userInfo.role === "BrandAmbassador"){
+////        if user is B.A then redirect him to store detail page
+//      console.log('BA');
+//      this.$router.push('/shopdetail')
+//    }
   },
   components: {
     //Temporary Components

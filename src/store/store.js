@@ -12,6 +12,7 @@ import * as firebase from 'firebase'
 import VueResource from 'vue-resource'
 
 
+
 Vue.use(Vuex);
 
 
@@ -28,6 +29,7 @@ export const store = new Vuex.Store({
       company : 'Vision Direct Marketing',
       version : 'initial',
       theme: 'red accent-4',
+      connection: false,
       header:{
         name: 'BAMS™',
         location: 'KHI'
@@ -58,7 +60,8 @@ export const store = new Vuex.Store({
 
   },
   mutations: {
-    RegisterUser (state, payload) {
+    setAppConnection (state, payload) {
+      state.app.connection = payload;
     },
     setTheme(state, payload){
       state.app.theme = payload;
@@ -97,6 +100,15 @@ export const store = new Vuex.Store({
   },
   actions: {
 
+    // Setting Global Parameters
+    // appStatus({commit}){
+    //   if(firebase.database().ref("users").onDisconnect()){
+    //     commit('setAppConnection', false);
+    //   }else{
+    //     commit('setAppConnection', true);
+    //   }
+    // },
+
     // USER AUTHENTICATION
     userSignUp({commit}, payload){
 
@@ -117,14 +129,12 @@ export const store = new Vuex.Store({
         };
           return firebase.database().ref('users').push(userInfo).then(() => {
           commit('SET_MAIN_LOADING', false);
-          console.log('Success');
         }).catch((error) => {
           console.log(error)
         })
         }).catch(
         error => {
           commit('SET_USER_ERROR', true);
-          console.log(error);
           setTimeout(() => {
             commit('SET_USER_ERROR', false);
           }, 4000)
@@ -147,6 +157,7 @@ export const store = new Vuex.Store({
     // User Session Check
     userSession({dispatch, commit}){
       // Checking Firebase user
+      // dispatch('appStatus');
       firebase.auth().onAuthStateChanged(appUser => {
         if(appUser) {
           // setting Authorization
@@ -172,19 +183,22 @@ export const store = new Vuex.Store({
             uid: obj[key].uniqueId,
             name: obj[key].name,
             email: obj[key].email,
+            storeId: obj[key].storeId,
             address: obj[key].address,
             role: obj[key].role
           };
         }
         commit('setUserInfo', userinfo);
         if(getters.userInfo.role === "Supervisor"){
+          // if user is supervisor then set mode to "SuperVisor"
           commit('setMode', 'Supervisor');
+          // and color to Blue
           commit('setTheme', 'blue accent-4');
-          console.log('Supervisor')
         }else if(getters.userInfo.role === "BrandAmbassador"){
+          // if user is B.A then set mode to "B.A"
           commit('setMode', 'BrandAmbassador');
+          // and color to Red
           commit('setTheme', 'red accent-4');
-          console.log('BA')
         }
         commit('SET_MAIN_LOADING', false);
       });
@@ -197,10 +211,10 @@ export const store = new Vuex.Store({
         let storeData = {
           name: 'BAMS™',
           location: ''
-        }
+        };
         // setting App Header
         commit('setAppHeader', storeData);
-        commit('setUserInfo', {});
+        commit('setUserInfo', null);
         commit('setUser', null);
         commit('SET_MAIN_LOADING', false);
       });
@@ -239,7 +253,6 @@ export const store = new Vuex.Store({
         baPictureImg: payload.baPictureImg,
         shelfPictureImg: payload.shelfPictureImg,
       };
-      console.log(payload.visits);
       let storePicImgUrl;
       let baPictureImgUrl;
       let shelfPictureImgUrl;
@@ -250,6 +263,9 @@ export const store = new Vuex.Store({
       .then((data) => {
         key = data.key;
         return key
+      }).then(() => {
+        // putting Date
+        return firebase.database().ref('stores/' + payload.storeid + '/visits/').update(payload.visits);
       }).then(key => {
 
 
@@ -281,17 +297,36 @@ export const store = new Vuex.Store({
         shelfPictureImgUrl = fileData.metadata.downloadURLs[0];
         return firebase.database().ref('storedata').child(key).update({shelfPictureImgUrl: shelfPictureImgUrl})
       }).then(() => {
-        // putting Date
-        console.log(payload.visits);
-        return firebase.database().ref('stores/' + payload.storeid + '/visits/').update(payload.visits);
-      }).then(() => {
         commit('SET_MAIN_LOADING', false);
-        console.log('Success');
       })
         .catch((error) => {
           console.log(error)
         })
     },
+
+
+
+    // Uploading Data
+    pushStoreReport({commit, getters}, payload){
+      commit('SET_MAIN_LOADING', true);
+      const report = {
+        purchased: payload.purchased,
+        customerName: payload.customerName,
+        customerContact: payload.customerContact,
+        creatorId: getters.userInfo.uid,
+        userName: getters.userInfo.name,
+      };
+
+      firebase.database().ref('stores/' + getters.userInfo.storeId + '/reports/' + payload.date + '/').push(report)
+        .then(() => {
+        commit('SET_MAIN_LOADING', false);
+      })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+
+
 
 
     // Fetching Data
@@ -334,14 +369,13 @@ export const store = new Vuex.Store({
             visits: obj[key].visits,
           });
         }
-        console.log(stores);
         commit('SET_MAIN_LOADING', false);
         commit('SET_STORES', stores);
       });
     },
     // Store Detail
     fetchShopDetails({commit, getters}){
-      firebase.database().ref('stores').orderByKey().equalTo(getters.selStoreId).once('value', (storedetails) => {
+      firebase.database().ref('stores').orderByKey().equalTo(getters.selStoreId.toString()).once('value', (storedetails) => {
         const storeDetail = [];
         const obj = storedetails.val();
         for (let key in obj) {

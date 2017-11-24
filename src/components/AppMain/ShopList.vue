@@ -35,7 +35,7 @@ export default {
     },
     appData(){
         return this.$store.getters.appinfo
-    }
+    },
   },
   components:{
     'app-header': Header,

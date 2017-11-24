@@ -2,73 +2,93 @@
   <v-container fill-height fluid class="mb-2">
     <v-layout row wrap>
       <v-flex xs12 text-xs-center >
-        <div class="title ma-0 pa-0">PICTURE UPDATE</div>
+        <div class="caption red ma-0 pa-0 white--text">DISCONNECTED</div>
+        <div class="title ma-0 pa-0">CUSTOMER ENTRY</div>
       </v-flex>
       <form @submit.prevent="onSubmitDetails">
-        <v-layout row wrap>
-          <v-flex xs4 text-xs-center >
-            <v-card ripple>
-              <!--image-->
-              <div style="height:0px;overflow:hidden">
-              <input
-                type="file"
-                id="shopPicture"
-                name="shoppicture"
-                accept="image/*"
-                @change="onShopPicture"
-              />
-            </div>
-              <v-card-media raised :src="storePic" height="64" v-on:click="chooseFile('shopPicture')"></v-card-media>
-            </v-card>
-            <!--Title-->
-              <h6 class="caption ma-2">SHOP PICTURE</h6>
-          </v-flex>
 
-          <v-flex xs4 text-xs-center fluid>
-            <v-card ripple>
-              <!--image--><!--image--><div style="height:0px;overflow:hidden">
-              <input
-                type="file"
-                id="baPicture"
-                name="baPicture"
-                accept="image/*"
-                @change="onbaPicture"
-              />
-            </div>
-              <v-card-media raised :src="baPicture" height="64" v-on:click="chooseFile('baPicture')"></v-card-media>
-            </v-card>
-            <!--title-->
-              <h6 class="caption ma-2">B.A PICTURE</h6>
-          </v-flex>
-          <v-flex xs4 text-xs-center >
-            <v-card ripple>
-              <div style="height:0px;overflow:hidden">
-              <input
-                type="file"
-                id="shelfPicture"
-                name="shelfPicture"
-                accept="image/*"
-                @change="onShelfPicture"
-              />
-            </div>
-              <v-card-media raised :src="shelfPicture" height="64" v-on:click="chooseFile('shelfPicture')"></v-card-media>
-            </v-card>
-            <!--title-->
-              <h6 class="caption ma-2">SHELF PICTURE</h6>
-          </v-flex>
-        </v-layout>
+
+
+
+
+        <!--<v-layout row wrap v-if="!baMode">-->
+          <!--<v-flex xs4 text-xs-center >-->
+            <!--<v-card ripple>-->
+              <!--&lt;!&ndash;image&ndash;&gt;-->
+              <!--<div style="height:0px;overflow:hidden">-->
+              <!--<input-->
+                <!--type="file"-->
+                <!--id="shopPicture"-->
+                <!--name="shoppicture"-->
+                <!--accept="image/*"-->
+                <!--@change="onShopPicture"-->
+              <!--/>-->
+            <!--</div>-->
+              <!--<v-card-media raised :src="storePic" height="64" v-on:click="chooseFile('shopPicture')"></v-card-media>-->
+            <!--</v-card>-->
+            <!--&lt;!&ndash;Title&ndash;&gt;-->
+              <!--<h6 class="caption ma-2">SHOP PICTURE</h6>-->
+          <!--</v-flex>-->
+
+          <!--<v-flex xs4 text-xs-center fluid>-->
+            <!--<v-card ripple>-->
+              <!--&lt;!&ndash;image&ndash;&gt;&lt;!&ndash;image&ndash;&gt;<div style="height:0px;overflow:hidden">-->
+              <!--<input-->
+                <!--type="file"-->
+                <!--id="baPicture"-->
+                <!--name="baPicture"-->
+                <!--accept="image/*"-->
+                <!--@change="onbaPicture"-->
+              <!--/>-->
+            <!--</div>-->
+              <!--<v-card-media raised :src="baPicture" height="64" v-on:click="chooseFile('baPicture')"></v-card-media>-->
+            <!--</v-card>-->
+            <!--&lt;!&ndash;title&ndash;&gt;-->
+              <!--<h6 class="caption ma-2">B.A PICTURE</h6>-->
+          <!--</v-flex>-->
+          <!--<v-flex xs4 text-xs-center >-->
+            <!--<v-card ripple>-->
+              <!--<div style="height:0px;overflow:hidden">-->
+              <!--<input-->
+                <!--type="file"-->
+                <!--id="shelfPicture"-->
+                <!--name="shelfPicture"-->
+                <!--accept="image/*"-->
+                <!--@change="onShelfPicture"-->
+              <!--/>-->
+            <!--</div>-->
+              <!--<v-card-media raised :src="shelfPicture" height="64" v-on:click="chooseFile('shelfPicture')"></v-card-media>-->
+            <!--</v-card>-->
+            <!--&lt;!&ndash;title&ndash;&gt;-->
+              <!--<h6 class="caption ma-2">SHELF PICTURE</h6>-->
+          <!--</v-flex>-->
+        <!--</v-layout>-->
+
+
+
 
       <!--Basic Information-->
       <v-flex xs12 text-xs-center >
           <v-list style="background: transparent;">
-            <!--B.A Name-->
+            <!--Customers Name-->
             <v-list-tile class="alphaTrans">
               <v-list-tile-content>
                 <v-text-field
-                  name="interception"
-                  label="B.A NAME"
-                  v-model="sel_ba"
+                  name="customer'sName"
+                  label="CUSTOMER'S NAME"
+                  v-model="customerName"
                   type="text"
+                ></v-text-field>
+              </v-list-tile-content>
+            </v-list-tile>
+            <!--Customer Contact-->
+            <v-list-tile class="alphaTrans">
+              <v-list-tile-content>
+                <v-text-field
+                  name="ContactNumber"
+                  label="CONTACT NUMBER"
+                  v-model="customerContactNumber"
+                  type="number"
                 ></v-text-field>
               </v-list-tile-content>
             </v-list-tile>
@@ -81,7 +101,7 @@
       </v-flex>
         <!--Heading of Content-->
       <v-flex xs12 text-xs-center >
-        <div class="subheading">STOCK UPDATE</div>
+        <div class="subheading">SKU's PURCHASED</div>
         <div class="body-1">Soya Supreme Cooking Oil</div>
       </v-flex>
 
@@ -473,7 +493,8 @@ export default {
         quality: 0.1,
       },
 //      Basic Info
-      sel_ba: '',
+      customerName: null,
+      customerContactNumber: null,
 //      REF
       storePic: '/static/img/app/placeholder.png',
       baPicture: '/static/img/app/placeholder.png',
@@ -519,8 +540,11 @@ export default {
   },
   computed: {
     formIsValid(){
-      return this.storePicImg !== null
+      return this.customerContactNumber !== '' && this.customerName !== ''
     },
+//    checkConnection(){
+//      return this.$store.getters.userInfo.connection;
+//    },
     userInfo(){
       return this.$store.getters.userInfo;
     }
@@ -600,21 +624,16 @@ export default {
     onSubmitDetails(){
 
 //    making an object for payload
-      const storeData = {
+      const report = {
         storename: this.store.name,
         storeid: this.store.id,
-        soyaSupremeStock: this.soyaSupremeStock,
-        interception: this.interceptions,
-        ba: this.sel_ba,
+        purchased: this.soyaSupremeStock,
+        customerContact: this.customerContactNumber,
+        customerName: this.customerName,
         date: this.currentDate,
-        visits: this.visits,
-//        images
-        storePicImg: this.storePicImg,
-        baPictureImg: this.baPictureImg,
-        shelfPictureImg: this.shelfPictureImg,
       };
-      this.$store.dispatch('pushStoreData', storeData).then(response => {
-          this.$router.push('/shoplist')
+      this.$store.dispatch('pushStoreReport', report).then(response => {
+          console.log('Sent to state')
       })
     }
   },
@@ -623,6 +642,7 @@ export default {
     switch (this.userInfo.role) {
       case "Supervisor":
         this.baMode = false;
+        this.$router.push('/shoplist');
         break;
 
       case "BrandAmbassador":
