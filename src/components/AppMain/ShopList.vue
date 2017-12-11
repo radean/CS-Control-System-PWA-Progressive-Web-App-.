@@ -50,7 +50,7 @@ export default {
       let today;
       this.$http.get('http://api.timezonedb.com/v2/list-time-zone?key=QNVJJL9QLWE4&format=json&country=PK').then(response => {
         let date = new Date((response.body.zones[0].timestamp * 1000) - response.body.zones[0].gmtOffset * 1000);
-        let day = date.getDate();
+        let day = ("0" + date.getDate()).slice(-2) ;
         let month = date.getMonth() + 1;
         today = month + '-' + day;
         this.$store.dispatch('shopsListUPD', today);

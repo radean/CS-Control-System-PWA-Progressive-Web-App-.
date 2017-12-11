@@ -379,7 +379,7 @@
               suffix="piece"
               name="bottle_1ltr"
               label="2.5 Ltr"
-              v-model="soyaSupremeStock.ssbtin10ltr"
+              v-model="soyaSupremeStock.ssbtin25ltr"
               tabindex="19"
               placeholder="0"
               type="number"
@@ -391,7 +391,7 @@
               suffix="piece"
               name="bottle_3ltr"
               label="5 Ltr"
-              v-model="soyaSupremeStock.ssbtin16ltr"
+              v-model="soyaSupremeStock.ssbtin5ltr"
               tabindex="20"
               placeholder="0"
               type="number"
@@ -508,33 +508,33 @@ export default {
       interceptions: '',
 //      soya supreme cooking oil
       soyaSupremeStock: {
-        sscbottle1ltr: '',
-        sscbottle3ltr: '',
-        sscbottle5ltr: '',
-        sscpoly1_5ltr: '',
-        ssctin2_5ltr: '',
-        ssctin5ltr: '',
-        ssctin10ltr: '',
-        sscpresspour3ltr: '',
-        sscpresspour5ltr: '',
-        sscjcan10ltr: '',
-        sscjcan16ltr: '',
+        sscbottle1ltr: 0,
+        sscbottle3ltr: 0,
+        sscbottle5ltr: 0,
+        sscpoly1_5ltr: 0,
+        ssctin2_5ltr: 0,
+        ssctin5ltr: 0,
+        ssctin10ltr: 0,
+        sscpresspour3ltr: 0,
+        sscpresspour5ltr: 0,
+        sscjcan10ltr: 0,
+        sscjcan16ltr: 0,
 //      smart canola oil
-        scbottle1ltr: '',
-        scbottle3ltr: '',
-        scbottle4_5ltr: '',
-        scpoly1_5ltr: '',
-        sctin2_5ltr: '',
-        scjcan10ltr: '',
-        scjcan16ltr: '',
+        scbottle1ltr: 0,
+        scbottle3ltr: 0,
+        scbottle4_5ltr: 0,
+        scpoly1_5ltr: 0,
+        sctin2_5ltr: 0,
+        scjcan10ltr: 0,
+        scjcan16ltr: 0,
 //      soya supreme banaspati
-        ssbpoly1_5ltr: '',
-        ssbtin10ltr: '',
-        ssbtin16ltr: '',
+        ssbpoly1_5ltr: 0,
+        ssbtin25ltr: 0,
+        ssbtin5ltr: 0,
 //      soya supreme banaspati with Olive Oil
-        ssbopoly1_5ltr: '',
-        ssbotin5ltr: '',
-        ssbotin25ltr: '',
+        ssbopoly1_5ltr: 0,
+        ssbotin5ltr: 0,
+        ssbotin25ltr: 0,
       },
     }
   },
@@ -627,6 +627,7 @@ export default {
       const report = {
         storename: this.store.name,
         storeid: this.store.id,
+        storeAddress: this.store.address,
         purchased: this.soyaSupremeStock,
         customerContact: this.customerContactNumber,
         customerName: this.customerName,
@@ -659,14 +660,24 @@ export default {
       this.$http.get('http://api.timezonedb.com/v2/list-time-zone?key=QNVJJL9QLWE4&format=json&country=PK').then(response => {
         let date = new Date((response.body.zones[0].timestamp * 1000) - response.body.zones[0].gmtOffset * 1000);
         let hours = date.getHours();
-        let day = date.getDate() ;
+        let day = ("0" + date.getDate()).slice(-2);
         let month = date.getMonth() + 1;
         let minutes = "0" + date.getMinutes();
         this.currentDate = month + '-' + day;
         this.currentTime = hours + ':' + minutes.substr(-2)
         //    generating Variable
         this.visits[this.currentDate] = 'done';
-      });
+      }).catch(() => {
+          let date = new Date();
+          let hours = date.getHours();
+          let day = ("0" + date.getDate()).slice(-2);
+          let month = date.getMonth() + 1;
+          let minutes = "0" + date.getMinutes();
+          this.currentDate = month + '-' + day;
+          this.currentTime = hours + ':' + minutes.substr(-2)
+          //    generating Variable
+          this.visits[this.currentDate] = 'done';
+        });
     }, 1000)
   },
   props: ['store']

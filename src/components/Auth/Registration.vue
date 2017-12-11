@@ -58,18 +58,18 @@
           bottom
         ></v-select>
       </v-flex>
-        <!-- Assign Store -->
-        <v-flex xs10 offset-xs1>
-          <v-select
-            v-if="checkRole"
-            v-bind:items="availableStores"
-            v-model="userInfo.assignStore"
-            label="ASSIGN STORE"
-            single-line
-            :loading="availableStoreLoading"
-            bottom
-          ></v-select>
-        </v-flex>
+      <!-- Assign Store -->
+      <v-flex xs10 offset-xs1>
+        <v-select
+          v-if="checkRole"
+          v-bind:items="availableStores"
+          v-model="userInfo.assignStore"
+          label="ASSIGN STORE"
+          single-line
+          :loading="availableStoreLoading"
+          bottom
+        ></v-select>
+      </v-flex>
       <!--submission-->
       <v-flex xs12>
         <v-btn :disabled="!formIsValid" type="submit" >SUBMIT <v-icon right>send</v-icon></v-btn>

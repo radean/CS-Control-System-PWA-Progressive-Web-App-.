@@ -19,6 +19,7 @@
         navigator.serviceWorker.register('service-worker.js')
         .then(function(registration) {
           // updatefound is fired if service-worker.js changes.
+          console.log('Service Worker Registered');
           registration.onupdatefound = function() {
             // updatefound is also fired the very first time the SW is installed,
             // and there's no need to prompt for a reload at that point.

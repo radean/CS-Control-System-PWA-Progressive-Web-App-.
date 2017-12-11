@@ -13,6 +13,8 @@ import VueResource from 'vue-resource'
 
 
 
+
+
 Vue.use(Vuex);
 
 
@@ -36,15 +38,15 @@ export const store = new Vuex.Store({
       },
       mode: '',
       status : true,
+      isConnected: false,
       broadcast: true,
       subscription: true
     },
-    // Current user Details
-    userinfo: {},
-    baList: {},
     // Store List
     // storeList: {},
     // App Loading Stats
+    successFlag: false,
+    successMsg: 'Operation Successful',
     userError: false,
     loadingState:{
       mainLoading: false,
@@ -56,7 +58,14 @@ export const store = new Vuex.Store({
     shops: [],
     shopDetail: [],
     //User Session
+    // Current user Details
+    userinfo: {},
+    baList: {},
     user: null,
+    // OFFLINE SUPPORT ADDED
+    // ====================
+    offlineStoreReport: [],
+
 
   },
   mutations: {
@@ -96,6 +105,10 @@ export const store = new Vuex.Store({
     },
     'SET_USER_ERROR'(state, payload){
       state.userError = payload;
+    },
+    'SET_SUCCESS_MSG'(state, payload){
+      state.successFlag = !state.successFlag;
+      state.successMsg = payload;
     }
   },
   actions: {
@@ -183,7 +196,7 @@ export const store = new Vuex.Store({
             uid: obj[key].uniqueId,
             name: obj[key].name,
             email: obj[key].email,
-            storeId: obj[key].storeId,
+            storeId : obj[key].store.id,
             address: obj[key].address,
             role: obj[key].role
           };
@@ -220,6 +233,26 @@ export const store = new Vuex.Store({
       });
     },
     // ==================================
+    //Checking Connection
+
+    // connectionRef({dispatch, getters}, payload){
+    //   firebase.database().ref('.info/connected').on('value', snap => {
+    //     if (snap.val() && getters.offlineDB.length){
+    //       if(getters.user){
+    //         let offline = {}
+    //         while (getters.offlineDB.length) {
+    //           dispatch('pushToFirebase',getters.offlineDB.shift())
+    //         }
+    //       }
+    //     }
+    //   })
+    // },
+    //
+    // Pushing DataBase
+
+    // pushToFirebase(payload){
+    //   firebase.database().ref('storedata/' + payload.date + '/').push({ payload })
+    // },
 
     // setting Store ID
     setStoreId({dispatch ,commit}, payload){
@@ -239,13 +272,14 @@ export const store = new Vuex.Store({
     // Uploading Data
     pushStoreData({commit, getters}, payload){
       commit('SET_MAIN_LOADING', true);
-      const storedata = {
+      const stockdata = {
         storename: payload.storename,
         storeid: payload.storeid,
         soyaSupremeStock: payload.soyaSupremeStock,
         date: payload.date,
         // visits: payload.visits,
-        interception: payload.interception,
+        baName: payload.baName,
+        interceptions: payload.interceptions,
         creatorId: getters.userInfo.uid,
         userName: getters.userInfo.name,
         // image
@@ -257,9 +291,9 @@ export const store = new Vuex.Store({
       let baPictureImgUrl;
       let shelfPictureImgUrl;
       let key;
-      let date = storedata.date;
+      let date = stockdata.date;
 
-      firebase.database().ref('storedata').push(storedata)
+      firebase.database().ref('stockdata').push(stockdata)
       .then((data) => {
         key = data.key;
         return key
@@ -275,7 +309,7 @@ export const store = new Vuex.Store({
         return firebase.storage().ref('storeimages/' + date + '/' + key + 'storePic' + '.' + ext).put(payload.storePicImg)
       }).then(fileData => {
         storePicImgUrl = fileData.metadata.downloadURLs[0];
-        return firebase.database().ref('storedata').child(key).update({storePicImgUrl: storePicImgUrl})
+        return firebase.database().ref('stockdata').child(key).update({storePicImgUrl: storePicImgUrl})
       }).then(() => {
 
 
@@ -285,7 +319,7 @@ export const store = new Vuex.Store({
         return firebase.storage().ref('storeimages/' + date + '/' + key + 'baPicture' + '.' + ext).put(payload.baPictureImg)
       }).then(fileData => {
         baPictureImgUrl = fileData.metadata.downloadURLs[0];
-        return firebase.database().ref('storedata').child(key).update({baPictureImgUrl: baPictureImgUrl})
+        return firebase.database().ref('stockdata').child(key).update({baPictureImgUrl: baPictureImgUrl})
       }).then(() => {
 
 
@@ -295,7 +329,7 @@ export const store = new Vuex.Store({
         return firebase.storage().ref('storeimages/' + date + '/' + key + 'shelfPicture' + '.' + ext).put(payload.shelfPictureImg)
       }).then(fileData => {
         shelfPictureImgUrl = fileData.metadata.downloadURLs[0];
-        return firebase.database().ref('storedata').child(key).update({shelfPictureImgUrl: shelfPictureImgUrl})
+        return firebase.database().ref('stockdata').child(key).update({shelfPictureImgUrl: shelfPictureImgUrl})
       }).then(() => {
         commit('SET_MAIN_LOADING', false);
       })
@@ -315,11 +349,21 @@ export const store = new Vuex.Store({
         customerContact: payload.customerContact,
         creatorId: getters.userInfo.uid,
         userName: getters.userInfo.name,
+        store : {
+          id: payload.storeid,
+          name: payload.storename,
+          address: payload.storeAddress
+        }
       };
 
-      firebase.database().ref('stores/' + getters.userInfo.storeId + '/reports/' + payload.date + '/').push(report)
+      firebase.database().ref('storedata/' + payload.date + '/').push(report)
         .then(() => {
         commit('SET_MAIN_LOADING', false);
+          // Sending Success Message
+          commit('SET_SUCCESS_MSG', 'Submission Complete');
+          setTimeout(() => {
+            commit('SET_SUCCESS_MSG', 'Operation Successful');
+          }, 4000);
       })
         .catch((error) => {
           console.log(error)
@@ -375,14 +419,14 @@ export const store = new Vuex.Store({
     },
     // Store Detail
     fetchShopDetails({commit, getters}){
-      firebase.database().ref('stores').orderByKey().equalTo(getters.selStoreId.toString()).once('value', (storedetails) => {
+      firebase.database().ref('stores').orderByKey().equalTo(getters.selStoreId).once('value', (storedetails) => {
         const storeDetail = [];
         const obj = storedetails.val();
         for (let key in obj) {
           storeDetail.push({
             id: key,
             name: obj[key].name,
-            location: obj[key].location
+            address: obj[key].address
           })
         }
         commit('SET_STORE_DETAILS', storeDetail)
@@ -392,6 +436,9 @@ export const store = new Vuex.Store({
   getters: {
     appinfo (state){
       return state.app
+    },
+    offlineDB (state){
+      return state.app.isConnected
     },
     user (state){
       return state.user
@@ -416,6 +463,12 @@ export const store = new Vuex.Store({
     },
     userError (state){
       return state.userError
+    },
+    successMsg (state){
+      return state.successMsg
+    },
+    successFlag (state){
+      return state.successFlag
     }
   }
 });

@@ -39,7 +39,7 @@ import('../node_modules/vuetify/dist/vuetify.min.css');
 Vue.config.productionTip = false;
 
 
-
+// ENABLEING OFFLINE DATA
 
 // Accesseing Storage
 import { store } from './store/store'

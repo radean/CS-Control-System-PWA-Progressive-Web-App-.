@@ -11,6 +11,15 @@
       <div>{{ appdata.name }}</div>
       <v-spacer></v-spacer>
       <div> VDM™ {{ new Date().getFullYear() }}</div>
+      <v-snackbar
+        v-model="successFlag"
+        :top="true"
+        class="green"
+        dark
+      >
+        {{ successMsg }}
+        <v-btn flat color="white" @click.native="successFlag = false">Close</v-btn>
+      </v-snackbar>
     </v-footer>
   </v-app>
 </template>
@@ -44,6 +53,12 @@ export default {
     },
     user(){
       return this.$store.getters.user
+    },
+    successMsg(){
+      return this.$store.getters.successMsg
+    },
+    successFlag(){
+      return this.$store.getters.successFlag
     }
   },
   watch: {
