@@ -29,9 +29,9 @@ export const store = new Vuex.Store({
       authorEmail : 'radeanf@gmail.com',
       developer : 'radean',
       company : 'Vision Direct Marketing',
-      version : 'initial',
+      version : '0.4.1',
       theme: 'red accent-4',
-      connection: false,
+      connection: true,
       header:{
         name: 'BAMS™',
         location: 'KHI'
@@ -44,10 +44,19 @@ export const store = new Vuex.Store({
     },
     // Store List
     // storeList: {},
+    // Notification
+    notification:{
+      title: null,
+      body: null
+    },
     // App Loading Stats
     successFlag: false,
     successMsg: 'Operation Successful',
     userError: false,
+    snickError: {
+      state: false,
+      msg: 'Operation Failed',
+    },
     loadingState:{
       mainLoading: false,
       compressorLoadingStats: false,
@@ -69,7 +78,7 @@ export const store = new Vuex.Store({
 
   },
   mutations: {
-    setAppConnection (state, payload) {
+    setConnectionStat (state, payload) {
       state.app.connection = payload;
     },
     setTheme(state, payload){
@@ -78,6 +87,10 @@ export const store = new Vuex.Store({
     setAppHeader(state, payload){
       state.app.header.name = payload.name;
       state.app.header.location = payload.location;
+    },
+    setNotification(state, payload){
+      state.notification.title = payload.title;
+      state.notification.body = payload.body;
     },
     setMode(state, payload){
       state.app.mode = payload;
@@ -90,6 +103,10 @@ export const store = new Vuex.Store({
     },
     setUserInfo (state, payload){
       state.userinfo = payload;
+    },
+    setSnickError(state, payload){
+      state.snickError.active = payload.state;
+      state.snickError.msg = payload.msg;
     },
     'SET_STORES'(state, payload){
       state.shops = payload;
@@ -179,7 +196,6 @@ export const store = new Vuex.Store({
           // dispatch('appMode');
         }else{
           commit('setUser', null);
-          console.log("Not logged in")
         }
       });
     },
@@ -235,24 +251,34 @@ export const store = new Vuex.Store({
     // ==================================
     //Checking Connection
 
-    // connectionRef({dispatch, getters}, payload){
-    //   firebase.database().ref('.info/connected').on('value', snap => {
-    //     if (snap.val() && getters.offlineDB.length){
-    //       if(getters.user){
-    //         let offline = {}
-    //         while (getters.offlineDB.length) {
-    //           dispatch('pushToFirebase',getters.offlineDB.shift())
-    //         }
-    //       }
-    //     }
-    //   })
-    // },
-    //
+    connectionRef({commit}){
+      let connection = firebase.database().ref('/.info/connected');
+
+      connection.on('value', (snap) => {
+        if(snap.val() == true){
+          commit('setConnectionStat', true)
+        } else {
+          commit('setConnectionStat', false)
+        }
+      });
+    },
+
+    // Go Offline
+    onNotification({commit}, payload){
+      let Ntitle = payload.notification.title;
+      let Nbody = payload.notification.body;
+      let parse = {body: Nbody, title: Ntitle, status: true};
+      commit('setNotification', parse);
+    },
+    // Go Online
+    goOnline (){
+      firebase.database().goOnline();
+    },
     // Pushing DataBase
 
-    // pushToFirebase(payload){
-    //   firebase.database().ref('storedata/' + payload.date + '/').push({ payload })
-    // },
+    pushToFirebase(payload){
+      firebase.database().ref('storedata/' + payload.date + '/').push({ payload })
+    },
 
     // setting Store ID
     setStoreId({dispatch ,commit}, payload){
@@ -343,6 +369,13 @@ export const store = new Vuex.Store({
     // Uploading Data
     pushStoreReport({commit, getters}, payload){
       commit('SET_MAIN_LOADING', true);
+      // let purchase = payload.purchased;
+      // let sorted = [];
+      // for (let key in purchase){
+      //   if(purchase[key] === 'NaN'){
+      //   }
+      //   sorted.push(purchase[key])
+      // }
       const report = {
         purchased: payload.purchased,
         customerName: payload.customerName,
@@ -356,6 +389,7 @@ export const store = new Vuex.Store({
         }
       };
 
+
       firebase.database().ref('storedata/' + payload.date + '/').push(report)
         .then(() => {
         commit('SET_MAIN_LOADING', false);
@@ -366,11 +400,45 @@ export const store = new Vuex.Store({
           }, 4000);
       })
         .catch((error) => {
+          commit('SET_MAIN_LOADING', false);
+          let errorStatus = {
+            state: true,
+            msg: 'Connection Error!'
+          }
+          // Sending Error Message
+          commit('setSnickError', errorStatus);
+          setTimeout(() => {
+            errorStatus.state = false
+            commit('setSnickError', errorStatus);
+          }, 4000);
+          console.log(error)
+        })
+      commit('SET_MAIN_LOADING', false);
+    },
+
+    // Key Message from Employees
+    pushMessages({commit, getters}, payload){
+      commit('SET_MAIN_LOADING', true);
+      const msg = {
+        msg: payload,
+        creatorId: getters.userInfo.uid,
+        userName: getters.userInfo.name,
+      };
+      // commit('SET_MAIN_LOADING', false);
+
+      firebase.database().ref('msg/').push(msg)
+        .then(() => {
+          commit('SET_MAIN_LOADING', false);
+          // Sending Success Message
+          commit('SET_SUCCESS_MSG', 'Message Sent Successfuly');
+          setTimeout(() => {
+            commit('SET_SUCCESS_MSG', 'Operation Successful');
+          }, 4000);
+        })
+        .catch((error) => {
           console.log(error)
         })
     },
-
-
 
 
     // Fetching Data
@@ -437,8 +505,14 @@ export const store = new Vuex.Store({
     appinfo (state){
       return state.app
     },
+    notification (state){
+      return state.notification
+    },
     offlineDB (state){
       return state.app.isConnected
+    },
+    connectionStat (state){
+      return state.app.connection
     },
     user (state){
       return state.user
@@ -463,6 +537,9 @@ export const store = new Vuex.Store({
     },
     userError (state){
       return state.userError
+    },
+    snickError (state){
+      return state.snickError
     },
     successMsg (state){
       return state.successMsg

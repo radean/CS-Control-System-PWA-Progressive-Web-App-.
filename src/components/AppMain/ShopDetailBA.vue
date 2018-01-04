@@ -24,6 +24,13 @@ export default {
           return this.$store.getters.storeDetail
       }
   },
+  watch: {
+    userInfo (value){
+      if (value === null && value === undefined) {
+          this.$router.push('Home');
+        }
+      }
+    },
   components:{
       'app-header': Header,
       'app-shopDetail-Enum':shopDetailEnum

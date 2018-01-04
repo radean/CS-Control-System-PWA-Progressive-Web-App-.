@@ -1,11 +1,13 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12 sm6 offset-sm3>
-      <v-card class="mb-5" >
+      <v-card class="mb-5 align-center" >
         <app-header></app-header>
         <v-subheader>STORE LIST | {{ dateChanged }}</v-subheader>
         <v-divider></v-divider>
-        <app-shoListEnum v-for="shop in shops" :key="shop.id" :shopList="shop" ></app-shoListEnum>
+        <!--Vuetify Circle Loader-->
+        <v-progress-circular  v-if="pageLoading" indeterminate v-bind:size="70" v-bind:width="2" color="red"></v-progress-circular>
+        <app-shoListEnum v-else="pageLoading" v-for="shop in shops" :key="shop.id" :shopList="shop" ></app-shoListEnum>
       </v-card>
     </v-flex>
   </v-layout>
@@ -23,7 +25,8 @@ export default {
       currentDate: '',
       drawer: false,
       appTitle: '',
-      today: ''
+      today: '',
+      pageLoading: true,
     }
   },
   computed: {
@@ -48,12 +51,31 @@ export default {
       setTimeout(() => {
 //        fetching current Date to get unvisited stores
       let today;
-      this.$http.get('http://api.timezonedb.com/v2/list-time-zone?key=QNVJJL9QLWE4&format=json&country=PK').then(response => {
+      this.$http.get('https://api.timezonedb.com/v2/list-time-zone?key=QNVJJL9QLWE4&format=json&country=PK').then(response => {
         let date = new Date((response.body.zones[0].timestamp * 1000) - response.body.zones[0].gmtOffset * 1000);
         let day = ("0" + date.getDate()).slice(-2) ;
         let month = date.getMonth() + 1;
         today = month + '-' + day;
-        this.$store.dispatch('shopsListUPD', today);
+        this.$store.dispatch('shopsListUPD', today).then(() => {
+            setTimeout(() => {
+              this.pageLoading = false;
+            },2000)
+        });
+      }).catch(() => {
+        let date = new Date();
+        let hours = date.getHours();
+        let day = ("0" + date.getDate()).slice(-2);
+        let month = date.getMonth() + 1;
+        let minutes = "0" + date.getMinutes();
+        this.currentDate = month + '-' + day;
+        this.currentTime = hours + ':' + minutes.substr(-2)
+        //    generating Variable
+        this.visits[this.currentDate] = 'done';
+        this.$store.dispatch('shopsListUPD', today).then(() => {
+          setTimeout(() => {
+            this.pageLoading = false;
+          },2000)
+        });
       });
       },2000)
     }

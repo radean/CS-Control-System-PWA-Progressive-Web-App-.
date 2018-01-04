@@ -4,6 +4,7 @@
       <v-flex xs12 text-xs-center >
         <div class="title ma-0 pa-0">PICTURE UPDATE</div>
       </v-flex>
+
       <form @submit.prevent="onSubmitDetails">
         <v-layout row wrap>
           <v-flex xs4 text-xs-center >
@@ -72,16 +73,6 @@
                 ></v-text-field>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile class="alphaTrans">
-              <v-list-tile-content>
-                <v-text-field
-                  name="interception"
-                  label="INTERCEPTION"
-                  v-model="interceptions"
-                  type="number"
-                ></v-text-field>
-              </v-list-tile-content>
-            </v-list-tile>
           </v-list>
         </v-flex>
 
@@ -98,46 +89,43 @@
       <!--Stock Update-->
         <!--Soya supreme Cooking Oil-->
         <div class="title alphaPanel" >BOTTLE</div>
-        <v-layout row wrap class="alphaPanel">
+        <v-layout row wrap class="alphaPanel pa-0 ma-0">
             <!--1 Ltr-->
-            <v-flex xs5>
+            <v-flex xs3>
               <v-text-field
                 suffix="piece"
                 name="bottle_1ltr"
                 label="1Ltr"
                 v-model="soyaSupremeStock.sscbottle1ltr"
                 tabindex="1"
-                placeholder="0"
                 type="number"
               ></v-text-field>
             </v-flex>
             <!--3 Ltr-->
-            <v-flex xs5>
+            <v-flex xs4>
               <v-text-field
                 suffix="piece"
                 name="bottle_3ltr"
                 label="3 Ltr"
                 v-model="soyaSupremeStock.sscbottle3ltr"
                 tabindex="2"
-                placeholder="0"
                 type="number"
               ></v-text-field>
             </v-flex>
-            <v-flex xs5>
+            <v-flex xs3>
               <v-text-field
                 suffix="piece"
                 name="bottle5ltr"
                 label="5 Ltr"
                 v-model="soyaSupremeStock.sscbottle5ltr"
                 tabindex="3"
-                placeholder="0"
                 type="number"
               ></v-text-field>
             </v-flex>
         </v-layout>
 
         <div class="title alphaPanel" >POLY</div>
-        <v-layout row wrap class="alphaPanel">
+        <v-layout row wrap class="alphaPanel pa-0 ma-0">
           <v-flex xs6 text-xs-center >
             <v-text-field
               suffix="piece"
@@ -145,14 +133,13 @@
               label="1x5 Ltr"
               v-model="soyaSupremeStock.sscpoly1_5ltr"
               tabindex="4"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
         </v-layout>
 
         <div class="title alphaPanel" >Press & Pour</div>
-        <v-layout row wrap class="alphaPanel">
+        <v-layout row wrap class="alphaPanel pa-0 ma-0">
           <!--5 Ltr-->
           <v-flex xs5>
             <v-text-field
@@ -161,7 +148,6 @@
               label="3 Ltr"
               v-model="soyaSupremeStock.sscpresspour3ltr"
               tabindex="5"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
@@ -173,54 +159,50 @@
               label="5 Ltr"
               v-model="soyaSupremeStock.sscpresspour5ltr"
               tabindex="6"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
         </v-layout>
 
         <div class="title alphaPanel" >TIN</div>
-        <v-layout row wrap class="alphaPanel">
+        <v-layout row wrap class="alphaPanel pa-0 ma-0">
           <!--2.5 Ltr-->
-          <v-flex xs5>
+          <v-flex xs3>
             <v-text-field
               suffix="piece"
               name="bottle_1ltr"
               label="2.5 Ltr"
               v-model="soyaSupremeStock.ssctin2_5ltr"
               tabindex="7"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
           <!--5 Ltr-->
-          <v-flex xs5>
+          <v-flex xs4>
             <v-text-field
               suffix="piece"
               name="bottle_3ltr"
               label="5 Ltr"
               v-model="soyaSupremeStock.ssctin5ltr"
               tabindex="8"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
           <!--10 Ltr-->
-          <v-flex xs5>
+          <v-flex xs3>
             <v-text-field
               suffix="piece"
               name="bottle5ltr"
               label="10 Ltr"
               v-model="soyaSupremeStock.ssctin10ltr"
               tabindex="9"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
         </v-layout>
 
         <div class="title alphaPanel" >J.CAN</div>
-        <v-layout row wrap class="alphaPanel">
+        <v-layout row wrap class="alphaPanel pa-0 ma-0">
           <!--10 Ltr-->
           <v-flex xs5>
             <v-text-field
@@ -229,7 +211,6 @@
               label="10 Ltr"
               v-model="soyaSupremeStock.sscjcan10ltr"
               tabindex="10"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
@@ -241,7 +222,6 @@
               label="16 Ltr"
               v-model="soyaSupremeStock.sscjcan16ltr"
               tabindex="11"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
@@ -258,46 +238,43 @@
         </v-flex>
 
         <div class="title marginFields" >BOTTLE</div>
-        <v-layout row wrap class="marginFields">
+        <v-layout row wrap class="marginFields pa-0 ma-0">
           <!--1 Ltr-->
-          <v-flex xs5>
+          <v-flex xs3>
             <v-text-field
               suffix="piece"
               name="bottle_1ltr"
               label="1Ltr"
               v-model="soyaSupremeStock.scbottle1ltr"
               tabindex="12"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
           <!--3 Ltr-->
-          <v-flex xs5>
+          <v-flex xs4>
             <v-text-field
               suffix="piece"
               name="bottle_3ltr"
               label="3 Ltr"
               v-model="soyaSupremeStock.scbottle3ltr"
               tabindex="13"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
-          <v-flex xs5>
+          <v-flex xs3>
             <v-text-field
               suffix="piece"
               name="bottle5ltr"
               label="4.5 Ltr"
               v-model="soyaSupremeStock.scbottle4_5ltr"
               tabindex="14"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
         </v-layout>
 
         <div class="title marginFields" >POLY</div>
-        <v-layout row wrap class="marginFields">
+        <v-layout row wrap class="marginFields pa-0 ma-0">
           <v-flex xs6 text-xs-center >
             <v-text-field
               suffix="piece"
@@ -305,14 +282,13 @@
               label="1x5 Ltr"
               v-model="soyaSupremeStock.scpoly1_5ltr"
               tabindex="15"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
         </v-layout>
 
         <div class="title marginFields" >J.CAN</div>
-        <v-layout row wrap class="marginFields">
+        <v-layout row wrap class="marginFields pa-0 ma-0">
           <!--10 Ltr-->
           <v-flex xs5>
             <v-text-field
@@ -321,7 +297,6 @@
               label="10 Ltr"
               v-model="soyaSupremeStock.scjcan10ltr"
               tabindex="16"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
@@ -333,7 +308,6 @@
               label="16 Ltr"
               v-model="soyaSupremeStock.scjcan16ltr"
               tabindex="17"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
@@ -347,7 +321,7 @@
         </v-flex>
 
         <div class="title alphaPanel" >POLY</div>
-        <v-layout row wrap class="alphaPanel">
+        <v-layout row wrap class="alphaPanel pa-0 ma-0">
           <v-flex xs6 text-xs-center >
             <v-text-field
               suffix="piece"
@@ -355,14 +329,13 @@
               label="1x5 Ltr"
               v-model="soyaSupremeStock.ssbpoly1_5ltr"
               tabindex="18"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
         </v-layout>
 
         <div class="title alphaPanel" >TIN</div>
-        <v-layout row wrap class="alphaPanel">
+        <v-layout row wrap class="alphaPanel pa-0 ma-0">
           <!--10 Ltr-->
           <v-flex xs5>
             <v-text-field
@@ -371,7 +344,6 @@
               label="2.5 Ltr"
               v-model="soyaSupremeStock.ssbtin5ltr"
               tabindex="19"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
@@ -383,7 +355,6 @@
               label="5 Ltr"
               v-model="soyaSupremeStock.ssbtin25ltr"
               tabindex="20"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
@@ -397,7 +368,7 @@
         </v-flex>
 
         <div class="title marginFields" >POLY</div>
-        <v-layout row wrap class="marginFields">
+        <v-layout row wrap class="marginFields pa-0 ma-0">
           <v-flex xs6 text-xs-center >
             <v-text-field
               suffix="piece"
@@ -405,14 +376,13 @@
               label="1x5 Ltr"
               v-model="soyaSupremeStock.ssbopoly1_5ltr"
               tabindex="21"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
         </v-layout>
 
         <div class="title marginFields" >TIN</div>
-        <v-layout row wrap class="marginFields">
+        <v-layout row wrap class="marginFields pa-0 ma-0">
           <!--5 Ltr-->
           <v-flex xs5>
             <v-text-field
@@ -421,7 +391,6 @@
               label="5 Ltr"
               v-model="soyaSupremeStock.ssbotin5ltr"
               tabindex="22"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
@@ -433,17 +402,20 @@
               label="2.5 Ltr"
               v-model="soyaSupremeStock.ssbotin25ltr"
               tabindex="23"
-              placeholder="0"
               type="number"
             ></v-text-field>
           </v-flex>
         </v-layout>
         <!--=====================================-->
 
-
+        <!--Unlocker-->
+        <v-flex xs12 text-xs-center>
+          <v-btn raised color="purple" :disabled="!validAbsent" outline dark v-on:click="submitAbsent"> B.A Absent <v-icon right>send</v-icon></v-btn>
+        </v-flex>
         <v-flex xs12 text-xs-center class="mb-4">
           <!--<v-btn raised large color="black" dark to="/shoplist"><v-icon>chevron_left</v-icon> BACK </v-btn>-->
           <v-btn raised large color="green" :disabled="!formIsValid" dark type="submit"> SUBMIT REPORT <v-icon right>send</v-icon></v-btn>
+
         </v-flex><br>
       </form>
       <!--Compressor Loading-->
@@ -497,33 +469,33 @@ export default {
       interceptions: '',
 //      soya supreme cooking oil
       soyaSupremeStock: {
-        sscbottle1ltr: 0,
-        sscbottle3ltr: 0,
-        sscbottle5ltr: 0,
-        sscpoly1_5ltr: 0,
-        ssctin2_5ltr: 0,
-        ssctin5ltr: 0,
-        ssctin10ltr: 0,
-        sscpresspour3ltr: 0,
-        sscpresspour5ltr: 0,
-        sscjcan10ltr: 0,
-        sscjcan16ltr: 0,
+        sscbottle1ltr: null,
+        sscbottle3ltr: null,
+        sscbottle5ltr: null,
+        sscpoly1_5ltr: null,
+        ssctin2_5ltr: null,
+        ssctin5ltr: null,
+        ssctin10ltr: null,
+        sscpresspour3ltr: null,
+        sscpresspour5ltr: null,
+        sscjcan10ltr: null,
+        sscjcan16ltr: null,
 //      smart canola oil
-        scbottle1ltr: 0,
-        scbottle3ltr: 0,
-        scbottle4_5ltr: 0,
-        scpoly1_5ltr: 0,
-//        sctin2_5ltr: 0,
-        scjcan10ltr: 0,
-        scjcan16ltr: 0,
+        scbottle1ltr: null,
+        scbottle3ltr: null,
+        scbottle4_5ltr: null,
+        scpoly1_5ltr: null,
+//        sctin2_5ltr: null,
+        scjcan10ltr: null,
+        scjcan16ltr: null,
 //      soya supreme banaspati
-        ssbpoly1_5ltr: 0,
-        ssbtin5ltr: 0,
-        ssbtin25ltr: 0,
+        ssbpoly1_5ltr: null,
+        ssbtin5ltr: null,
+        ssbtin25ltr: null,
 //      soya supreme banaspati with Olive Oil
-        ssbopoly1_5ltr: 0,
-        ssbotin5ltr: 0,
-        ssbotin25ltr: 0,
+        ssbopoly1_5ltr: null,
+        ssbotin5ltr: null,
+        ssbotin25ltr: null,
       },
     }
   },
@@ -533,6 +505,13 @@ export default {
     },
     userInfo(){
       return this.$store.getters.userInfo;
+    },
+    validAbsent(){
+        if (this.baName === 'Absent' || this.baName === 'absent'){
+          return true;
+        } else{
+          return false;
+        }
     }
   },
   methods:{
@@ -607,13 +586,43 @@ export default {
 
 
 //    submitting Form Data
-    onSubmitDetails(){
 
-//    making an object for payload
+//    On Absent
+    submitAbsent () {
+      //    making an object for payload
       const storeData = {
         storename: this.store.name,
         storeid: this.store.id,
         soyaSupremeStock: this.soyaSupremeStock,
+        interceptions: this.interceptions,
+        baName: this.baName,
+        date: this.currentDate,
+        visits: this.visits,
+//        images
+        storePicImg: this.storePicImg,
+        baPictureImg: this.baPictureImg,
+        shelfPictureImg: this.shelfPictureImg,
+      };
+      this.$store.dispatch('pushStoreData', storeData).then(response => {
+        this.$router.push('/shoplist')
+      })
+    },
+//    On Present
+    onSubmitDetails(){
+        let stock = this.soyaSupremeStock;
+        let filtered = {};
+      for (let key in stock){
+        if (stock[key] == '' || stock[key] == null){
+          filtered[key] = 0
+        } else {
+          filtered[key] = stock[key]
+        }
+      }
+//    making an object for payload
+      const storeData = {
+        storename: this.store.name,
+        storeid: this.store.id,
+        soyaSupremeStock: filtered,
         interceptions: this.interceptions,
         baName: this.baName,
         date: this.currentDate,
@@ -646,7 +655,7 @@ export default {
         return obj[key].name
       })
       this.baNames = convert;
-      this.$http.get('http://api.timezonedb.com/v2/list-time-zone?key=QNVJJL9QLWE4&format=json&country=PK').then(response => {
+      this.$http.get('https://api.timezonedb.com/v2/list-time-zone?key=QNVJJL9QLWE4&format=json&country=PK').then(response => {
         let date = new Date((response.body.zones[0].timestamp * 1000) - response.body.zones[0].gmtOffset * 1000);
         let hours = date.getHours();
         let day = ("0" + date.getDate()).slice(-2);
@@ -656,7 +665,18 @@ export default {
         this.currentTime = hours + ':' + minutes.substr(-2)
         //    generating Variable
         this.visits[this.currentDate] = 'done';
+      }).catch(() => {
+        let date = new Date();
+        let hours = date.getHours();
+        let day = ("0" + date.getDate()).slice(-2);
+        let month = date.getMonth() + 1;
+        let minutes = "0" + date.getMinutes();
+        this.currentDate = month + '-' + day;
+        this.currentTime = hours + ':' + minutes.substr(-2)
+        //    generating Variable
+        this.visits[this.currentDate] = 'done';
       });
+      this.pageLoading = false;
     }, 1000)
   },
   props: ['store']

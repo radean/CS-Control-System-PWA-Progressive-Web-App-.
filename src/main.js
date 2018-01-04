@@ -2,6 +2,8 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+// importing Vuelidate
+import VeeValidate from 'vee-validate'
 // inporting vuetify
 import Vuetify from 'Vuetify'
 // importing Vue Resource
@@ -14,11 +16,18 @@ import { routes } from './routes';
 
 
 // using Vuetify
-Vue.use(Vuetify);
-
+Vue.use(Vuetify,{
+  theme: {
+    primary: '#ff0000',
+      secondary: '#b0bec5',
+  }
+});
+Vue.use(VeeValidate);
 // using Vue Resource
 Vue.use(VueResource);
-
+// Setting HTTP
+// Vue.http.headers.common['Content-Type'] = 'application/json';
+// Vue.http.headers.common['Authorization'] = 'key=AIzaSyDOUy35eMYN7woRgGdiRw0ypeShbHMDxgM';
 // using vue-router
 Vue.use(VueRouter);
 
@@ -28,16 +37,12 @@ Vue.use(VueRouter);
 const router = new VueRouter({
   routes,
   mode: 'history'
-})
-
-Vue.http.options.root = 'https://vdmdb-3d8b4.firebaseio.com';
-
+});
 
 // Adding Vuetify Css
 import('../node_modules/vuetify/dist/vuetify.min.css');
 
 Vue.config.productionTip = false;
-
 
 // ENABLEING OFFLINE DATA
 
@@ -61,3 +66,35 @@ new Vue({
     });
   }
 })
+
+// ====================
+//  PUSH NOTIFICATION
+// ====================
+const messaging = firebase.messaging();
+let topicName = 'alert';
+messaging.requestPermission().then(() => {
+  console.log('Have Permission');
+  return messaging.getToken()
+})
+  .then((token) => {
+  if (token){
+
+    let url = 'https://iid.googleapis.com/iid/v1/' + token + '/rel/topics/' + topicName;
+    console.log(url)
+    Vue.http.post(url,{},{
+      headers: {'Authorization': 'key=AIzaSyDOUy35eMYN7woRgGdiRw0ypeShbHMDxgM'}
+    })
+  } else {
+  }
+})
+  .catch((err) => {
+  console.log(err)
+})
+
+messaging.onMessage((payload) => {
+  let data = payload
+  store.dispatch('onNotification', data);
+})
+
+
+// ===================

@@ -1,4 +1,6 @@
 <template>
+  <div>
+    <!--Content After Loading-->
     <v-list two-line>
         <v-list-tile ripple to="/shopdetail" v-on:click="setStoreId()" class="alphaTrans">
           <v-list-tile-avatar>
@@ -18,6 +20,7 @@
         </v-list-tile>
       <v-divider></v-divider>
     </v-list>
+  </div>
 </template>
 
 <script>
@@ -28,7 +31,6 @@
     data () {
       return {
 //          dateChanged: ''
-
       }
     },
     methods:{
@@ -38,7 +40,7 @@
                 storeName: this.shopList.name,
                 storeLocation: this.shopList.location
               };
-          this.$store.dispatch('setStoreId', storeData);
+          this.$store.dispatch('setStoreId', storeData)
         }
     },
     computed:{

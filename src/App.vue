@@ -8,7 +8,7 @@
       </v-content>
     </v-layout>
     <v-footer class="pa-3" fixed light>
-      <div>{{ appdata.name }}</div>
+      <div>{{ appdata.name }} {{appdata.version}}</div>
       <v-spacer></v-spacer>
       <div> VDM™ {{ new Date().getFullYear() }}</div>
       <v-snackbar
@@ -20,6 +20,17 @@
         {{ successMsg }}
         <v-btn flat color="white" @click.native="successFlag = false">Close</v-btn>
       </v-snackbar>
+      <v-dialog v-model="notificationUI" persistent >
+        <v-card class="gradientDialog" dark>
+          <v-card-title class="headline">{{ notiTitle }}</v-card-title>
+          <v-card-text>{{ onNotification }}<br> From Admin
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="green darken-1" flat @click.native="notificationUI = false">Acknowledged</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-footer>
   </v-app>
 </template>
@@ -38,6 +49,10 @@ export default {
   data() {
       return {
         selectedComponent: 'app-shoplist',
+//        Notification
+        notificationUI: false,
+        notiTitle: '',
+//        Application Data
         appTitle: 'LOGIN',
         helpDialog: false,
         users: [],
@@ -54,12 +69,28 @@ export default {
     user(){
       return this.$store.getters.user
     },
+    onNotification(){
+      let noti = this.$store.getters.notification;
+      let notiBody = noti.body
+      this.notiTitle = noti.title;
+      console.log('Result', this.notiTitle);
+      if (noti.title !== null){
+        this.notificationUI = true;
+      }
+      setTimeout(() => {
+        this.notificationUI = false;
+      },10000)
+      return notiBody;
+    },
     successMsg(){
       return this.$store.getters.successMsg
     },
     successFlag(){
       return this.$store.getters.successFlag
-    }
+    },
+    checkConnection(){
+      return this.$store.getters.connectionStat;
+    },
   },
   watch: {
     userInfo (value){
@@ -80,23 +111,23 @@ export default {
             break;
         }
       }
-//      if (value !== null && value !== undefined && this.userInfo.role === "Supervisor"){
-//        console.log("User is Supervisor");
-//        this.$router.push('/shoplist')
-//      }else if(value !== null && value !== undefined && this.userInfo.role === "BrandAmbassador");
-//      console.log("User is Brand Ambassador");
-//      this.$router.push('/shopdetail')
-    }
+    },
+//    checkConnection (value){
+//      if (value == true ) {
+////          Online Connection
+////        this.$store.dispatch('goOnline');
+//        console.log("Online")
+//    } else {
+////          offline Connection
+////        this.$store.dispatch('goOffline');
+//        console.log("Offline")
+//      }
+//    }
   },
   created(){
+    this.$store.dispatch('connectionRef');
     this.$store.dispatch('userSession');
-//    if(this.userInfo.role === "Supervisor"){
-//      console.log('SP');
-//    }else if(this.userInfo.role === "BrandAmbassador"){
-////        if user is B.A then redirect him to store detail page
-//      console.log('BA');
-//      this.$router.push('/shopdetail')
-//    }
+
   },
   components: {
     //Temporary Components
@@ -109,8 +140,17 @@ export default {
 </script>
 
 <style>
+  /*importing Font*/
+  @import url('https://fonts.googleapis.com/css?family=Marvel');
+  /*Applying Font*/
   body {
-    background: url("../static/img/bg/bg.jpg") left repeat-y fixed;
+    font-family: 'Marvel', sans-serif;
+    background: url("../static/img/bg/bg.jpg") left  fixed;
+  }
+  .gradientDialog{
+    background: #000428;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #004e92, #000428);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #004e92, #000428); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   }
   #app {
     background: transparent;
