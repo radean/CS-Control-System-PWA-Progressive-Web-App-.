@@ -1,9 +1,8 @@
 <template>
   <v-layout row wrap>
-    <v-flex xs12 sm6 offset-sm3>
+    <v-flex xs12 sm6 offset-sm3 pb-5>
       <app-header></app-header>
       <app-shopDetail-Enum v-for="store in storeDetail" :key="store.id" :store="store"></app-shopDetail-Enum>
-
     </v-flex>
   </v-layout>
 </template>

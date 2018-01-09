@@ -18,6 +18,7 @@
                   name="customer'sName"
                   label="CUSTOMER'S NAME"
                   v-model="customerName"
+                  tabindex="1"
                   type="text"
                 ></v-text-field>
               </v-list-tile-content>
@@ -28,6 +29,7 @@
                 <v-text-field
                   name="ContactNumber"
                   label="CONTACT NUMBER"
+                  tabindex="2"
                   v-model="customerContactNumber"
                   type="number"
                 ></v-text-field>
@@ -61,7 +63,7 @@
                 name="bottle_1ltr"
                 label="1Ltr"
                 v-model="soyaSupremeStock.sscbottle1ltr"
-                tabindex="1"
+                tabindex="3"
                 placeholder="0"
                 type="number"
               ></v-text-field>
@@ -77,7 +79,7 @@
                 name="bottle_3ltr"
                 label="3 Ltr"
                 v-model="soyaSupremeStock.sscbottle3ltr"
-                tabindex="2"
+                tabindex="4"
                 placeholder="0"
                 type="number"
               ></v-text-field>
@@ -94,7 +96,7 @@
                 name="bottle5ltr"
                 label="5 Ltr"
                 v-model="soyaSupremeStock.sscbottle5ltr"
-                tabindex="3"
+                tabindex="5"
                 placeholder="0"
                 type="number"
               ></v-text-field>
@@ -114,7 +116,7 @@
               name="sscpoly1_5ltr"
               label="1x5 Ltr"
               v-model="soyaSupremeStock.sscpoly1_5ltr"
-              tabindex="4"
+              tabindex="6"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -135,7 +137,7 @@
               name="sscpresspour3ltr"
               label="3 Ltr"
               v-model="soyaSupremeStock.sscpresspour3ltr"
-              tabindex="5"
+              tabindex="7"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -152,7 +154,7 @@
               name="sscpresspour5ltr"
               label="5 Ltr"
               v-model="soyaSupremeStock.sscpresspour5ltr"
-              tabindex="6"
+              tabindex="8"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -173,7 +175,7 @@
               name="ssctin2_5ltr"
               label="2.5 Ltr"
               v-model="soyaSupremeStock.ssctin2_5ltr"
-              tabindex="7"
+              tabindex="9"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -190,7 +192,7 @@
               name="ssctin5ltr"
               label="5 Ltr"
               v-model="soyaSupremeStock.ssctin5ltr"
-              tabindex="8"
+              tabindex="10"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -207,7 +209,7 @@
               name="ssctin10ltr"
               label="10 Ltr"
               v-model="soyaSupremeStock.ssctin10ltr"
-              tabindex="9"
+              tabindex="11"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -228,7 +230,7 @@
               name="sscjcan10ltr"
               label="10 Ltr"
               v-model="soyaSupremeStock.sscjcan10ltr"
-              tabindex="10"
+              tabindex="12"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -245,7 +247,7 @@
               name="sscjcan16ltr"
               label="16 Ltr"
               v-model="soyaSupremeStock.sscjcan16ltr"
-              tabindex="11"
+              tabindex="13"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -276,7 +278,7 @@
               name="scbottle1ltr"
               label="1Ltr"
               v-model="soyaSupremeStock.scbottle1ltr"
-              tabindex="12"
+              tabindex="14"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -293,7 +295,7 @@
               name="scbottle3ltr"
               label="3 Ltr"
               v-model="soyaSupremeStock.scbottle3ltr"
-              tabindex="13"
+              tabindex="15"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -309,7 +311,7 @@
               name="scbottle4_5ltr"
               label="4.5 Ltr"
               v-model="soyaSupremeStock.scbottle4_5ltr"
-              tabindex="14"
+              tabindex="16"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -329,7 +331,7 @@
               name="scpoly1_5ltr"
               label="1x5 Ltr"
               v-model="soyaSupremeStock.scpoly1_5ltr"
-              tabindex="15"
+              tabindex="17"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -345,12 +347,11 @@
               :error="errors.has('scjcan10ltr')"
               :class="soyaSupremeStock.scjcan10ltr > 0 ? 'input-group--focused' : 'transparent'"
               :hide-details="true"
-
               suffix="pc"
               name="scjcan10ltr"
               label="10 Ltr"
               v-model="soyaSupremeStock.scjcan10ltr"
-              tabindex="16"
+              tabindex="18"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -362,12 +363,11 @@
               :error="errors.has('scjcan16ltr')"
               :class="soyaSupremeStock.scjcan16ltr > 0 ? 'input-group--focused' : 'transparent'"
               :hide-details="true"
-
               suffix="pc"
               name="scjcan16ltr"
               label="16 Ltr"
               v-model="soyaSupremeStock.scjcan16ltr"
-              tabindex="17"
+              tabindex="19"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -394,7 +394,7 @@
               name="ssbpoly1_5ltr"
               label="1x5 Ltr"
               v-model="soyaSupremeStock.ssbpoly1_5ltr"
-              tabindex="18"
+              tabindex="20"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -415,7 +415,7 @@
               name="ssbtin25ltr"
               label="2.5 Ltr"
               v-model="soyaSupremeStock.ssbtin25ltr"
-              tabindex="19"
+              tabindex="21"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -432,7 +432,7 @@
               name="ssbtin5ltr"
               label="5 Ltr"
               v-model="soyaSupremeStock.ssbtin5ltr"
-              tabindex="20"
+              tabindex="22"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -457,7 +457,7 @@
               name="ssbopoly1_5ltr"
               label="1x5 Ltr"
               v-model="soyaSupremeStock.ssbopoly1_5ltr"
-              tabindex="21"
+              tabindex="23"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -478,7 +478,7 @@
               name="ssbotin25ltr"
               label="2.5 Ltr"
               v-model="soyaSupremeStock.ssbotin25ltr"
-              tabindex="23"
+              tabindex="24"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -490,12 +490,11 @@
               :error="errors.has('ssbotin5ltr')"
               :class="soyaSupremeStock.ssbotin5ltr > 0 ? 'input-group--focused' : 'transparent'"
               :hide-details="true"
-
               suffix="pc"
               name="ssbotin5ltr"
               label="5 Ltr"
               v-model="soyaSupremeStock.ssbotin5ltr"
-              tabindex="22"
+              tabindex="25"
               placeholder="0"
               type="number"
             ></v-text-field>
@@ -547,6 +546,7 @@ export default {
 //      Loading
       compressing: false,
       pageLoading: true,
+//      GUI
 //      App
       baMode: false,
       currentTime: 0,
@@ -603,7 +603,7 @@ export default {
   },
   computed: {
     formIsValid(){
-      return this.customerContactNumber !== '' && this.customerName !== ''
+      return this.customerName !== '' && this.customerName !== null
     },
     checkConnection(){
       return this.$store.getters.connectionStat;
@@ -711,33 +711,33 @@ export default {
       this.$store.dispatch('pushStoreReport', report).then(response => {
           setTimeout(() => {
             this.soyaSupremeStock = {
-                sscbottle1ltr: 0,
-                sscbottle3ltr: 0,
-                sscbottle5ltr: 0,
-                sscpoly1_5ltr: 0,
-                ssctin2_5ltr: 0,
-                ssctin5ltr: 0,
-                ssctin10ltr: 0,
-                sscpresspour3ltr: 0,
-                sscpresspour5ltr: 0,
-                sscjcan10ltr: 0,
-                sscjcan16ltr: 0,
+                sscbottle1ltr: null,
+                sscbottle3ltr: null,
+                sscbottle5ltr: null,
+                sscpoly1_5ltr: null,
+                ssctin2_5ltr: null,
+                ssctin5ltr: null,
+                ssctin10ltr: null,
+                sscpresspour3ltr: null,
+                sscpresspour5ltr: null,
+                sscjcan10ltr: null,
+                sscjcan16ltr: null,
 //      smart canola oil
-                scbottle1ltr: 0,
-                scbottle3ltr: 0,
-                scbottle4_5ltr: 0,
-                scpoly1_5ltr: 0,
-                sctin2_5ltr: 0,
-                scjcan10ltr: 0,
-                scjcan16ltr: 0,
+                scbottle1ltr: null,
+                scbottle3ltr: null,
+                scbottle4_5ltr: null,
+                scpoly1_5ltr: null,
+                sctin2_5ltr: null,
+                scjcan10ltr: null,
+                scjcan16ltr: null,
 //      soya supreme banaspati
-                ssbpoly1_5ltr: 0,
-                ssbtin25ltr: 0,
-                ssbtin5ltr: 0,
+                ssbpoly1_5ltr: null,
+                ssbtin25ltr: null,
+                ssbtin5ltr: null,
 //      soya supreme banaspati with Olive Oil
-                ssbopoly1_5ltr: 0,
-                ssbotin5ltr: 0,
-                ssbotin25ltr: 0,
+                ssbopoly1_5ltr: null,
+                ssbotin5ltr: null,
+                ssbotin25ltr: null,
             };
             this.customerName = null;
             this.customerContactNumber =  null;

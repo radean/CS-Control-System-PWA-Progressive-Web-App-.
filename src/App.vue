@@ -7,7 +7,7 @@
         <!--</v-fade-transition>-->
       </v-content>
     </v-layout>
-    <v-footer class="pa-3" fixed light>
+    <v-footer class="pa-3" light>
       <div>{{ appdata.name }} {{appdata.version}}</div>
       <v-spacer></v-spacer>
       <div> VDM™ {{ new Date().getFullYear() }}</div>

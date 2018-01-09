@@ -29,7 +29,7 @@ export const store = new Vuex.Store({
       authorEmail : 'radeanf@gmail.com',
       developer : 'radean',
       company : 'Vision Direct Marketing',
-      version : '0.4.1',
+      version : '0.4.5',
       theme: 'red accent-4',
       connection: true,
       header:{
@@ -129,15 +129,6 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
-
-    // Setting Global Parameters
-    // appStatus({commit}){
-    //   if(firebase.database().ref("users").onDisconnect()){
-    //     commit('setAppConnection', false);
-    //   }else{
-    //     commit('setAppConnection', true);
-    //   }
-    // },
 
     // USER AUTHENTICATION
     userSignUp({commit}, payload){
@@ -326,13 +317,13 @@ export const store = new Vuex.Store({
       }).then(() => {
         // putting Date
         return firebase.database().ref('stores/' + payload.storeid + '/visits/').update(payload.visits);
-      }).then(key => {
+      }).then(() => {
 
 
         // Image 1
         const filenameA = payload.storePicImg.name;
         const ext = filenameA.slice(filenameA.lastIndexOf('.'));
-        return firebase.storage().ref('storeimages/' + date + '/' + key + 'storePic' + '.' + ext).put(payload.storePicImg)
+        return firebase.storage().ref('storeimages/' + date + '/' + key + 'storePic' + ext).put(payload.storePicImg)
       }).then(fileData => {
         storePicImgUrl = fileData.metadata.downloadURLs[0];
         return firebase.database().ref('stockdata').child(key).update({storePicImgUrl: storePicImgUrl})
@@ -342,7 +333,7 @@ export const store = new Vuex.Store({
         // Image 2
         const filenameB = payload.baPictureImg.name;
         const ext = filenameB.slice(filenameB.lastIndexOf('.'));
-        return firebase.storage().ref('storeimages/' + date + '/' + key + 'baPicture' + '.' + ext).put(payload.baPictureImg)
+        return firebase.storage().ref('storeimages/' + date + '/' + key + 'baPicture'  + ext).put(payload.baPictureImg)
       }).then(fileData => {
         baPictureImgUrl = fileData.metadata.downloadURLs[0];
         return firebase.database().ref('stockdata').child(key).update({baPictureImgUrl: baPictureImgUrl})
@@ -352,7 +343,7 @@ export const store = new Vuex.Store({
         // Image 3
         const filenameC = payload.shelfPictureImg.name;
         const ext = filenameC.slice(filenameC.lastIndexOf('.'));
-        return firebase.storage().ref('storeimages/' + date + '/' + key + 'shelfPicture' + '.' + ext).put(payload.shelfPictureImg)
+        return firebase.storage().ref('storeimages/' + date + '/' + key + 'shelfPicture'  + ext).put(payload.shelfPictureImg)
       }).then(fileData => {
         shelfPictureImgUrl = fileData.metadata.downloadURLs[0];
         return firebase.database().ref('stockdata').child(key).update({shelfPictureImgUrl: shelfPictureImgUrl})
