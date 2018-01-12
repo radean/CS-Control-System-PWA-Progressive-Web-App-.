@@ -29,7 +29,7 @@ export const store = new Vuex.Store({
       authorEmail : 'radeanf@gmail.com',
       developer : 'radean',
       company : 'Vision Direct Marketing',
-      version : '0.4.5',
+      version : '0.4.6',
       theme: 'red accent-4',
       connection: true,
       header:{

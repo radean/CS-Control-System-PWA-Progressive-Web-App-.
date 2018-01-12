@@ -71,7 +71,7 @@ new Vue({
 //  PUSH NOTIFICATION
 // ====================
 const messaging = firebase.messaging();
-let topicName = 'alert';
+let topicName = 'Notify';
 messaging.requestPermission().then(() => {
   console.log('Have Permission');
   return messaging.getToken()
