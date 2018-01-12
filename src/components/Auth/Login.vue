@@ -9,34 +9,47 @@
       </v-flex><form @submit.prevent="onSignIn">
       <!--username-->
       <v-flex xs10 offset-xs1>
-      <v-text-field
-        name="useremail"
-        label="E-MAIL"
-        id="testing"
-        v-model="useremail"
-      ></v-text-field>
-    </v-flex>
+        <v-text-field
+          v-validate="'required|email'"
+          :error="errors.has('email')"
+          name="email"
+          autocomplete="username"
+          label="E-MAIL"
+          class="form-control letter-small"
+          type="text"
+          v-model="useremail"
+        >
+        </v-text-field>
+      </v-flex>
       <!--password-->
       <v-flex xs10 offset-xs1>
         <v-text-field
-          name="userPassword"
+          v-validate="'required|min:6|max:12'"
+          :error="errors.has('password')"
+          name="password"
           label="PASSCODE"
-          id="testing"
+          autocomplete="current-password"
           min="6"
           v-model="userpass"
           type="password"
-        ></v-text-field>
+        >
+        </v-text-field>
       </v-flex>
       <!--submission-->
       <v-flex xs12>
         <v-btn color="green" :disabled="!formIsValid" type="submit"> SUBMIT <v-icon right>send</v-icon></v-btn>
       </v-flex>
+      <!--Registration -->
       <v-flex xs12>
-        <v-btn small color="white" to="Registration">Registration</v-btn>
+        <h6>Tap info button at top left of the screen for help.</h6>
+        <!--<img align-center src="../../assets/BAMSlogob.png"  />-->
       </v-flex>
-      <v-flex xs12>
-        <v-btn small color="red" :disabled="user" >Forgotten Pass</v-btn>
-      </v-flex>
+      <!--<v-flex xs12>-->
+        <!--<v-btn small color="white" to="Registration">Registration</v-btn>-->
+      <!--</v-flex>-->
+      <!--<v-flex xs12>-->
+        <!--<v-btn small color="red" >Forgotten Pass</v-btn>-->
+      <!--</v-flex>-->
       </form>
     </v-layout>
   </v-container>
@@ -45,6 +58,7 @@
 <script>
 //  importing Temps
 import Header from '../Temp/Header.vue'
+
 export default {
   data () {
     return {
@@ -58,32 +72,14 @@ export default {
     formIsValid(){
       return this.username !== '' && this.userpass !== ''
     },
-    userAuthenticated () {
-        return this.$store.getters.user !== null && this.$store.getters.user !== undefined
-    },
-    user(){
-        return this.$store.getters.user
-    }
   },
-  watch: {
-    user (value){
-      if (value !== null && value !== undefined){
-        this.$router.push('/shoplist')
-      }
-    }
+  created(){
+    this.$store.dispatch('userSession');
   },
   methods:{
     onSignIn() {
       this.$store.dispatch('userSignIn', {email: this.useremail, password: this.userpass})
     }
-//      passInfo() {
-//        this.$store.state.userpass = this.userpass;
-//        this.$store.state.username = this.username;
-//        this.appTitle = this.$store.state.username;
-//        if(this.appTitle === '') {
-//          this.appTitle = 'LOGIN'
-//        }
-//      },
   },
   components:{
       'app-header': Header
@@ -92,7 +88,10 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
+  input {
+    text-transform: lowercase;
+  }
   .bordered {
     border: 4px solid #eee;
   }

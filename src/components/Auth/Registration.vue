@@ -14,19 +14,17 @@
           required
           name="emailId"
           label="E-MAIL"
-          id="testing"
           v-model="useremail"
         ></v-text-field>
       </v-flex>
-      <!--vdm key-->
+      <!--password-->
       <v-flex xs10 offset-xs1>
         <v-text-field
           required
-          name="v_key"
-          label="V-KEY"
-          id="testing"
+          name="userPassword"
+          label="PASSCODE"
           min="6"
-          v-model="v_key"
+          v-model="userpass"
           :type="'password'"
         ></v-text-field>
       </v-flex>
@@ -37,20 +35,40 @@
         name="userId"
         label="USERNAME"
         id="testing"
-        v-model="username"
+        v-model="userInfo.name"
       ></v-text-field>
-    </v-flex>
-      <!--password-->
+      </v-flex>
+      <!-- Location -->
       <v-flex xs10 offset-xs1>
         <v-text-field
           required
-          name="userPassword"
-          label="PASSCODE"
-          id="testing"
+          name="userLocation"
+          label="ADDRESS"
           min="6"
-          v-model="userpass"
-          :type="'password'"
+          v-model="userInfo.address"
         ></v-text-field>
+      </v-flex>
+      <!-- Role -->
+      <v-flex xs10 offset-xs1>
+        <v-select
+          v-bind:items="roles"
+          v-model="userInfo.role"
+          label="ROLE"
+          single-line
+          bottom
+        ></v-select>
+      </v-flex>
+      <!-- Assign Store -->
+      <v-flex xs10 offset-xs1>
+        <v-select
+          v-if="checkRole"
+          v-bind:items="availableStores"
+          v-model="userInfo.assignStore"
+          label="ASSIGN STORE"
+          single-line
+          :loading="availableStoreLoading"
+          bottom
+        ></v-select>
       </v-flex>
       <!--submission-->
       <v-flex xs12>
@@ -72,34 +90,65 @@ import Header from '../Temp/Header.vue'
 export default {
   data () {
     return {
+//    UI Data
+//    setting Loading on Selector
+      availableStoreLoading: false,
+      roles: [
+        'Administrator',
+        'BrandAmbassador',
+        'Supervisor'
+      ],
+      availableStores: [
+      ],
+//    =============
       appTitle: 'LOGIN',
-//      userInfo
+//    userInfo
+      userInfo:{
+        name: '',
+        address: '',
+        role: '',
+        assignStore: ''
+      },
       useremail: '',
-      username: '',
-      v_key: '',
       userpass: '',
     }
   },
   computed: {
 //      Validating Fields
     formIsValid(){
-        return this.useremail !== '' && this.username !== '' && this.v_key !== '' && this.userpass !== '' && this.v_key == 2648
+        return this.useremail !== '' && this.userInfo.name !== '' && this.userInfo.role !== '' && this.userpass !== ''
+    },
+    checkRole(){
+        return this.userInfo.role === 'BrandAmbassador';
     },
     user (){
         return this.$store.getters.user
     }
   },
   watch: {
-    user (value){
-        if (value !== null && value !== undefined){
-            this.$router.push('/')
-        }
-    }
+  },
+  mounted(){
+    this.$store.dispatch('shopsListUPD');
+    this.availableStoreLoading = true;
+    setTimeout(() => {
+//  dispatch Order to retrieve Current store List
+      this.populateStoreList();
+      this.availableStoreLoading = false;
+    },6000);
   },
   methods:{
     onSignUp() {
-        this.$store.dispatch('userSignUp', {email: this.useremail, password: this.userpass})
-    }
+        this.$store.dispatch('userSignUp', {email: this.useremail, password: this.userpass, user: this.userInfo})
+    },
+    populateStoreList(){
+//      Converting Firebase Raw Returns to Vialable Form
+      let obj = this.$store.getters.shops;
+      let convert = Object.keys(obj).map((key) => {
+        return obj[key].name
+      });
+//  Storing to Application
+        this.availableStores = convert;
+    },
   },
   components:{
       'app-header': Header

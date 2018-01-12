@@ -15,3 +15,8 @@ self.addEventListener('activate', () => {
     }
   });
 });
+
+// When Browser Install Service Worker
+self.addEventListener('install', () => {
+  console.log('[Service Worker] Installing Service Worker');
+});

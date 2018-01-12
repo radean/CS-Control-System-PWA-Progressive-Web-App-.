@@ -11,7 +11,7 @@
 <script>
 //  importing Components
 import Header from '../Temp/Header.vue'
-import shopDetailEnum from './Enums/ShopDetailEnum.vue'
+import shopDetailEnum from './Enums/ShopDetailBAEnum.vue'
 export default {
   data () {
     return {
@@ -24,6 +24,13 @@ export default {
           return this.$store.getters.storeDetail
       }
   },
+  watch: {
+    userInfo (value){
+      if (value === null && value === undefined) {
+          this.$router.push('Home');
+        }
+      }
+    },
   components:{
       'app-header': Header,
       'app-shopDetail-Enum':shopDetailEnum

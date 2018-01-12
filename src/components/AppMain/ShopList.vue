@@ -1,46 +1,15 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12 sm6 offset-sm3>
-      <v-card class="mb-5">
+      <v-card class="mb-5 align-center" >
         <app-header></app-header>
         <v-subheader>STORE LIST | {{ dateChanged }}</v-subheader>
         <v-divider></v-divider>
-        <app-shoListEnum v-for="shop in shops" :key="shop.id" :shopList="shop" ></app-shoListEnum>
+        <!--Vuetify Circle Loader-->
+        <v-progress-circular  v-if="pageLoading" indeterminate v-bind:size="70" v-bind:width="2" color="red"></v-progress-circular>
+        <app-shoListEnum v-else="pageLoading" v-for="shop in shops" :key="shop.id" :shopList="shop" ></app-shoListEnum>
       </v-card>
     </v-flex>
-    <!--Navigation Bar-->
-
-
-    <v-navigation-drawer
-      temporary
-      v-model="drawer"
-      light
-      absolute
-      width="240"
-    >
-      <v-list class="pa-1">
-        <v-list-tile avatar>
-          <v-list-tile-avatar>
-            <img src="static/img/icons/favicon-32x32.png" />
-          </v-list-tile-avatar>
-          <v-list-tile-content>
-            <v-list-tile-title>MCS™ NODE CP</v-list-tile-title>
-          </v-list-tile-content>
-          </v-list-tile-action>
-        </v-list-tile>
-      </v-list>
-      <v-list class="pt-0" dense>
-        <v-divider></v-divider>
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon>help</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title> Report a bug</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
   </v-layout>
 </template>
 
@@ -56,26 +25,61 @@ export default {
       currentDate: '',
       drawer: false,
       appTitle: '',
+      today: '',
+      pageLoading: true,
     }
   },
   computed: {
-      dateChanged(){
-         return this.currentDate = new Date().toDateString() ;
-      },
-      shops(){
-          return this.$store.getters.shops
-      }
+    dateChanged(){
+       return this.currentDate = new Date().toDateString() ;
+    },
+    shops(){
+        return this.$store.getters.shops
+    },
+    appData(){
+        return this.$store.getters.appinfo
+    },
   },
   components:{
     'app-header': Header,
     'app-shoListEnum': ShopListEnum
   },
   created(){
-      if (this.$store.getters.user === null){
-          this.$router.push('/')
-      }
-    this.$store.dispatch('shopsListUPD');
-  }
+    if (this.$store.getters.user === null){
+      this.$router.push('/')
+    }else{
+      setTimeout(() => {
+//        fetching current Date to get unvisited stores
+      let today;
+      this.$http.get('https://api.timezonedb.com/v2/list-time-zone?key=QNVJJL9QLWE4&format=json&country=PK').then(response => {
+        let date = new Date((response.body.zones[0].timestamp * 1000) - response.body.zones[0].gmtOffset * 1000);
+        let day = ("0" + date.getDate()).slice(-2) ;
+        let month = date.getMonth() + 1;
+        today = month + '-' + day;
+        this.$store.dispatch('shopsListUPD', today).then(() => {
+            setTimeout(() => {
+              this.pageLoading = false;
+            },2000)
+        });
+      }).catch(() => {
+        let date = new Date();
+        let hours = date.getHours();
+        let day = ("0" + date.getDate()).slice(-2);
+        let month = date.getMonth() + 1;
+        let minutes = "0" + date.getMinutes();
+        this.currentDate = month + '-' + day;
+        this.currentTime = hours + ':' + minutes.substr(-2)
+        //    generating Variable
+        this.visits[this.currentDate] = 'done';
+        this.$store.dispatch('shopsListUPD', today).then(() => {
+          setTimeout(() => {
+            this.pageLoading = false;
+          },2000)
+        });
+      });
+      },2000)
+    }
+  },
 
 }
 </script>
