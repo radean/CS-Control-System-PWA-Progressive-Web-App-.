@@ -23,17 +23,17 @@ export const store = new Vuex.Store({
   state: {
     // Application Information
     app:{
-      name: 'BAMS™ Node',
-      fullname: 'Brand Ambassador Management System Nexus',
+      name: 'MCS™ Node',
+      fullname: 'Merchandiser Control System',
       author : 'radean',
       authorEmail : 'radeanf@gmail.com',
       developer : 'radean',
       company : 'Vision Direct Marketing',
-      version : '0.4.6',
+      version : '0.1.0',
       theme: 'red accent-4',
       connection: true,
       header:{
-        name: 'BAMS™',
+        name: 'MCS™',
         location: 'KHI'
       },
       mode: '',
