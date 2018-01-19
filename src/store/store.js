@@ -30,7 +30,7 @@ export const store = new Vuex.Store({
       developer : 'radean',
       company : 'Vision Direct Marketing',
       version : '0.1.0',
-      theme: 'amber darken-1',
+      theme: 'grey darken-3',
       connection: true,
       header:{
         name: 'MCS™',

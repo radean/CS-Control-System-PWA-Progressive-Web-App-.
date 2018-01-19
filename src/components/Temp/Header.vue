@@ -1,9 +1,10 @@
 <template>
   <v-layout row justify-center>
-  <v-toolbar fixed app :color="appdata.theme" dark >
+  <v-toolbar fixed app dark >
       <v-btn icon v-on:click="helpDialog = !helpDialog">
         <v-icon>info</v-icon>
       </v-btn>
+    <v-spacer></v-spacer>
     <v-toolbar-title>{{ appdata.header.name }}</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn icon slot="activator">
@@ -31,28 +32,16 @@
           -----------------------------<br>
           Change Log<br>
           -----------------------------<br>
-          + Header Menu <br>
-          + Absent Button <br>
-          + Field reset after submission <br>
-          + Works offline for sessions <br>
-          + Text field re-placement <br>
-          + Notification Alerts <br>
-          F Order of Fields. <br>
-          F Null Entries <br>
-          F Disconnect Badge <br>
-          F Reset Fields <br>
-          F Field color change <br>
-          - Incerception Field <br>
-          - Unused options removed <br>
+          Initial Release No Feedback At all.
 
           ----------------------------------------------------------<br>
           NOTE: IF YOU EXPERIENCE ANY ERROR PLEASE NOTIFY WITH P.M
           ----------------------------------------------------------<br>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="green darken-1" @click.native="onSignOut">LogOut</v-btn>
+          <!--<v-btn color="green darken-1" @click.native="onSignOut">LogOut</v-btn>-->
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" flat @click.native="helpDialog = false">OK</v-btn>
+          <v-btn flat color="green darken-1" flat @click.native="helpDialog = false">OK</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
