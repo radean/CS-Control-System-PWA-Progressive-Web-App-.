@@ -112,17 +112,6 @@ export default {
         }
       }
     },
-//    checkConnection (value){
-//      if (value == true ) {
-////          Online Connection
-////        this.$store.dispatch('goOnline');
-//        console.log("Online")
-//    } else {
-////          offline Connection
-////        this.$store.dispatch('goOffline');
-//        console.log("Offline")
-//      }
-//    }
   },
   created(){
     this.$store.dispatch('connectionRef');
@@ -145,7 +134,11 @@ export default {
   /*Applying Font*/
   body {
     font-family: 'Marvel', sans-serif;
-    background: url("../static/img/bg/bg.jpg") left  fixed;
+    /*background: url("../static/img/bg/bg.jpg") left  fixed;*/
+    background: #000428;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #004e92, #000428);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #004e92, #000428); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   }
   .gradientDialog{
     background: #000428;  /* fallback for old browsers */
