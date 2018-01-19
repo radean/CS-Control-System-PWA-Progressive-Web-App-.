@@ -5,7 +5,7 @@
     <v-layout row wrap v-if="!pageLoading">
       <v-flex xs12 text-xs-center >
         <div v-if="!checkConnection" class="caption red ma-0 pa-0 white--text">DISCONNECTED</div>
-        <div class="title ma-0 pa-0">CUSTOMER ENTRY</div>
+        <div class="title ma-0 pa-0">STORE ENTRY</div>
       </v-flex>
       <form @submit.prevent="onSubmitDetails">
       <!--Basic Information-->
@@ -16,6 +16,7 @@
               <v-list-tile-content>
                 <v-text-field
                   name="customer'sName"
+                  autocomplete="false"
                   label="CUSTOMER'S NAME"
                   v-model="customerName"
                   tabindex="1"
