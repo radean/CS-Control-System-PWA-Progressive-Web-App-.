@@ -18,7 +18,7 @@ import { routes } from './routes';
 // using Vuetify
 Vue.use(Vuetify,{
   theme: {
-    primary: '#ff0000',
+    primary: '#ffc107',
     secondary: '#b0bec5',
   }
 });

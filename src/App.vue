@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app dark>
     <v-layout>
       <v-content transition="fade-transition">
         <!--<v-fade-transition>-->
@@ -7,7 +7,7 @@
         <!--</v-fade-transition>-->
       </v-content>
     </v-layout>
-    <v-footer class="pa-3" light>
+    <v-footer class="pa-3" dark>
       <div>{{ appdata.name }} {{appdata.version}}</div>
       <v-spacer></v-spacer>
       <div> VDM™ {{ new Date().getFullYear() }}</div>
