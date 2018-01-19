@@ -19,15 +19,13 @@ import { routes } from './routes';
 Vue.use(Vuetify,{
   theme: {
     primary: '#ff0000',
-      secondary: '#b0bec5',
+    secondary: '#b0bec5',
   }
 });
 Vue.use(VeeValidate);
 // using Vue Resource
 Vue.use(VueResource);
 // Setting HTTP
-// Vue.http.headers.common['Content-Type'] = 'application/json';
-// Vue.http.headers.common['Authorization'] = 'key=AIzaSyDOUy35eMYN7woRgGdiRw0ypeShbHMDxgM';
 // using vue-router
 Vue.use(VueRouter);
 
@@ -57,12 +55,12 @@ new Vue({
   components: { App },
   created (){
     firebase.initializeApp({
-      apiKey: "AIzaSyDsQvtEgYT_SiYeZ7YXtbAP0MLE1rudkJY",
-      authDomain: "bams-e190d.firebaseapp.com",
-      databaseURL: "https://bams-e190d.firebaseio.com",
-      projectId: "bams-e190d",
-      storageBucket: "bams-e190d.appspot.com",
-      messagingSenderId: "110309011275"
+      apiKey: "AIzaSyDdHaMOpD8xe1GafzqjJfx-GMJXSIgVS8I",
+      authDomain: "vdmcontrolsystem.firebaseapp.com",
+      databaseURL: "https://vdmcontrolsystem.firebaseio.com",
+      projectId: "vdmcontrolsystem",
+      storageBucket: "vdmcontrolsystem.appspot.com",
+      messagingSenderId: "806567363183"
     });
   }
 })
