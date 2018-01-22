@@ -9,6 +9,6 @@ export const routes = [
   { path: '/registration', name: 'Registration', component: Registration },
   { path: '/storelist', name: 'StoreList', component: StoreList },
   { path: '/storedetail', name: 'ShopDetail', component: StoreDetail },
-  { path: '/shopdetailba', name: 'ShopDetailBA', component: ShopDetailBA },
+  // { path: '/shopdetailba', name: 'ShopDetailBA', component: ShopDetailBA },
   { path: '*', name: 'HomeLink', component: Login}
 ]

@@ -14,7 +14,8 @@
           <!---->
           <v-list-tile-action>
             <v-btn icon >
-              <v-icon color="grey lighten-1" right >arrow_forward</v-icon>
+              <v-icon v-if="storeList.visits" color="green lighten-1" right >check_circle</v-icon>
+              <v-icon v-else="storeList.visits" color="grey lighten-1" right >arrow_forward</v-icon>
             </v-btn>
           </v-list-tile-action>
         </v-list-tile>

@@ -12,6 +12,7 @@
         <v-text-field
           v-validate="'required|email'"
           :error="errors.has('email')"
+          autocomplete="false"
           name="email"
           label="E-MAIL"
           class="form-control letter-small"
@@ -25,9 +26,9 @@
         <v-text-field
           v-validate="'required|min:6|max:12'"
           :error="errors.has('password')"
+          autocomplete="false"
           name="password"
           label="PASSCODE"
-          autocomplete="current-password"
           min="6"
           v-model="userpass"
           type="password"

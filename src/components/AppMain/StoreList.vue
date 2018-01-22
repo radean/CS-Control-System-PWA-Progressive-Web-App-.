@@ -34,7 +34,12 @@ export default {
        return this.currentDate = new Date().toDateString() ;
     },
     stores(){
-        return this.$store.getters.stores
+//   getting data from DB
+//   return this.$store.getters.stores
+//   From UserInformations
+      let stores = this.$store.getters.userInfo.stores
+      console.log(stores);
+      return stores
     },
     appData(){
         return this.$store.getters.appinfo

@@ -493,7 +493,7 @@ export const store = new Vuex.Store({
     },
     // Store Detail
     fetchShopDetails({commit, getters}){
-      firebase.database().ref('stores').orderByKey().equalTo(getters.selStoreId).once('value', (storedetails) => {
+      firebase.database().ref('stores').orderByKey().equalTo(getters.selStoreId.toString()).once('value', (storedetails) => {
         const storeDetail = [];
         const obj = storedetails.val();
         for (let key in obj) {
