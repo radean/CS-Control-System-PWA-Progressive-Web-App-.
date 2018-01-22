@@ -13,7 +13,6 @@
           v-validate="'required|email'"
           :error="errors.has('email')"
           name="email"
-          autocomplete="username"
           label="E-MAIL"
           class="form-control letter-small"
           type="text"
@@ -39,6 +38,9 @@
       <v-flex xs12>
         <v-btn color="amber" :disabled="!formIsValid" type="submit"> SUBMIT <v-icon right>send</v-icon></v-btn>
       </v-flex>
+      <v-flex xs12>
+        <v-btn small color="red" >Forgotten Pass</v-btn>
+      </v-flex>
       <!--Registration -->
       <v-flex xs12 class="mt-2">
         <h5>Tap info button at top left of the screen for help</h5>
@@ -52,9 +54,7 @@
       <!--<v-flex xs12>-->
         <!--<v-btn small color="white" to="Registration">Registration</v-btn>-->
       <!--</v-flex>-->
-      <!--<v-flex xs12>-->
-        <!--<v-btn small color="red" >Forgotten Pass</v-btn>-->
-      <!--</v-flex>-->
+
       </form>
     </v-layout>
   </v-container>

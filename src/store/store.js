@@ -64,8 +64,8 @@ export const store = new Vuex.Store({
     // setting Store ID
     sel_storeid: '30502',
     // shoplists:
-    shops: [],
-    shopDetail: [],
+    stores: [],
+    storeDetails: [],
     //User Session
     // Current user Details
     userinfo: {},
@@ -195,7 +195,7 @@ export const store = new Vuex.Store({
       // Setting Loading
       commit('SET_MAIN_LOADING', true);
       // setting user information
-      firebase.database().ref('users').orderByChild('uniqueId').equalTo(getters.user.uid).once('value', (user) => {
+      firebase.database().ref('supervisors').orderByChild('uniqueId').equalTo(getters.user.uid).once('value', (user) => {
         let userinfo = {};
         const obj = user.val();
         for (let key in obj) {
@@ -203,9 +203,9 @@ export const store = new Vuex.Store({
             uid: obj[key].uniqueId,
             name: obj[key].name,
             email: obj[key].email,
-            storeId : obj[key].store.id,
+            stores : obj[key].stores,
             address: obj[key].address,
-            role: obj[key].role
+            // role: obj[key].role
           };
         }
         commit('setUserInfo', userinfo);
