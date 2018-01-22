@@ -2,7 +2,7 @@
   <v-layout row wrap>
     <v-flex xs12 sm6 offset-sm3>
       <app-header></app-header>
-      <app-shopDetail-Enum v-for="store in storeDetail" :key="store.id" :store="store"></app-shopDetail-Enum>
+      <app-storeDetail-Enum v-for="store in storeDetail" :key="store.id" :store="store"></app-storeDetail-Enum>
 
     </v-flex>
   </v-layout>
@@ -11,7 +11,7 @@
 <script>
 //  importing Components
 import Header from '../Temp/Header.vue'
-import shopDetailEnum from './Enums/ShopDetailEnum.vue'
+import storeDetailEnum from './Enums/StoreDetailEnum.vue'
 export default {
   data () {
     return {
@@ -26,7 +26,7 @@ export default {
   },
   components:{
       'app-header': Header,
-      'app-shopDetail-Enum':shopDetailEnum
+      'app-storeDetail-Enum': storeDetailEnum
   },
   created(){
     if (this.$store.getters.user === null){

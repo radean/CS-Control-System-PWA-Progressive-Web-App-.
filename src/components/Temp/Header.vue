@@ -5,7 +5,7 @@
         <v-icon>info</v-icon>
       </v-btn>
     <v-spacer></v-spacer>
-    <v-toolbar-title><!--{{ appdata.fullname }} -->LOGIN</v-toolbar-title>
+    <v-toolbar-title class="ma-0">{{ appdata.header.name }}</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn icon slot="activator">
       <v-icon>more_vert</v-icon>

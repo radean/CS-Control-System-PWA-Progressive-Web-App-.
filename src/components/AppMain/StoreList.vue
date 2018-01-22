@@ -7,7 +7,7 @@
         <v-divider></v-divider>
         <!--Vuetify Circle Loader-->
         <v-progress-circular  v-if="pageLoading" indeterminate v-bind:size="70" v-bind:width="2" color="red"></v-progress-circular>
-        <app-shoListEnum v-else="pageLoading" v-for="shop in shops" :key="shop.id" :shopList="shop" ></app-shoListEnum>
+        <app-storeListEnum v-else="pageLoading" v-for="store in stores" :key="store.id" :storeList="store" ></app-storeListEnum>
       </v-card>
     </v-flex>
   </v-layout>
@@ -16,7 +16,7 @@
 <script>
   //  importing Temps
   import Header from '../Temp/Header.vue'
-  import ShopListEnum from '../AppMain/Enums/ShopListEnum.vue'
+  import StoreListEnum from '../AppMain/Enums/StoreListEnum.vue'
 
 
 export default {
@@ -33,8 +33,8 @@ export default {
     dateChanged(){
        return this.currentDate = new Date().toDateString() ;
     },
-    shops(){
-        return this.$store.getters.shops
+    stores(){
+        return this.$store.getters.stores
     },
     appData(){
         return this.$store.getters.appinfo
@@ -42,12 +42,14 @@ export default {
   },
   components:{
     'app-header': Header,
-    'app-shoListEnum': ShopListEnum
+    'app-storeListEnum': StoreListEnum
   },
   created(){
     if (this.$store.getters.user === null){
       this.$router.push('/')
     }else{
+      let header = 'STORES';
+      this.$store.dispatch('appHeader', header);
       setTimeout(() => {
 //        fetching current Date to get unvisited stores
       let today;
@@ -56,7 +58,7 @@ export default {
         let day = ("0" + date.getDate()).slice(-2) ;
         let month = date.getMonth() + 1;
         today = month + '-' + day;
-        this.$store.dispatch('shopsListUPD', today).then(() => {
+        this.$store.dispatch('storeListUPD', today).then(() => {
             setTimeout(() => {
               this.pageLoading = false;
             },2000)
@@ -71,7 +73,7 @@ export default {
         this.currentTime = hours + ':' + minutes.substr(-2)
         //    generating Variable
         this.visits[this.currentDate] = 'done';
-        this.$store.dispatch('shopsListUPD', today).then(() => {
+        this.$store.dispatch('storeListUPD', today).then(() => {
           setTimeout(() => {
             this.pageLoading = false;
           },2000)

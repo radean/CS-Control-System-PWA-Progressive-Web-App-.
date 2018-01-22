@@ -2,14 +2,14 @@
   <div>
     <!--Content After Loading-->
     <v-list two-line>
-        <v-list-tile ripple to="/shopdetail" v-on:click="setStoreId()" class="alphaTrans">
+        <v-list-tile ripple to="/storedetail" v-on:click="setStoreId()" class="alphaTrans">
           <v-list-tile-avatar>
-            <v-icon large color="black">store</v-icon>
+            <v-icon large color="white">store</v-icon>
           </v-list-tile-avatar>
           <!---->
           <v-list-tile-content>
-            <v-list-tile-title> {{ shopList.name }}</v-list-tile-title>
-            <v-list-tile-sub-title>{{ shopList.location }}</v-list-tile-sub-title>
+            <v-list-tile-title> {{ storeList.name }}</v-list-tile-title>
+            <v-list-tile-sub-title>{{ storeList.address }}</v-list-tile-sub-title>
           </v-list-tile-content>
           <!---->
           <v-list-tile-action>
@@ -36,9 +36,9 @@
     methods:{
         setStoreId(){
           let storeData = {
-                storeid: this.shopList.id,
-                storeName: this.shopList.name,
-                storeLocation: this.shopList.location
+                storeid: this.storeList.id,
+                storeName: this.storeList.name,
+                storeAddress: this.storeList.address
               };
           this.$store.dispatch('setStoreId', storeData)
         }
@@ -48,7 +48,7 @@
             console.log(this.storeid)
         }
     },
-    props: ['shopList']
+    props: ['storeList']
   }
 </script>
 

@@ -95,25 +95,30 @@ export default {
   watch: {
     userInfo (value){
       if (value !== null && value !== undefined) {
-        switch (this.userInfo.role) {
-          case "Supervisor":
-            this.$router.push('/shoplist');
-            break;
-
-          case "BrandAmbassador":
-              let storeData = {
-                storeid: this.userInfo.storeId,
-                storeName: this.userInfo.name,
-                storeLocation: this.userInfo.address
-              };
-              this.$store.dispatch('setStoreId', storeData);
-            this.$router.push('/shopdetailba');
-            break;
-        }
+        this.$router.push('/storelist');
+//        switch (this.userInfo.role) {
+//          case "Supervisor":
+//            this.$router.push('/shoplist');
+//            break;
+//
+//          case "BrandAmbassador":
+//              let storeData = {
+//                storeid: this.userInfo.storeId,
+//                storeName: this.userInfo.name,
+//                storeLocation: this.userInfo.address
+//              };
+//              this.$store.dispatch('setStoreId', storeData);
+//            this.$router.push('/shopdetailba');
+//            break;
+//        }
+      } else {
+        this.$router.push('/');
       }
     },
   },
   created(){
+    let header = 'LOGIN';
+    this.$store.dispatch('appHeader', header);
     this.$store.dispatch('connectionRef');
     this.$store.dispatch('userSession');
 

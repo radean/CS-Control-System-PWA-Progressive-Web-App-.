@@ -109,10 +109,10 @@ export const store = new Vuex.Store({
       state.snickError.msg = payload.msg;
     },
     'SET_STORES'(state, payload){
-      state.shops = payload;
+      state.stores = payload;
     },
     'SET_STORE_DETAILS'(state, payload){
-      state.shopDetail = payload;
+      state.storeDetails = payload;
     },
     'SET_SEL_STORE_ID'(state, payload){
       state.sel_storeid = payload;
@@ -205,6 +205,9 @@ export const store = new Vuex.Store({
             email: obj[key].email,
             stores : obj[key].stores,
             address: obj[key].address,
+            shift: obj[key].shift,
+            dateAssigned: obj[key].dateAssigned,
+            dateofBirth: obj[key].dateofBirth
             // role: obj[key].role
           };
         }
@@ -229,7 +232,7 @@ export const store = new Vuex.Store({
       firebase.auth().signOut().then(() =>{
         // Setting ApplicationDetails
         let storeData = {
-          name: 'BAMS™',
+          name: 'MCS™',
           location: ''
         };
         // setting App Header
@@ -239,7 +242,19 @@ export const store = new Vuex.Store({
         commit('SET_MAIN_LOADING', false);
       });
     },
-    // ==================================
+
+  // ====================================
+  //   GUI APP
+    appHeader({commit}, payload){
+      let header = {
+        name: payload,
+        location: ''
+      };
+      commit('setAppHeader', header);
+    },
+
+
+  // ==================================
     //Checking Connection
 
     connectionRef({commit}){
@@ -274,7 +289,7 @@ export const store = new Vuex.Store({
     // setting Store ID
     setStoreId({dispatch ,commit}, payload){
       // Getting Assigned BA
-      dispatch('baListUPD');
+      // dispatch('baListUPD');
       let sel_store_id = payload.storeid;
       let storeData = {
         name: payload.storeName,
@@ -455,7 +470,7 @@ export const store = new Vuex.Store({
       })
     },
     // Store List
-    shopsListUPD({commit}, payload){
+    storeListUPD({commit}, payload){
       let today = payload;
       commit('SET_MAIN_LOADING', true);
       firebase.database().ref('stores')
@@ -468,7 +483,7 @@ export const store = new Vuex.Store({
           stores.push({
             id: key,
             name: obj[key].name,
-            location: obj[key].location,
+            address: obj[key].address,
             visits: obj[key].visits,
           });
         }
@@ -514,11 +529,11 @@ export const store = new Vuex.Store({
     baList (state) {
       return state.baList
     },
-    shops (state) {
-      return state.shops
+    stores (state) {
+      return state.stores
     },
     storeDetail (state) {
-      return state.shopDetail
+      return state.storeDetails
     },
     selStoreId (state){
       return state.sel_storeid
