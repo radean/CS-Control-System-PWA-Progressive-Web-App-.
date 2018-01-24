@@ -42,8 +42,49 @@ export const store = new Vuex.Store({
       broadcast: true,
       subscription: true
     },
-    // Store List
-    // storeList: {},
+    // Main Headers
+    dataHeader: {
+      date: 'Date',
+      merchandiserName: 'Merchandiser Name',
+      storeName: 'Store Name',
+      address: 'Address',
+      shopKeeperName: 'Name',
+      contact: 'Contact Number',
+      // Poster
+      posm: {
+        mobile: 'Mobile',
+        poster: 'Poster',
+        banner: 'Banner'
+      },
+      // Other Brand Available
+      otherBrands: {
+
+      },
+      // Competetors
+      competetor:{
+        naurus: 'Naurus',
+        roohAfza: 'Rooh Afza',
+        others: 'Other Brands'
+      },
+      //others
+      other: {
+
+      }
+    },
+    // Data Fields
+    // Also Change this in Store Detail Enum Page
+    dataFields: [
+      {id: 0, title: 'Store Name' , variable: 'storeName', size: 'xs6'},
+      {id: 1, title: 'Store Keeper Name', variable: 'storeKeeperName'},
+      {id: 2, title: 'Contact Number', variable: 'contactNumber'},
+      {id: 3, title: 'Mobile', variable: 'mobile'},
+      {id: 4, title: 'Poster', variable: 'poster'},
+      {id: 5, title: 'Banner', variable: 'banner'},
+      {id: 6, title: 'Naurus', variable: 'naurus'},
+      {id: 7, title: 'Rooh Afza', variable: 'roohAfza'},
+      {id: 7, title: 'Quice', variable: 'quice'},
+      {id: 8, title: 'Other Brands', variable: 'otherBrands'}
+    ],
     // Notification
     notification:{
       title: null,
@@ -510,6 +551,9 @@ export const store = new Vuex.Store({
   getters: {
     appinfo (state){
       return state.app
+    },
+    dataFields (state){
+      return state.dataFields
     },
     notification (state){
       return state.notification

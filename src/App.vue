@@ -40,8 +40,8 @@
 //  Importing components
   import Header from './components/Temp/Header.vue'
   import Login from './components/Auth/Login.vue'
-  import ShopList from './components/AppMain/ShopList.vue'
-  import ShopDetail from './components/AppMain/ShopDetail.vue'
+  import StoreList from './components/AppMain/StoreList.vue'
+  import StoreDetail from './components/AppMain/StoreDetail.vue'
 
 
 export default {
@@ -127,8 +127,8 @@ export default {
     //Temporary Components
     'app-header-main': Header,
     'app-login': Login,
-    'app-shoplist': ShopList,
-    'app-shopdetail': ShopDetail,
+    'app-storeList': StoreList,
+    'app-storeDetail': StoreDetail,
   }
 }
 </script>
