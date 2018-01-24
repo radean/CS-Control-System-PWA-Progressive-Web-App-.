@@ -29,6 +29,7 @@ export const store = new Vuex.Store({
       authorEmail : 'radeanf@gmail.com',
       developer : 'radean',
       company : 'Vision Direct Marketing',
+      brandName: 'Jaam-e-Sheeren',
       version : '0.1.0',
       theme: 'grey darken-3',
       connection: true,
@@ -73,17 +74,21 @@ export const store = new Vuex.Store({
     },
     // Data Fields
     // Also Change this in Store Detail Enum Page
-    dataFields: [
-      {id: 0, title: 'Store Name' , variable: 'storeName', size: 'xs6'},
-      {id: 1, title: 'Store Keeper Name', variable: 'storeKeeperName'},
-      {id: 2, title: 'Contact Number', variable: 'contactNumber'},
-      {id: 3, title: 'Mobile', variable: 'mobile'},
-      {id: 4, title: 'Poster', variable: 'poster'},
-      {id: 5, title: 'Banner', variable: 'banner'},
-      {id: 6, title: 'Naurus', variable: 'naurus'},
-      {id: 7, title: 'Rooh Afza', variable: 'roohAfza'},
-      {id: 7, title: 'Quice', variable: 'quice'},
-      {id: 8, title: 'Other Brands', variable: 'otherBrands'}
+    basicInfoFields: [
+      {id: 0, title: 'Store Name' , variable: 'storeName', size: 'xs6', type: 'text'},
+      {id: 1, title: 'Keeper Name', variable: 'keeperName', type: 'text'},
+      {id: 2, title: 'Contact Number', variable: 'contactNumber', type: 'number'},
+    ],
+    stockFields: [
+      {id: 3, title: 'Mobile', variable: 'mobile', type: 'number'},
+      {id: 4, title: 'Poster', variable: 'poster', type: 'number'},
+      {id: 5, title: 'Banner', variable: 'banner', type: 'number'},
+    ],
+    otherFields: [
+      {id: 6, title: 'Naurus', variable: 'naurus', type: 'number'},
+      {id: 7, title: 'Rooh Afza', variable: 'roohAfza', type: 'number'},
+      {id: 7, title: 'Quice', variable: 'quice', type: 'number'},
+      {id: 8, title: 'Other Brands', variable: 'otherBrands', type: 'number'}
     ],
     // Notification
     notification:{
@@ -552,8 +557,15 @@ export const store = new Vuex.Store({
     appinfo (state){
       return state.app
     },
-    dataFields (state){
-      return state.dataFields
+    // Data fields getters
+    basicInfoFields (state){
+      return state.basicInfoFields
+    },
+    stockFields (state){
+      return state.stockFields
+    },
+    otherFields (state){
+      return state.otherFields
     },
     notification (state){
       return state.notification

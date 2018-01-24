@@ -61,84 +61,79 @@
 
       <!--Basic Information-->
       <v-flex xs12 text-xs-center >
-        <template v-for="field in fields" >
-          <v-flex xs5 text-xs-center class="pa-0 ma-0">
-            <v-text-field
-              v-validate="'min_value:0|max_value:1000'"
-              :error="errors.has(field.variable)"
-              :class="stockData[field.variable] != null ? ' ma-0' : ' ma-0 transparent'"
-              :hide-details="true"
-              :name="field.title"
-              :label='field.title'
-              v-model='stockData[field.variable]'
-              type="text"
-            ></v-text-field>
-          </v-flex>
-        </template>
-          <v-list style="background: transparent;" v-for="field in fields" :key="field.id" >
-            <!--B.A Name-->
-            <v-list-tile class="alphaTrans">
-              <v-list-tile-content>
-                <v-text-field
-                  v-validate="'min_value:0|max_value:1000'"
-                  :error="errors.has(field.variable)"
-                  :class="stockData.stock > 0 ? ' black--text text--lighten-1 ' : 'transparent'"
-                  :hide-details="true"
-                  :name="field.title"
-                  :label='field.title'
-                  v-model='stockData[field.variable]'
-                  type="text"
-                ></v-text-field>
-              </v-list-tile-content>
-            </v-list-tile>
-          </v-list>
+        <!--Timing of Submittion-->
+        <v-flex xs12 text-xs-center >
+          <div class="title ma-0 pa-0">{{ currentTime }}</div>
         </v-flex>
-
-      <!--Timing of Submittion-->
-      <v-flex xs12 text-xs-center >
-        <div class="title ma-0 pa-0">{{ currentTime }}</div>
-      </v-flex>
         <!--Heading of Content-->
-      <v-flex xs12 text-xs-center >
-        <div class="subheading">STOCK UPDATE</div>
-        <div class="body-1">Soya Supreme Cooking Oil</div>
-      </v-flex>
-
-      <!--Stock Update-->
-        <!--Soya supreme Cooking Oil-->
-        <div class="title alphaPanel" >BOTTLE</div>
-        <v-layout row wrap class="alphaPanel pa-0 ma-0">
-            <!--1 Ltr-->
-            <v-flex xs3>
+        <v-flex xs12 text-xs-center >
+          <div class="subheading">STOCK UPDATE</div>
+          <div class="body-1">{{ appInfo.brandName }}</div>
+        </v-flex>
+        <h2 class="ma-3">Basic Information</h2>
+        <v-layout row wrap class="alphaPanel">
+          <!--Basic Information Fields-->
+          <template v-for="field in basicInfoFields" >
+            <v-flex xs5 text-xs-center class="ma-2 ">
               <v-text-field
                 v-validate="'min_value:0|max_value:1000'"
-                :error="errors.has('bottle_1ltr')"
-                :class="soyaSupremeStock.sscbottle1ltr > 0 ? 'input-group--focused ' : 'transparent'"
+                :error="errors.has(field.variable)"
+                :class="stockData[field.variable] != null ? 'input-group--focused ' : 'transparent'"
                 :hide-details="true"
-                suffix="p"
-                name="bottle_1ltr"
-                label="1Ltr"
-                v-model="soyaSupremeStock.sscbottle1ltr"
-                tabindex="1"
-                type="number"
+                :name="field.title"
+                :label='field.title'
+                v-model='stockData[field.variable]'
+                :type="field.type"
               ></v-text-field>
             </v-flex>
+          </template>
         </v-layout>
-
-
-
+          <!--Stock Fields-->
+        <h2 class="ma-3">Stock Information</h2>
+        <v-layout row wrap >
+          <template v-for="field in stockFields" >
+            <v-flex xs5 text-xs-center class="ma-2 ">
+              <v-text-field
+                v-validate="'min_value:0|max_value:1000'"
+                :error="errors.has(field.variable)"
+                :class="stockData[field.variable] != null ? 'input-group--focused ' : 'transparent'"
+                :hide-details="true"
+                :name="field.title"
+                :label='field.title'
+                v-model='stockData[field.variable]'
+                :type="field.type"
+              ></v-text-field>
+            </v-flex>
+          </template>
+        </v-layout>
+          <!--Other Fields-->
+        <h2 class="ma-3">Other Information</h2>
+        <v-layout row wrap class="alphaPanel">
+          <template v-for="field in otherFields">
+            <v-flex xs5 text-xs-center class="ma-2 ">
+              <v-text-field
+                v-validate="'min_value:0|max_value:1000'"
+                :error="errors.has(field.variable)"
+                :class="stockData[field.variable] != null ? 'input-group--focused ' : 'transparent'"
+                :hide-details="true"
+                :name="field.title"
+                :label='field.title'
+                v-model='stockData[field.variable]'
+                :type="field.type"
+              ></v-text-field>
+            </v-flex>
+          </template>
+        </v-layout>
+        </v-flex>
 
         <!--=====================================-->
-
-
-
 
 
         <!--Unlocker-->
         <!--<v-flex xs12 text-xs-center>-->
           <!--<v-btn raised color="purple" :disabled="!validAbsent" outline dark v-on:click="submitAbsent"> B.A Absent <v-icon right>send</v-icon></v-btn>-->
         <!--</v-flex>-->
-        <v-flex xs12 text-xs-center class="mb-4">
+        <v-flex xs12 text-xs-center class="mb-4 mt-4">
           <!--<v-btn raised large color="black" dark to="/shoplist"><v-icon>chevron_left</v-icon> BACK </v-btn>-->
           <v-btn raised large color="green" :disabled="!formIsValid" dark type="submit"> SUBMIT REPORT <v-icon right>send</v-icon></v-btn>
 
@@ -193,20 +188,10 @@ export default {
 //      stock Report
       currentDate: '',
       interceptions: '',
-      fields: [],
+      basicInfoFields: [],
+      stockFields: [],
+      otherFields: [],
       stockData: {
-////        Basic
-//        storeName: null,
-//        storeKeeperName: null,
-//        contactNumber: null,
-////        Point of sale material
-//        mobile: null,
-//        poster: null,
-//        banner: null,
-////        Other Brands
-//        naurus: null,
-//        roohAfza: null,
-//        other: null
       },
 //      soya supreme cooking oil
       soyaSupremeStock: {
@@ -243,6 +228,9 @@ export default {
   computed: {
     formIsValid(){
       return this.storePicImg !== null
+    },
+    appInfo() {
+      return this.$store.getters.appinfo
     },
     userInfo(){
       return this.$store.getters.userInfo;
@@ -396,13 +384,23 @@ export default {
 //    })
     setTimeout(() =>{
 //        Setting fields data after described Time
-      this.fields = this.$store.getters.dataFields;
+      this.basicInfoFields = this.$store.getters.basicInfoFields;
+      this.stockFields = this.$store.getters.stockFields;
+      this.otherFields = this.$store.getters.otherFields;
 //      Object Constructor
       let stockObject = {};
-      let fields = this.fields;
-      fields.forEach((obj) => {
+      let basicInfoFields = this.basicInfoFields;
+      let stockFields = this.stockFields;
+      let otherFields = this.otherFields;
+      basicInfoFields.forEach((obj) => {
          stockObject[obj.variable] = obj.name;
-      })
+      });
+      stockFields.forEach((obj) => {
+        stockObject[obj.variable] = obj.name;
+      });
+      otherFields.forEach((obj) => {
+        stockObject[obj.variable] = obj.name;
+      });
       this.stockData = stockObject;
 //      Other Minor Tasks
       let obj = this.$store.getters.baList;
